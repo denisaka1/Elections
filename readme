@@ -1,0 +1,84 @@
+Exercise 1 (2020 B)
+Barak Moskovich - 315836916
+Denis Karabitski - 
+
+Citizen
+- String name
+- int ID
+- int birthYear
+- boolean isolation
+- BallotBox kalpi
+- String inParty
+- boolean voted
++ boolean equals()
++ String toString()
+
+VoterRegister
+- Citizen[] citizens
+- int citizensCounter
+- void expandCitizens()
++ boolean addCitizen(Citizen citizen)
++ boolean equals()
++ String toString()
+
+Elections
+- Party[] parties
++ boolean equals()
++ String toString()
+
+BallotBox
+- int static numGen (auto generated)
+- String address
+- int legalCitizens (total of legal citizens that can vote to a specific ballot box)
+- Citizen[] citizens
+- int[] parties
+- int numberOfParties
++ boolean equals()
++ String toString()
+* boolean canVote()
+
+Army
++ boolean equals()
++ String toString()
++ boolean canVote()
+
+Corona 
++ boolean equals()
++ String toString()
++ boolean canVote()
+
+Regular
++ boolean equals()
++ String toString()
++ boolean canVote()
+
+Party
+- String name
+- String section
+- String creationDate // optional to Date
+- Citizen[] candiates
+- int candiatesCounter
++ boolean addCandidate(Citizen candidate, int place)
+	sort by place
+	check candidates[] capacity
+- void expandCandidates()
++ boolean equals()
++ String toString()
+
+ServicesManager (Static)
++ void showMenu()
++ void switchMenu()
++ void addBallotBox()
++ void addCitizen() 
++ void addParty()
++ void addCandidate()
++ void showAllBallotBox()
++ void showAllCitizens()
++ void showAllParties()
++ void beginElections()
++ void showResults()
+
+Program (main)
++ void getCitizen(bool inParty)
++ void getParty()
++ void getBallotBox()
