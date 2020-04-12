@@ -2,7 +2,7 @@ package core;
 
 public class Elections {
     private Party[] parties;
-    private BallotBox[] ballotBoxs;
+    private BallotBox[] ballotBoxes;
     int partiesCounter;
     private int ballotBoxsCounter;
     private int month;
@@ -30,8 +30,8 @@ public class Elections {
         return parties;
     }
 
-    public BallotBox[] getBallotBoxs() {
-        return ballotBoxs;
+    public BallotBox[] getBallotBoxes() {
+        return ballotBoxes;
     }
 
     public int getMonth() {
@@ -40,6 +40,16 @@ public class Elections {
 
     public int getYear() {
         return year;
+    }
+
+    public Party getPartiesByName(String name) {
+        for (int i = 0; i < parties.length; i++) {
+            if (parties[i] != null) {
+                if (parties[i].getName().equals(name))
+                    return parties[i];
+            }
+        }
+        return null;
     }
 
     /************ Set Functions ************/
@@ -72,8 +82,10 @@ public class Elections {
         this.parties = temp;
     }
 
-    public boolean addParty(Party party) {  // need to check duplicate
-        if (partiesCounter >= parties.length) {
+    public boolean addParty(Party party) {
+        if (existParty(party)) {
+            return false;
+        } else if (partiesCounter >= parties.length) {
             expandParties();
             addParty(party);
         } else {
@@ -84,24 +96,65 @@ public class Elections {
         return false;
     }
 
-    private void expandBallotBoxs() {
-        BallotBox[] temp = new BallotBox[ballotBoxs.length * 2];
-        for (int i = 0; i < ballotBoxs.length; i++) {
-            temp[i] = ballotBoxs[i];
+    private boolean existParty(Party party) {
+        for (int i = 0; i < parties.length; i++) {
+            if (parties[i] != null) {
+                if (parties[i].equals(party)) {
+                    return true;
+                } else if (parties[i].getName().equals(party.getName()))
+                    return true;
+            }
         }
-        this.ballotBoxs = temp;
+        return false;
     }
 
-    public boolean addBallotBox(BallotBox ballotBox) { // need to check duplicate
-        if (ballotBoxsCounter >= ballotBoxs.length) {
+    private void expandBallotBoxs() {
+        BallotBox[] temp = new BallotBox[ballotBoxes.length * 2];
+        for (int i = 0; i < ballotBoxes.length; i++) {
+            temp[i] = ballotBoxes[i];
+        }
+        this.ballotBoxes = temp;
+    }
+
+    public boolean addBallotBox(BallotBox ballotBox) {
+        if (addBallotBox(ballotBox)) {
+            return false;
+        } else if (ballotBoxsCounter >= ballotBoxes.length) {
             expandBallotBoxs();
             addBallotBox(ballotBox);
         } else {
-            ballotBoxs[ballotBoxsCounter] = ballotBox;
+            ballotBoxes[ballotBoxsCounter] = ballotBox;
             ballotBoxsCounter++;
             return true;
         }
         return false;
+    }
+
+    private boolean existBallotBox(BallotBox ballotBox) {
+        for (int i = 0; i < ballotBoxes.length; i++) {
+            if (ballotBoxes[i] != null) {
+                if (ballotBoxes[i].equals(ballotBox)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public String getAllBallotBoxes() {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < ballotBoxes.length; i++) {
+            sb.append(ballotBoxes[i].toString() + "\n");
+        }
+        return sb.toString();
+    }
+
+    public String getAllParties() {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < parties.length; i++) {
+            sb.append(parties[i].toString() + "\n");
+        }
+        return sb.toString();
     }
 
     @Override

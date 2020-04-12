@@ -30,6 +30,16 @@ public class VoterRegister {
         return -1;
     }
 
+    public Citizen getCitizenById(String id) {
+        for (int i = 0; i < citizens.length; i++) {
+            if (citizens[i] != null) {
+                if (citizens[i].getID().equals(id))
+                    return citizens[i];
+            }
+        }
+        return null;
+    }
+
     /************** Functions **************/
     private void expandCitizens() {
         Citizen[] temp = new Citizen[citizens.length * 2];
@@ -40,13 +50,26 @@ public class VoterRegister {
     }
 
     public boolean addCitizen(Citizen citizen) {
-        if (citizensCounter >= citizens.length) {
+        if (existCitizen(citizen)) {
+            return false;
+        } else if (citizensCounter >= citizens.length) {
             expandCitizens();
             addCitizen(citizen);
         } else {
             citizens[citizensCounter] = citizen;
             citizensCounter++;
             return true;
+        }
+        return false;
+    }
+
+    private boolean existCitizen(Citizen citizen) {
+        for (int i = 0; i < citizens.length; i++) {
+            if (citizens[i] != null) {
+                if (citizens[i].equals(citizen)) {
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -64,7 +87,7 @@ public class VoterRegister {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < citizens.length; i++)
             if (citizens[i] != null)
-                sb.append(citizens[i]);
+                sb.append(citizens[i] + "\n");
         return sb.toString();
     }
 }

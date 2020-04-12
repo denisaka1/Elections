@@ -2,26 +2,34 @@ package core;
 
 public class Citizen {
     private String name;
-    private int ID;
+    private String id;
     private int birthYear;
     private boolean isolation; // bidud
     private BallotBox ballotBox; // kalpi eleha hu meshuyah
-    private String inParty; // change name later?
+    private Party party;
     private boolean voted;
 
     /************ Constructor ************/
-    public Citizen(String name, int ID, int birthYear, boolean isolation, BallotBox ballotBox, String inParty, boolean voted) {
+    public Citizen(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox, Party party, boolean voted) {
         this.name = name;
-        this.ID = ID;
+        this.id = id;
         this.birthYear = birthYear;
         this.isolation = isolation;
         this.ballotBox = ballotBox;
-        this.inParty = inParty;
+        this.party = party;
         this.voted = voted;
     }
 
-    public Citizen(String name, int ID, int birthYear) {
-        this(name, ID, birthYear, false, null, "", false);
+    public Citizen(Citizen citizen) {
+        this(citizen.getName(), citizen.getID(), citizen.getBirthYear(), citizen.isIsolation(), citizen.getBallotBox(), citizen.getParty(), citizen.getVoted());
+    }
+
+    public Citizen(String name, String id, int birthYear, boolean isolation, Party party) {
+        this (name, id, birthYear, isolation, null, party, false);
+    }
+
+    public Citizen(String name, String id, int birthYear) {
+        this(name, id, birthYear, false, null, null, false);
     }
 
     /************ Get Functions ************/
@@ -29,8 +37,8 @@ public class Citizen {
         return name;
     }
 
-    public int getID() {
-        return ID;
+    public String getID() {
+        return id;
     }
 
     public int getBirthYear() {
@@ -45,11 +53,11 @@ public class Citizen {
         return ballotBox;
     }
 
-    public String getInParty() {
-        return inParty;
+    public Party getParty() {
+        return party;
     }
 
-    public boolean getIsVoted() {
+    public boolean getVoted() {
         return voted;
     }
 
@@ -62,8 +70,8 @@ public class Citizen {
         this.ballotBox = ballotBox;
     }
 
-    public void setInParty(String inParty) {
-        this.inParty = inParty;
+    public void setInParty(Party party) {
+        this.party = party;
     }
 
     public void setVoted(boolean voted) {
@@ -74,10 +82,10 @@ public class Citizen {
     @Override
     public boolean equals(Object obj) {
         Citizen citizen = (Citizen) obj;
-        if ( !name.equals(citizen.getName()) || ID != citizen.getID()
+        if ( !name.equals(citizen.getName()) || id != citizen.getID()
                 || birthYear != citizen.birthYear || isolation != citizen.isolation
-                || !ballotBox.equals(citizen.getBallotBox()) || inParty.equals(citizen.getInParty())
-                || voted != citizen.getIsVoted() )
+                || !ballotBox.equals(citizen.getBallotBox()) || party.equals(citizen.getParty())
+                || voted != citizen.getVoted() )
             return false;
         return true;
     }
@@ -85,7 +93,7 @@ public class Citizen {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("Name : " + name + ", ID : " + ID + ", Birth Year :" + birthYear + "\n");
+        sb.append("Name : " + name + ", ID : " + id + ", Birth Year :" + birthYear + "\n");
         if (isolation)
             sb.append("In isolation \n");
 
@@ -94,8 +102,8 @@ public class Citizen {
         else
             sb.append("Vote in " + ballotBox + "\n");
 
-        if (!inParty.isEmpty())
-            sb.append("Party : " + inParty + "\n");
+        if (party != null)
+            sb.append("Party : " + party.getName() + "\n");
 
         return sb.toString();
     }

@@ -19,7 +19,8 @@ VoterRegister
 - Citizen[] citizens
 - int citizensCounter
 - void expandCitizens()
-+ boolean addCitizen(Citizen citizen)  // need to check duplicate
++ boolean addCitizen(Citizen citizen)
+- boolean existCitizen(Citizen citizen)
 + boolean equals()
 + String toString()
 
@@ -27,9 +28,11 @@ Elections
 - Party[] parties
 - BallotBox ballotBoxs 
 - void expandParties() 
-+ boolean addParties(Party party)  // need to check duplicate
++ boolean addParties(Party party)
+- boolean existCitizen(Citizen citizen)
 - void expandBallotBox()
-+ boolean addBallotBox(BallotBox ballotBox)  // need to check duplicate
++ boolean addBallotBox(BallotBox ballotBox)
+- boolean existBallotBox(BallotBox ballotBox)
 + boolean equals()
 + String toString()
 
@@ -73,7 +76,6 @@ Party
 
 ServicesManager (Static)  // <
 + void showMenu()
-+ void switchMenu()
 + void addBallotBox()
 + void addCitizen() 
 + void addParty()

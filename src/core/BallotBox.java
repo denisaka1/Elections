@@ -1,5 +1,8 @@
 package core;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public abstract class BallotBox {
     private static int numGen; // auto generated
     private String address;
@@ -15,10 +18,11 @@ public abstract class BallotBox {
         this.citizens = citizens;
         this.parties = parties;
         this.numberOfParties = numberOfParties;
+        numGen++;
     }
 
-    public BallotBox(String address, int legalCitizens) {
-        this (address, legalCitizens, new Citizen[2], new int[2], 2);
+    public BallotBox(String address) {
+        this(address, 0, null, null,0);
     }
 
     /************ Get Functions ************/
@@ -48,4 +52,26 @@ public abstract class BallotBox {
 
     /************** Functions **************/
     abstract public void vote(Citizen citizen, Party party);
+    abstract public boolean canVote(Citizen citizen, int year);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BallotBox ballotBox = (BallotBox) o;
+        return getLegalCitizens() == ballotBox.getLegalCitizens() &&
+                getNumberOfParties() == ballotBox.getNumberOfParties() &&
+                getAddress().equals(ballotBox.getAddress()) &&
+                Arrays.equals(getCitizens(), ballotBox.getCitizens()) &&
+                Arrays.equals(getParties(), ballotBox.getParties());
+
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("BallotBox #" + numGen + "\n");
+        sb.append("Address : " + address + "\n");
+        return sb.toString();
+    }
 }

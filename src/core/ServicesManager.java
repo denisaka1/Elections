@@ -21,59 +21,42 @@ public class ServicesManager {
         System.out.println(sb.toString());
     }
 
-    public static void swithMenu(int choose) {
-        switch (choose) {
-//            case 1:
-//                addBallotBox();
-//            case 2:
-//                addCitizen();
-//            case 3:
-//                addParty();
-//            case 4:
-//                addCandidate();
-//            case 5:
-//                showAllBallotBox();
-//            case 6:
-//                showAllCitizens();
-//            case 7:
-//                showAllParties();
-//            case 8:
-//                beginElections();
-//            case 9:
-//                showResults();
-            default:
-                break;
-        }
+    public static void addBallotBox(BallotBox ballotBox) {
+        election.addBallotBox(ballotBox);
     }
 
-    private static void addBallotBox() {
-
-    }
-
-    private static void addCitizen(Citizen citizen) {
+    public static void addCitizen(Citizen citizen) {
         vr.addCitizen(citizen);
     }
 
-    private static void addParty(Party party) {
-//        election
+    public static void addParty(Party party) {
+        election.addParty(party);
     }
 
-    private static void addCandidate(Party party, Citizen citizen) {
-//        party.addCandidate(citizen,);
+    public static void addCandidate(String citizenID, String partyName, int place) {
+        Citizen citizen = vr.getCitizenById(citizenID);
+        Party party = election.getPartiesByName(partyName);
+
+        if (citizen != null && party != null) {
+            party.addCandidate(citizen, place);
+        }
     }
 
-    private static void showAllCitizens() {
+    public static String showAllCitizens() {
+        return vr.toString();
     }
 
-    private static void showAllBallotBox() {
+    public static String showAllBallotBox() {
+        return election.getAllBallotBoxes();
     }
 
-    private static void showAllParties() {
+    public static String showAllParties() {
+        return election.getAllParties();
     }
 
-    private static void beginElections() {
+    public static void beginElections() {
     }
 
-    private static void showResults() {
+    public static void showResults() {
     }
 }
