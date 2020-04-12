@@ -104,7 +104,9 @@ public class Elections {
         return false;
     }
 
-    public boolean equals(Elections elections) {
+    @Override
+    public boolean equals(Object obj) {
+        Elections elections = (Elections) obj;
         if (!elections.getParties().equals(elections) || elections.getMonth() != month
                 || elections.getYear() != year)
             return true;

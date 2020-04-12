@@ -42,7 +42,7 @@ BallotBox
 - int numberOfParties
 + boolean equals() // <
 + String toString() // <
-* void vote() // <
+# void vote() // <
 
 Army
 + boolean equals() // <
@@ -65,10 +65,9 @@ Party
 - String creationDate // optional to Date
 - Citizen[] candiates
 - int candiatesCounter
-+ boolean addCandidate(Citizen candidate, int place) // need to fix
-	sort by place
-	check candidates[] capacity
++ boolean addCandidate(Citizen candidate, int place)
 - void expandCandidates()
+- void expandCandidatesByPlace()
 + boolean equals()
 + String toString()
 

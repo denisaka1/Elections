@@ -71,7 +71,9 @@ public class Citizen {
     }
 
     /************** Functions **************/
-    public boolean equals(Citizen citizen) {
+    @Override
+    public boolean equals(Object obj) {
+        Citizen citizen = (Citizen) obj;
         if ( !name.equals(citizen.getName()) || ID != citizen.getID()
                 || birthYear != citizen.birthYear || isolation != citizen.isolation
                 || !ballotBox.equals(citizen.getBallotBox()) || inParty.equals(citizen.getInParty())

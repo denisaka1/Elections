@@ -11,7 +11,8 @@ public class Program {
             int choose = s.nextInt();
             if (choose >= 1 && choose <= 9)
                 ServicesManager.swithMenu(choose);
-            break;
+            else
+                break;
         }
     }
 }

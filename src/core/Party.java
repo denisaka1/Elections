@@ -1,5 +1,7 @@
 package core;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 
 public class Party {
@@ -56,25 +58,29 @@ public class Party {
     }
 
     /************** Functions **************/
-
-    // Need to fix
     public boolean addCandidate(Citizen candidate, int place) {
-        if (candidatesCounter >= (candidates.length + 1) ) {
-            expandCandidates();
+        if (place >= candidates.length) {
+            expandCandidatesByPlace(place);
             addCandidate(candidate, place);
         } else {
             if (candidates[place] != null) {
-                for (int i = place; i < candidatesCounter; i++) {
-                    Citizen temp = candidates[i + 1];
-                    candidates[i + 1] = candidates[i];
-                }
+                candidates[place] = candidate;
+                candidate.setInParty(getName());
+                candidatesCounter++;
+            } else {
+                return false;
             }
-            candidates[place] = candidate;
-            candidate.setInParty(getName());
-            candidatesCounter++;
             return true;
         }
         return false;
+    }
+
+    private void expandCandidatesByPlace(int place) {
+        Citizen[] temp = new Citizen[place];
+        for (int i = 0; i < candidates.length; i++) {
+            temp[i] = candidates[i];
+        }
+        this.candidates = temp;
     }
 
     private void expandCandidates() {
@@ -85,7 +91,9 @@ public class Party {
         this.candidates = temp;
     }
 
-    public boolean equals(Party party) {
+    @Override
+    public boolean equals(Object obj) {
+        Party party = (Party) obj;
         if (!party.getName().equals(name) || !party.getSection().equals(section)
                 || !party.getCandidates().equals(candidates) || !party.getCreationDate().equals(creationDate))
             return false;

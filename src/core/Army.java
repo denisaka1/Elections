@@ -9,7 +9,8 @@ public class Army extends BallotBox {
         super(address, legalCitizens);
     }
 
-    public boolean canVote(Citizen citizen) {
-        return false;
+    @Override
+    public void vote(Citizen citizen, Party party) {
+
     }
 }

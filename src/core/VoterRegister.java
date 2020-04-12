@@ -1,7 +1,5 @@
 package core;
 
-import java.net.PortUnreachableException;
-
 public class VoterRegister {
     private Citizen[] citizens;
     private int citizensCounter;
@@ -53,7 +51,9 @@ public class VoterRegister {
         return false;
     }
 
-    public boolean equals(VoterRegister voterRegister) {
+    @Override
+    public boolean equals(Object obj) {
+        VoterRegister voterRegister = (VoterRegister) obj;
         if (!voterRegister.getCitizens().equals(voterRegister))
             return false;
         return true;
