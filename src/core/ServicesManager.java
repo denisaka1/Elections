@@ -23,24 +23,24 @@ public class ServicesManager {
 
     public static void swithMenu(int choose) {
         switch (choose) {
-            case 1:
-                addBallotBox();
-            case 2:
-                addCitizen();
-            case 3:
-                addParty();
-            case 4:
-                addCandidate();
-            case 5:
-                showAllBallotBox();
-            case 6:
-                showAllCitizens();
-            case 7:
-                showAllParties();
-            case 8:
-                beginElections();
-            case 9:
-                showResults();
+//            case 1:
+//                addBallotBox();
+//            case 2:
+//                addCitizen();
+//            case 3:
+//                addParty();
+//            case 4:
+//                addCandidate();
+//            case 5:
+//                showAllBallotBox();
+//            case 6:
+//                showAllCitizens();
+//            case 7:
+//                showAllParties();
+//            case 8:
+//                beginElections();
+//            case 9:
+//                showResults();
             default:
                 break;
         }

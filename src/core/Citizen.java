@@ -5,17 +5,17 @@ public class Citizen {
     private int ID;
     private int birthYear;
     private boolean isolation; // bidud
-    private BallotBox kalpi; // kalpi eleha hu meshuyah
+    private BallotBox ballotBox; // kalpi eleha hu meshuyah
     private String inParty; // change name later?
     private boolean voted;
 
     /************ Constructor ************/
-    public Citizen(String name, int ID, int birthYear, boolean isolation, BallotBox kalpi, String inParty, boolean voted) {
+    public Citizen(String name, int ID, int birthYear, boolean isolation, BallotBox ballotBox, String inParty, boolean voted) {
         this.name = name;
         this.ID = ID;
         this.birthYear = birthYear;
         this.isolation = isolation;
-        this.kalpi = kalpi;
+        this.ballotBox = ballotBox;
         this.inParty = inParty;
         this.voted = voted;
     }
@@ -41,8 +41,8 @@ public class Citizen {
         return isolation;
     }
 
-    public BallotBox getKalpi() {
-        return kalpi;
+    public BallotBox getBallotBox() {
+        return ballotBox;
     }
 
     public String getInParty() {
@@ -58,8 +58,8 @@ public class Citizen {
         this.isolation = isolation;
     }
 
-    public void setKalpi(BallotBox kalpi) {
-        this.kalpi = kalpi;
+    public void setBallotBox(BallotBox ballotBox) {
+        this.ballotBox = ballotBox;
     }
 
     public void setInParty(String inParty) {
@@ -74,7 +74,7 @@ public class Citizen {
     public boolean equals(Citizen citizen) {
         if ( !name.equals(citizen.getName()) || ID != citizen.getID()
                 || birthYear != citizen.birthYear || isolation != citizen.isolation
-                || !kalpi.equals(citizen.getKalpi()) || inParty.equals(citizen.getInParty())
+                || !ballotBox.equals(citizen.getBallotBox()) || inParty.equals(citizen.getInParty())
                 || voted != citizen.getIsVoted() )
             return false;
         return true;
@@ -88,9 +88,9 @@ public class Citizen {
             sb.append("In isolation \n");
 
         if (voted)
-            sb.append("Voted in " + kalpi + "\n");
+            sb.append("Voted in " + ballotBox + "\n");
         else
-            sb.append("Vote in " + kalpi + "\n");
+            sb.append("Vote in " + ballotBox + "\n");
 
         if (!inParty.isEmpty())
             sb.append("Party : " + inParty + "\n");

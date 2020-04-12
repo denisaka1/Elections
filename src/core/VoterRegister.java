@@ -53,9 +53,10 @@ public class VoterRegister {
         return false;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(VoterRegister voterRegister) {
+        if (!voterRegister.getCitizens().equals(voterRegister))
+            return false;
+        return true;
     }
 
     @Override

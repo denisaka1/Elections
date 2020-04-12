@@ -47,11 +47,5 @@ public abstract class BallotBox {
     }
 
     /************** Functions **************/
-    abstract boolean canVote(Citizen citizen);
-
-    public void vote(Citizen citizen, Party party) {
-//        if (canVote(citizen)) {
-//            citizens[].setVoted(true);
-//        }
-    }
+    abstract public void vote(Citizen citizen, Party party);
 }

@@ -2,12 +2,14 @@ Exercise 1 (2020 B)
 Barak Moskovich - 315836916
 Denis Karabitski - 
 
+ make all setter to boolean
+
 Citizen
 - String name
 - int ID
 - int birthYear
 - boolean isolation
-- BallotBox kalpi
+- BallotBox ballotBox
 - String inParty
 - boolean voted
 + boolean equals()
@@ -17,12 +19,17 @@ VoterRegister
 - Citizen[] citizens
 - int citizensCounter
 - void expandCitizens()
-+ boolean addCitizen(Citizen citizen)
++ boolean addCitizen(Citizen citizen)  // need to check duplicate
 + boolean equals()
 + String toString()
 
 Elections
 - Party[] parties
+- BallotBox ballotBoxs 
+- void expandParties() 
++ boolean addParties(Party party)  // need to check duplicate
+- void expandBallotBox()
++ boolean addBallotBox(BallotBox ballotBox)  // need to check duplicate
 + boolean equals()
 + String toString()
 
@@ -33,24 +40,24 @@ BallotBox
 - Citizen[] citizens
 - int[] parties
 - int numberOfParties
-+ boolean equals()
-+ String toString()
-* boolean canVote()
++ boolean equals() // <
++ String toString() // <
+* void vote() // <
 
 Army
-+ boolean equals()
-+ String toString()
-+ boolean canVote()
++ boolean equals() // <
++ String toString() // <
++ vote vote() // <
 
 Corona 
-+ boolean equals()
-+ String toString()
-+ boolean canVote()
++ boolean equals() // <
++ String toString() // <
++ boolean vote() // <
 
 Regular
-+ boolean equals()
-+ String toString()
-+ boolean canVote()
++ boolean equals() // <
++ String toString() // <
++ boolean vote() // <
 
 Party
 - String name
@@ -58,14 +65,14 @@ Party
 - String creationDate // optional to Date
 - Citizen[] candiates
 - int candiatesCounter
-+ boolean addCandidate(Citizen candidate, int place)
++ boolean addCandidate(Citizen candidate, int place) // need to fix
 	sort by place
 	check candidates[] capacity
 - void expandCandidates()
 + boolean equals()
 + String toString()
 
-ServicesManager (Static)
+ServicesManager (Static)  // <
 + void showMenu()
 + void switchMenu()
 + void addBallotBox()
@@ -79,6 +86,6 @@ ServicesManager (Static)
 + void showResults()
 
 Program (main)
-+ void getCitizen(bool inParty)
-+ void getParty()
-+ void getBallotBox()
++ void getCitizen(boolean inParty) // <
++ void getParty() // <
++ void getBallotBox() // <

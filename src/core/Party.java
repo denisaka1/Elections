@@ -38,6 +38,10 @@ public class Party {
     public Citizen[] getCandidates() {
         return candidates;
     }
+
+    public int getCandidatesCounter() {
+        return candidatesCounter;
+    }
     /************ Get Functions ************/
     public void setName(String name) {
         this.name = name;
@@ -79,6 +83,13 @@ public class Party {
             temp[i] = candidates[i];
         }
         this.candidates = temp;
+    }
+
+    public boolean equals(Party party) {
+        if (!party.getName().equals(name) || !party.getSection().equals(section)
+                || !party.getCandidates().equals(candidates) || !party.getCreationDate().equals(creationDate))
+            return false;
+        return true;
     }
 
     @Override

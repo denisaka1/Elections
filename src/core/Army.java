@@ -8,4 +8,8 @@ public class Army extends BallotBox {
     public Army(String address, int legalCitizens) {
         super(address, legalCitizens);
     }
+
+    public boolean canVote(Citizen citizen) {
+        return false;
+    }
 }
