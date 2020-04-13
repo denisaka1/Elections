@@ -1,8 +1,8 @@
 package core;
 
 public class Regular extends BallotBox {
-    public Regular(String address, int legalCitizens, Citizen[] citizens, int[] parties, int numberOfParties) {
-        super(address, legalCitizens, citizens, parties, numberOfParties);
+    public Regular(String address, int legalCitizens, Citizen[] citizens, Party[] parties, int[] votesForParty) {
+        super(address, legalCitizens, citizens, parties, votesForParty);
     }
 
     public Regular(String address) {
@@ -10,8 +10,8 @@ public class Regular extends BallotBox {
     }
 
     @Override
-    public void vote(Citizen citizen, Party party) {
-
+    public void vote(Citizen citizen, Party party, int currentYear) {
+        
 
 
     }
@@ -30,6 +30,6 @@ public class Regular extends BallotBox {
     }
 
     public boolean equals(Object obj){
-        if()
+        return true;
     }
 }

@@ -64,7 +64,7 @@ public class Program {
             isolation = false;
 
         if (inParty) {
-            party = getParty(); // set party
+//            party = getParty(); // set party
         }
 
         return new Citizen(name, id, birthYear, isolation, party);

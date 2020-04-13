@@ -1,8 +1,8 @@
 package core;
 
 public class Corona extends BallotBox {
-    public Corona(String address, int legalCitizens, Citizen[] citizens, int[] parties, int numberOfParties) {
-        super(address, legalCitizens, citizens, parties, numberOfParties);
+    public Corona(String address, int legalCitizens, Citizen[] citizens, Party[] parties, int[] votesForParty) {
+        super(address, legalCitizens, citizens, parties, votesForParty);
     }
 
     public Corona(String address) {
@@ -10,11 +10,12 @@ public class Corona extends BallotBox {
     }
 
     @Override
-    public void vote(Citizen citizen, Party party) {
+    public void vote(Citizen citizen, Party party, int currentYear) {
 
     }
 
     @Override
-    public boolean canVote(Citizen citizen) {
+    public boolean canVote(Citizen citizen, int year) {
         return false;
     }
+}

@@ -34,6 +34,10 @@ public class Party {
         this(name, section, year, month, day, null);
     }
 
+    public Party(Party party){
+        this(party.name, party.section, party.year, party.month, party.day, party.candidates);
+    }
+
     /************ Get Functions ************/
     public String getName() {
         return name;
@@ -168,7 +172,7 @@ public class Party {
         } else {
             if (candidates[place] != null) {
                 candidates[place] = candidate;
-                candidate.setInParty(getName());
+                candidate.setInParty(this);
             } else {
                 return false;
             }
