@@ -17,6 +17,7 @@ public class Regular extends BallotBox {
             canVote = true;
 
         return canVote;
+
     }
 
 }

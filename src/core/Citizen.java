@@ -66,7 +66,7 @@ public class Citizen {
         this.isolation = isolation;
     }
 
-    private void setBallotBox(BallotBox ballotBox) {
+    private void setBallotBox(BallotBox ballotBox) { // TODO: Do Somethink
         this.ballotBox = ballotBox;
     }
 
@@ -79,8 +79,10 @@ public class Citizen {
     }
 
     /************** Functions **************/
+
     public void vote(){
-        this.setVoted(false);
+        if(!voted)
+            setVoted(true);
     }
 
     @Override

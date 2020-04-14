@@ -17,7 +17,6 @@ public class Army extends BallotBox {
 
         if(isCitizenExists && !citizen.getVoted() && !citizen.isIsolation() && isLegalAge)
             canVote = true;
-
         return canVote;
     }
 

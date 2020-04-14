@@ -19,6 +19,3 @@ public class Corona extends BallotBox {
         return canVote;
     }
 }
-
-
-
