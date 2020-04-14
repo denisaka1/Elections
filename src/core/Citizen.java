@@ -85,6 +85,11 @@ public class Citizen {
     }
 
 
+    public void vote(){
+        if(!voted)
+            setVoted(true);
+    }
+
     @Override
     public boolean equals(Object obj) {
         Citizen citizen = (Citizen) obj;

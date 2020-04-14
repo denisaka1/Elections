@@ -263,4 +263,5 @@ public abstract class BallotBox {
         sb.append("Address : " + address + "\n");
         return sb.toString();
     }
+
 }
