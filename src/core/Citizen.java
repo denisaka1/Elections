@@ -79,8 +79,9 @@ public class Citizen {
     }
 
     /************** Functions **************/
-    public void vote() {
-        this.voted = true;
+    public void vote(){
+        if(!voted)
+            setVoted(true);
     }
 
 
