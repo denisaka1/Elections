@@ -5,12 +5,11 @@ import java.util.Arrays;
 public class Party {
     /* Defaults:
         name: Default
-        section: RIGHT_SECTION
-        creatingDate: 1.1.00
         day: 1
         month: 1
         year: 2020
         candidates: null
+        counterCandidates: 0
     */
     private final String LEFT_SECTION = "left";
     private final String RIGHT_SECTION = "right";
@@ -20,22 +19,26 @@ public class Party {
     private int year;
     private int month;
     private int day;
-    private Citizen[] candidates; // all party candidates (primariz)
+    private Citizen[] candidates;
+    private int[] candidatesPlaces;
+    private int counterCandidates;
 
     /************ Constructor ************/
-    public Party(String name, String section, int year, int month, int day, Citizen[] candidates) {
+    public Party(String name, String section, int year, int month, int day, Citizen[] candidates, int counterCandidates) {
         setName(name);
         setSection(section);
         setCreationDate(year, month, day);
         setCandidates(candidates);
+        setCandidatesPlaces();
+        this.counterCandidates = counterCandidates;
     }
 
     public Party(String name, String section, int year, int month, int day) {
-        this(name, section, year, month, day, new Citizen[2]);
+        this(name, section, year, month, day, new Citizen[0], 0);
     }
 
     public Party(Party party){
-        this(party.name, party.section, party.year, party.month, party.day, party.candidates);
+        this(party.name, party.section, party.year, party.month, party.day, party.candidates, 0);
     }
 
     /************ Get Functions ************/
@@ -157,29 +160,54 @@ public class Party {
 
     private void setCandidates(Citizen[] candidates) {
         this.candidates = candidates;
-//        boolean done = false;
-//        this.candidates = new Citizen[candidates.length];
-//        for(int i = 0; i < candidates.length; i++) {
-//            this.candidates[i] = new Citizen(candidates[i]);
-//        }
-//        return done = true;
+    }
+
+    private void setCandidatesPlaces() {
+        this.candidatesPlaces = new int[candidates.length];
     }
 
     /************** Functions **************/
     public boolean addCandidate(Citizen candidate, int place) {
-        if (place >= candidates.length) {
-            expandCandidatesByPlace(place);
+        if (candidates.length == 0) {
+            this.candidates = new Citizen[1];
+            this.candidatesPlaces = new int[1];
+        }
+
+        if (counterCandidates >= candidates.length) {
+            expandCandidates();
             addCandidate(candidate, place);
         } else {
-            if (candidates[place] != null) {
-                candidates[place] = candidate;
-                candidate.setInParty(this);
-            } else {
-                return false;
-            }
+            candidates[counterCandidates] = candidate;
+            candidatesPlaces[counterCandidates] = place;
+            counterCandidates++;
+            candidate.setInParty(this);
+            candidatesSort();
             return true;
         }
         return false;
+    }
+
+    private void candidatesSort() {
+        for (int i = 0; i < candidatesPlaces.length; i++) {
+            int min = candidatesPlaces[i];
+            Citizen citizenMin = candidates[i];
+            int minIndex = i;
+            for (int j = i+1; j < candidatesPlaces.length; j++) {
+                if (candidatesPlaces[j] < min) {
+                    min = candidatesPlaces[j];
+                    citizenMin = candidates[j];
+                    minIndex = j;
+                }
+            }
+
+            int temp = candidatesPlaces[i];
+            candidatesPlaces[i] = min;
+            candidatesPlaces[minIndex] = temp;
+
+            Citizen citizenTemp = candidates[i];
+            candidates[i] = citizenMin;
+            candidates[minIndex] = citizenTemp;
+        }
     }
 
     private void expandCandidatesByPlace(int place) {
@@ -191,11 +219,14 @@ public class Party {
     }
 
     private void expandCandidates() {
-        Citizen[] temp = new Citizen[candidates.length * 2];
+        Citizen[] tempCitizen = new Citizen[candidates.length * 2];
+        int[] tempPlaces = new int[candidatesPlaces.length * 2];
         for (int i = 0; i < candidates.length; i++) {
-            temp[i] = candidates[i];
+            tempCitizen[i] = candidates[i];
+            tempPlaces[i] = candidatesPlaces[i];
         }
-        this.candidates = temp;
+        this.candidates = tempCitizen;
+        this.candidatesPlaces = tempPlaces;
     }
 
     @Override

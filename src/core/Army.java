@@ -10,35 +10,14 @@ public class Army extends BallotBox {
     }
 
     @Override
-    public void vote(Citizen citizen, Party party, int currentYear) {
-        boolean voted;
-        boolean isLegalAge = currentYear - citizen.getBirthYear() >= 18 && currentYear - citizen.getBirthYear() <= 21;
-        if(!citizen.getVoted() && !citizen.isIsolation() && isLegalAge){
-            voted = true;
-            citizen.setVoted(voted);
-            addVote(party);
-        }else{
-            voted = false;
-            System.out.println("Couldn't vote because of reasons..."); // add it normally
-        }
-
-
-    }
-
-    @Override
-    public boolean equals(Object obj){
-        return true;
-    } // TODO: Army equals
-
-    @Override
     public boolean canVote(Citizen citizen, int year) {
-        boolean canVote;
+        boolean isCitizenExists = isCitizenExists(citizen);
+        boolean canVote = false;
         boolean isLegalAge = year - citizen.getBirthYear() >= 18 && year - citizen.getBirthYear() <= 21;
-        if(!citizen.getVoted() && !citizen.isIsolation() && isLegalAge){
+
+        if(isCitizenExists && !citizen.getVoted() && !citizen.isIsolation() && isLegalAge)
             canVote = true;
-        }else{
-            canVote = false;
-        }
+
         return canVote;
     }
 

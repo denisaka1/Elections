@@ -10,24 +10,12 @@ public class Regular extends BallotBox {
     }
 
     @Override
-    public void vote(Citizen citizen, Party party, int currentYear) {
-        // TODO: Regular vote
-    }
-
-    @Override
     public boolean canVote(Citizen citizen, int year) {
-        int citizenAge = year - citizen.getBirthYear();
-        boolean canVote;
+        boolean canVote = false;
 
-        if(!citizen.getVoted() && citizenAge >= 18)
+        if(!citizen.getVoted() && !citizen.isIsolation())
             canVote = true;
-        else
-            canVote = false;
 
         return canVote;
     }
-
-    public boolean equals(Object obj){
-        return true;
-    } // TODO: Regular equals
 }

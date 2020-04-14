@@ -12,15 +12,23 @@ public class ServicesManager {
         ballotBoxes[0] = new Regular("Balfour");
         ballotBoxes[1] = new Army("Jenin");
         ballotBoxes[2] = new Corona("Tel Aviv");
+        election.addBallotBox(ballotBoxes[0]);
+        election.addBallotBox(ballotBoxes[1]);
+        election.addBallotBox(ballotBoxes[2]);
 
         // Citizens
-        Citizen[] citizens = new Citizen[6];
-        citizens[0] = new Citizen("Citizen1", "000000001", 2002, false, null, null, false); // Army
-        citizens[1] = new Citizen("Citizen2", "000000002", 1990, false, null, null, false);
-        citizens[2] = new Citizen("Citizen3", "000000003", 1980, true, null, null, false); // Corona
-        citizens[3] = new Citizen("Citizen4", "000000004", 1986, true, null, null, false); // Corona
-        citizens[4] = new Citizen("Citizen5", "000000005", 1996, false, null, null, false);
-        citizens[5] = new Citizen("Citizen6", "000000006", 1994, false, null, null, false);
+        Citizen c1 = new Citizen("Citizen1", "000000001", 2002, false, null, null, false); // Army
+        Citizen c2 = new Citizen("Citizen2", "000000002", 1990, false, null, null, false);
+        Citizen c3 = new Citizen("Citizen3", "000000003", 1980, true, null, null, false); // Corona
+        Citizen c4 = new Citizen("Citizen4", "000000004", 1986, true, null, null, false); // Corona
+        Citizen c5 = new Citizen("Citizen5", "000000005", 1996, false, null, null, false);
+        Citizen c6 = new Citizen("Citizen6", "000000006", 1994, false, null, null, false);
+        vr.addCitizen(c1);
+        vr.addCitizen(c2);
+        vr.addCitizen(c3);
+        vr.addCitizen(c4);
+        vr.addCitizen(c5);
+        vr.addCitizen(c6);
 
         // Parties
         Party p1 = new Party("Likud", "right", 1973, 1, 1);
@@ -29,14 +37,18 @@ public class ServicesManager {
 
         // Candidates
         // Candidates to Party 1
-        p1.addCandidate(citizens[0], 1);
-        p1.addCandidate(citizens[1], 2);
+        p1.addCandidate(c1, 1);
+        p1.addCandidate(c2, 4);
         // Candidates to Party 2
-        p2.addCandidate(citizens[2], 1);
-        p2.addCandidate(citizens[3], 2);
+        p2.addCandidate(c3, 2);
+        p2.addCandidate(c4, 2);
         // Candidates to Party 3
-        p3.addCandidate(citizens[4], 2);
-        p3.addCandidate(citizens[5], 1);
+        p3.addCandidate(c5, 2);
+        p3.addCandidate(c6, 1);
+
+        election.addParty(p1);
+        election.addParty(p2);
+        election.addParty(p3);
     }
 
     public static void showMenu() {

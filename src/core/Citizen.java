@@ -66,7 +66,7 @@ public class Citizen {
         this.isolation = isolation;
     }
 
-    private void setBallotBox(BallotBox ballotBox) { // TODO: Do Somethink
+    private void setBallotBox(BallotBox ballotBox) { // TODO: Do Something
         this.ballotBox = ballotBox;
     }
 
@@ -74,11 +74,15 @@ public class Citizen {
         this.party = party;
     }
 
-    public void setVoted(boolean voted) {
+    private void setVoted(boolean voted) {
         this.voted = voted;
     }
 
     /************** Functions **************/
+    public void vote() {
+        this.voted = true;
+    }
+
 
     @Override
     public boolean equals(Object obj) {

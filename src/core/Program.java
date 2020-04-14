@@ -1,9 +1,5 @@
 package core;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Scanner;
 
 public class Program {
@@ -11,34 +7,41 @@ public class Program {
         Scanner s = new Scanner(System.in);
 
         ServicesManager.hardCodeToTest();
-
-        while (true) {
+        boolean exit = false;
+        while (!exit) {
             ServicesManager.showMenu();
             int choose = s.nextInt();
             switch (choose) {
                 case 1:
                     ServicesManager.addBallotBox(getBallotBox(s));
+                    break;
                 case 2:
                     ServicesManager.addCitizen(getCitizen(s, false));
+                    break;
                 case 3:
                     ServicesManager.addParty(getParty(s));
+                    break;
                 case 4:
                     String[] candidate = getCandidate(s);
                     ServicesManager.addCandidate(candidate[0], candidate[1], Integer.parseInt(candidate[2]));
+                    break;
                 case 5:
                     System.out.println(ServicesManager.showAllBallotBox());
+                    break;
                 case 6:
                     System.out.println(ServicesManager.showAllCitizens());
+                    break;
                 case 7:
                     System.out.println(ServicesManager.showAllParties());
+                    break;
                 case 8:
-
+                    break;
                 case 9:
-
+                    break;
                 case 10:
-                    break;
+                    exit = true;
                 default:
-                    break;
+                    exit = true;
             }
         }
     }

@@ -3,7 +3,7 @@ package core;
 public class Elections {
     private Party[] parties;
     private BallotBox[] ballotBoxes;
-    int partiesCounter;
+    private int partiesCounter;
     private int ballotBoxesCounter;
     private int month;
     private int year;
@@ -11,6 +11,7 @@ public class Elections {
     /************ Constructor ************/
     public Elections(Party[] parties, BallotBox[] ballotBoxes, int month, int year) {
         this.parties = parties;
+        this.ballotBoxes = ballotBoxes;
         this.month = month;
         this.year = year;
         this.partiesCounter = 0;
@@ -117,7 +118,7 @@ public class Elections {
     }
 
     public boolean addBallotBox(BallotBox ballotBox) {
-        if (addBallotBox(ballotBox)) {
+        if (existBallotBox(ballotBox)) {
             return false;
         } else if (ballotBoxesCounter >= ballotBoxes.length) {
             expandBallotBoxes();
