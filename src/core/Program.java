@@ -1,10 +1,17 @@
 package core;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
+
+        ServicesManager.hardCodeToTest();
+
         while (true) {
             ServicesManager.showMenu();
             int choose = s.nextInt();
@@ -62,10 +69,6 @@ public class Program {
             isolation = false;
         else
             isolation = false;
-
-        if (inParty) {
-//            party = getParty(); // set party
-        }
 
         return new Citizen(name, id, birthYear, isolation, party);
     }

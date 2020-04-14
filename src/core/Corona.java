@@ -11,11 +11,17 @@ public class Corona extends BallotBox {
 
     @Override
     public void vote(Citizen citizen, Party party, int currentYear) {
-
+        // TODO: Corona vote
     }
 
     @Override
     public boolean canVote(Citizen citizen, int year) {
+        // TODO: Corona canVote
         return false;
     }
+
+    @Override
+    public boolean equals(Object obj){
+        return true;
+    } // TODO: Corona equals
 }

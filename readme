@@ -43,8 +43,8 @@ BallotBox
 - Citizen[] citizens
 - int[] parties
 - int numberOfParties
-+ boolean equals() // <
-+ String toString() // <
++ boolean equals()
++ String toString()
 # void vote() // <
 
 Army
@@ -74,7 +74,7 @@ Party
 + boolean equals()
 + String toString()
 
-ServicesManager (Static)  // <
+ServicesManager (Static)
 + void showMenu()
 + void addBallotBox()
 + void addCitizen() 
@@ -83,10 +83,11 @@ ServicesManager (Static)  // <
 + void showAllBallotBox()
 + void showAllCitizens()
 + void showAllParties()
-+ void beginElections()
-+ void showResults()
++ void beginElections() // <
++ void showResults() // <
 
 Program (main)
-+ void getCitizen(boolean inParty) // <
-+ void getParty() // <
-+ void getBallotBox() // <
++ Citizen getCitizen(Scanner s, boolean inParty)
++ Party getParty(Scanner s)
++ BallotBox getBallotBox(Scanner s)
++ String[] getCandidate(Scanner s)

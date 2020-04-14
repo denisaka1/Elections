@@ -31,7 +31,7 @@ public class Party {
     }
 
     public Party(String name, String section, int year, int month, int day) {
-        this(name, section, year, month, day, null);
+        this(name, section, year, month, day, new Citizen[2]);
     }
 
     public Party(Party party){
@@ -155,13 +155,14 @@ public class Party {
         return done;
     }
 
-    private boolean setCandidates(Citizen[] candidates) {
-        boolean done = false;
-        this.candidates = new Citizen[candidates.length];
-        for(int i = 0; i < candidates.length; i++) {
-            this.candidates[i] = new Citizen(candidates[i]);
-        }
-        return done = true;
+    private void setCandidates(Citizen[] candidates) {
+        this.candidates = candidates;
+//        boolean done = false;
+//        this.candidates = new Citizen[candidates.length];
+//        for(int i = 0; i < candidates.length; i++) {
+//            this.candidates[i] = new Citizen(candidates[i]);
+//        }
+//        return done = true;
     }
 
     /************** Functions **************/
@@ -182,7 +183,7 @@ public class Party {
     }
 
     private void expandCandidatesByPlace(int place) {
-        Citizen[] temp = new Citizen[place];
+        Citizen[] temp = new Citizen[place + 1];
         for (int i = 0; i < candidates.length; i++) {
             temp[i] = candidates[i];
         }

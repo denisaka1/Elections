@@ -4,17 +4,17 @@ public class Elections {
     private Party[] parties;
     private BallotBox[] ballotBoxes;
     int partiesCounter;
-    private int ballotBoxsCounter;
+    private int ballotBoxesCounter;
     private int month;
     private int year;
 
     /************ Constructor ************/
-    public Elections(Party[] parties, BallotBox[] ballotBoxs, int month, int year) {
+    public Elections(Party[] parties, BallotBox[] ballotBoxes, int month, int year) {
         this.parties = parties;
         this.month = month;
         this.year = year;
         this.partiesCounter = 0;
-        this.ballotBoxsCounter = 0;
+        this.ballotBoxesCounter = 0;
     }
 
     public Elections(int month, int year) {
@@ -108,7 +108,7 @@ public class Elections {
         return false;
     }
 
-    private void expandBallotBoxs() {
+    private void expandBallotBoxes() {
         BallotBox[] temp = new BallotBox[ballotBoxes.length * 2];
         for (int i = 0; i < ballotBoxes.length; i++) {
             temp[i] = ballotBoxes[i];
@@ -119,12 +119,12 @@ public class Elections {
     public boolean addBallotBox(BallotBox ballotBox) {
         if (addBallotBox(ballotBox)) {
             return false;
-        } else if (ballotBoxsCounter >= ballotBoxes.length) {
-            expandBallotBoxs();
+        } else if (ballotBoxesCounter >= ballotBoxes.length) {
+            expandBallotBoxes();
             addBallotBox(ballotBox);
         } else {
-            ballotBoxes[ballotBoxsCounter] = ballotBox;
-            ballotBoxsCounter++;
+            ballotBoxes[ballotBoxesCounter] = ballotBox;
+            ballotBoxesCounter++;
             return true;
         }
         return false;

@@ -15,7 +15,7 @@ public class Army extends BallotBox {
         boolean isLegalAge = currentYear - citizen.getBirthYear() >= 18 && currentYear - citizen.getBirthYear() <= 21;
         if(!citizen.getVoted() && !citizen.isIsolation() && isLegalAge){
             voted = true;
-            citizen.vote();
+            citizen.setVoted(voted);
             addVote(party);
         }else{
             voted = false;
@@ -24,6 +24,11 @@ public class Army extends BallotBox {
 
 
     }
+
+    @Override
+    public boolean equals(Object obj){
+        return true;
+    } // TODO: Army equals
 
     @Override
     public boolean canVote(Citizen citizen, int year) {

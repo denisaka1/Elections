@@ -11,9 +11,7 @@ public class Regular extends BallotBox {
 
     @Override
     public void vote(Citizen citizen, Party party, int currentYear) {
-        
-
-
+        // TODO: Regular vote
     }
 
     @Override
@@ -31,5 +29,5 @@ public class Regular extends BallotBox {
 
     public boolean equals(Object obj){
         return true;
-    }
+    } // TODO: Regular equals
 }
