@@ -10,12 +10,15 @@ public class Corona extends BallotBox {
     }
 
     @Override
-    public void vote(Citizen citizen, Party party, int currentYear) {
-
-    }
-
-    @Override
     public boolean canVote(Citizen citizen, int year) {
-        return false;
+        boolean canVote = false;
+        boolean isCitizenExists = isCitizenExists(citizen);
+        if(citizen.isIsolation() && !citizen.getVoted() && isCitizenExists)
+            canVote = true;
+
+        return canVote;
     }
 }
+
+
+
