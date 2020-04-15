@@ -15,7 +15,7 @@ public abstract class BallotBox {
     private String address;
     private int votePercentage; // total of legal citizens that can vote to a specific ballot box
     private Citizen[] citizens; // list of all citizens that can vote to this specific ballotBox
-    protected Party[] parties;
+    private Party[] parties;
     private int[] votesForParty;
 
     /************ Constructor ************/
@@ -32,6 +32,11 @@ public abstract class BallotBox {
         this(address, 0, new Citizen[0], new Party[0],new int[0]);
     }
 
+    public BallotBox(BallotBox ballotBox){
+        this(ballotBox.address, ballotBox.votePercentage, ballotBox.citizens, ballotBox.parties, ballotBox.votesForParty);
+    }
+
+    /************ Set Functions ************/
     private boolean setAddress(String address){
         boolean isSet = false;
         if(address != null){
@@ -122,24 +127,12 @@ public abstract class BallotBox {
     }
 
     /************** Functions **************/
-    public void vote(Citizen citizen, Party party, int year){
-        boolean isInArmy = citizen.getBallotBox() instanceof Army;
-        if(party != null && isPartyExists(party)){
-            if(isInArmy){
-                if(canVote(citizen, year)){
-                    citizen.vote();
-                    addVote(party);
-                }
-            }else{
-                if(canVote(citizen, 0)){
-                    citizen.vote();
-                    addVote(party);
-                }
-            }
+    public void vote(Citizen citizen, Party party){
+        if(party != null && isPartyExists(party) && canVote(citizen)){
+            citizen.vote();
+            addVote(party);
         }
     }
-
-    abstract public boolean canVote(Citizen citizen, int year);
 
     private void calculateTotalVotePercentage(){
         int votesSum = 0;
@@ -243,6 +236,8 @@ public abstract class BallotBox {
             }
         }
     }
+
+    abstract public boolean canVote(Citizen citizen);
 
     @Override
     public boolean equals(Object o) {

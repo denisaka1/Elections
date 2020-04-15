@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
+
         Scanner s = new Scanner(System.in);
 
         ServicesManager.hardCodeToTest();
@@ -34,19 +35,22 @@ public class Program {
                 case 7:
                     System.out.println(ServicesManager.showAllParties());
                     break;
-                case 8:
-                    break;
-                case 9:
-                    break;
+//                case 8:
+//                    break;
+//                case 9:
+//                    break;
                 case 10:
-                    exit = true;
                 default:
                     exit = true;
+                    break;
             }
         }
     }
 
     public static Citizen getCitizen(Scanner s, boolean inParty) {
+        // TODO: ballotBox not used
+        // TODO: inParty not used
+        // TODO: party never changed value
         String name;
         String id;
         int birthYear;
@@ -90,14 +94,16 @@ public class Program {
         System.out.print("Enter Section \n1 - Right \n2 - Center \n3 - Left ");
         sectionAns = s.nextInt();
         switch (sectionAns) {
-            case 1:
-                section = "right";
             case 2:
-                section = "center";
+                section = Party.CENTER_SECTION;
+                break;
             case 3:
-                 section = "left";
+                 section = Party.LEFT_SECTION;
+                 break;
+            case 1:
             default:
-                section = "center";
+                section = Party.RIGHT_SECTION;
+                break;
         }
 
         System.out.print("Enter Creation Year : ");
@@ -122,12 +128,11 @@ public class Program {
         System.out.print("Which kind of ballot box \n1 - Regular \n2 - Army \n3 - Corona ");
         kind = s.nextInt();
         switch (kind) {
-            case 1:
-                return new Regular(address);
             case 2:
                 return new Army(address);
             case 3:
                 return new Corona(address);
+            case 1:
             default:
                 return new Regular(address);
         }
@@ -147,4 +152,6 @@ public class Program {
 
         return info;
     }
+
+
 }
