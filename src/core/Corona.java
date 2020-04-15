@@ -1,6 +1,10 @@
 package core;
 
 public class Corona extends BallotBox {
+    /* Defaults:
+       extends from BallotBox
+     */
+
     public Corona(String address, int legalCitizens, Citizen[] citizens, Party[] parties, int[] votesForParty) {
         super(address, legalCitizens, citizens, parties, votesForParty);
     }
@@ -9,8 +13,12 @@ public class Corona extends BallotBox {
         super(address);
     }
 
+    public Corona(Corona corona){
+        super(corona);
+    }
+
     @Override
-    public boolean canVote(Citizen citizen, int year) {
+    public boolean canVote(Citizen citizen) {
         boolean canVote = false;
         boolean isCitizenExists = isCitizenExists(citizen);
         if(citizen.isIsolation() && !citizen.getVoted() && isCitizenExists)

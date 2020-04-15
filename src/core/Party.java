@@ -5,15 +5,16 @@ import java.util.Arrays;
 public class Party {
     /* Defaults:
         name: Default
+        section: RIGHT_SECTION
         day: 1
         month: 1
         year: 2020
-        candidates: null
+        candidates: new Citizen[0]
         counterCandidates: 0
     */
-    private final String LEFT_SECTION = "left";
-    private final String RIGHT_SECTION = "right";
-    private final String CENTER_SECTION = "center";
+    public static final String LEFT_SECTION = "left";
+    public static final String RIGHT_SECTION = "right";
+    public static final String CENTER_SECTION = "center";
     private String name;
     private String section;
     private int year;
@@ -158,12 +159,24 @@ public class Party {
         return done;
     }
 
-    private void setCandidates(Citizen[] candidates) {
-        this.candidates = candidates;
+    private boolean setCandidates(Citizen[] candidates) {
+        boolean done = false;
+
+        if(candidates != null){
+            this.candidates = new Citizen[candidates.length];
+            for(int i = 0; i < candidates.length; i++){
+                this.candidates[i] = new Citizen(candidates[i]);
+            }
+            done = true;
+        }else
+            this.candidates = new Citizen[0];
+
+        return done;
     }
 
-    private void setCandidatesPlaces() {
+    private boolean setCandidatesPlaces() {
         this.candidatesPlaces = new int[candidates.length];
+        return true;
     }
 
     /************** Functions **************/

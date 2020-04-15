@@ -1,6 +1,15 @@
 package core;
 
 public class Citizen {
+    /* Defaults:
+      name: citizen
+      id: 123456789
+      birthYear: 1990
+      isolation: false
+      ballotBox: null       maybe empty object of ballotBox?
+      party: null           maybe empty object of party?
+      voted: false
+  */
     private String name;
     private String id;
     private int birthYear;
@@ -11,13 +20,13 @@ public class Citizen {
 
     /************ Constructor ************/
     public Citizen(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox, Party party, boolean voted) {
-        this.name = name;
-        this.id = id;
-        this.birthYear = birthYear;
-        this.isolation = isolation;
-        this.ballotBox = ballotBox;
-        this.party = party;
-        this.voted = voted;
+        setName(name);
+        setId(id);
+        setBirthYear(birthYear);
+        setIsolation(isolation);
+        setBallotBox(ballotBox);
+        setInParty(party);
+        setVoted(voted);
     }
 
     public Citizen(Citizen citizen) {
@@ -62,29 +71,97 @@ public class Citizen {
     }
 
     /************ Set Functions ************/
-    private void setIsolation(boolean isolation) {
+    private boolean setName(String name){
+        // checks if the citizen got multiple names
+        // checks if there is a character that is not alphabetic in his name
+
+        boolean done = false;
+        String result = "";
+
+        if(name != null){
+            String[] temp = name.split(" ");
+            for(int i = 0; i < temp.length && !done; i++){
+                if(!temp[i].matches("^[a-zA-Z]*$")){
+                    done = true;
+                }else{
+                    result += temp[i] +" ";
+                }
+            }
+        }
+
+        if(done)
+            this.name = "citizen";
+        else
+            this.name = result.substring(0, result.length() - 1);
+
+        return done;
+    }
+
+    private boolean setId(String id){
+        boolean done = false;
+        boolean legalIdLength = id.length() >= 1 && id.length() <= 9;
+
+        if(id != null && legalIdLength){
+            this.id = id;
+            done = true;
+        }else
+            this.id = "123456789";
+
+        return done;
+    }
+
+    private boolean setBirthYear(int birthYear){
+        boolean done = false;
+        if(birthYear >= 0){
+            this.birthYear = birthYear;
+            done = true;
+        }else
+            this.birthYear = 1990;
+
+        return done;
+    }
+
+    private boolean setIsolation(boolean isolation) {
         this.isolation = isolation;
+        return isolation;
     }
 
-    private void setBallotBox(BallotBox ballotBox) { // TODO: Do Something
-        this.ballotBox = ballotBox;
+    private boolean setBallotBox(BallotBox ballotBox) {
+        // if you can set the BallotBox at least to one of its successor
+        // return true
+
+        boolean done = true;
+
+        if(ballotBox instanceof Army)
+            this.ballotBox = new Army((Army)ballotBox);
+        else if(ballotBox instanceof Corona)
+            this.ballotBox = new Corona((Corona)ballotBox);
+        else if(ballotBox instanceof Regular)
+            this.ballotBox = new Regular((Regular)ballotBox);
+        else
+            done = false;
+
+        return done;
     }
 
-    public void setInParty(Party party) {
-        this.party = party;
+    public boolean setInParty(Party party) {
+        boolean done = false;
+
+        if(party != null){
+            done = true;
+            this.party = new Party(party);
+        }else
+            this.party = null;
+
+        return done;
     }
 
-    private void setVoted(boolean voted) {
+    private boolean setVoted(boolean voted) {
         this.voted = voted;
+        return voted;
     }
 
     /************** Functions **************/
-    public void vote(){
-        if(!voted)
-            setVoted(true);
-    }
-
-
     public void vote(){
         if(!voted)
             setVoted(true);
