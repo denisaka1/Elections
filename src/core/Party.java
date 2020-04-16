@@ -1,6 +1,7 @@
 package core;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Party {
     /* Defaults:
@@ -238,13 +239,18 @@ public class Party {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        Party party = (Party) obj;
-        if (!party.getName().equals(name) || !party.getSection().equals(section)
-                || !party.getCandidates().equals(candidates) || party.getDay() != getDay()
-                || party.getMonth() != getMonth() || party.getYear() != getYear())
-            return false;
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Party party = (Party) o;
+        return year == party.year &&
+                month == party.month &&
+                day == party.day &&
+                counterCandidates == party.counterCandidates &&
+                Objects.equals(name, party.name) &&
+                Objects.equals(section, party.section) &&
+                Arrays.equals(candidates, party.candidates) &&
+                Arrays.equals(candidatesPlaces, party.candidatesPlaces);
     }
 
     @Override

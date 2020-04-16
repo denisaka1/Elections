@@ -21,10 +21,10 @@ public class ServicesManager {
         // Citizens
         Citizen c1 = new Citizen("Barak", "000000001", 2002, false, null, null, false); // Army
         Citizen c2 = new Citizen("Denis", "000000002", 1990, false, null, null, false);
-        Citizen c3 = new Citizen("Dana", "000000003", 1980, true, null, null, false); // Corona
-        Citizen c4 = new Citizen("Alon", "000000004", 1986, true, null, null, false); // Corona
-        Citizen c5 = new Citizen("Tal", "000000005", 1996, false, null, null, false);
-        Citizen c6 = new Citizen("Bar", "000000006", 1994, false, null, null, false);
+        Citizen c3 = new Citizen("Dana", "000000003", 2002, false, null, null, false); // Corona
+        Citizen c4 = new Citizen("Alon", "000000004", 1986, false, null, null, false); // Corona
+        Citizen c5 = new Citizen("Tal", "000000005", 1996, true, null, null, false);
+        Citizen c6 = new Citizen("Bar", "000000006", 1994, true, null, null, false);
 
         // Add ballot boxes to elections
         election.addBallotBox(ballotBoxes[0]);
@@ -39,26 +39,17 @@ public class ServicesManager {
         vr.addCitizen(c5);
         vr.addCitizen(c6);
 
+        Citizen[] citizens = vr.getCitizens();
+
         // Add citizens to ballot boxes
-        ballotBoxes[0].addCitizen(c1);
-        ballotBoxes[0].addCitizen(c2);
-        ballotBoxes[1].addCitizen(c3);
-        ballotBoxes[1].addCitizen(c4);
-        ballotBoxes[2].addCitizen(c5);
-        ballotBoxes[2].addCitizen(c6);
+        ballotBoxes[0].addCitizens(citizens[0], citizens[1]);
+        ballotBoxes[1].addCitizens(citizens[2], citizens[3]);
+        ballotBoxes[2].addCitizens(citizens[4], citizens[5]);
 
         // Add parties to ballot boxes
-        ballotBoxes[0].addParty(p1);
-        ballotBoxes[0].addParty(p2);
-        ballotBoxes[0].addParty(p3);
-
-        ballotBoxes[1].addParty(p1);
-        ballotBoxes[1].addParty(p2);
-        ballotBoxes[1].addParty(p3);
-
-        ballotBoxes[2].addParty(p1);
-        ballotBoxes[2].addParty(p2);
-        ballotBoxes[2].addParty(p3);
+//        ballotBoxes[0].addParties(p1, p2, p3);
+//        ballotBoxes[1].addParties(p1, p2, p3);
+//        ballotBoxes[2].addParties(p1, p2, p3);
 
         // Add candidates to parties
         p1.addCandidate(c1, 1);
@@ -143,24 +134,28 @@ public class ServicesManager {
     }
 
     public static void showResults() {
-/*        int[] results = new int[election.getAllParties().length()];
+        int[] results = new int[election.getAllParties().length()];
         BallotBox[] ballotBoxes = election.getBallotBoxes();
         int[] voteForParty;
         int[] partiesVotes = new int[election.getParties().length];
+
+
         for (int i = 0; i < election.getBallotBoxes().length; i++) {
             for (int j = 0; j < ballotBoxes.length; j++) {
-                voteForParty = ballotBoxes[i].getVotesForParty();
-                for (int x = 0; x < voteForParty.length; x++) {
-                    results[x] += voteForParty[x];
+                if (ballotBoxes[i] != null) {
+                    System.out.println(ballotBoxes[i].toString());
+                    voteForParty = ballotBoxes[i].getVotesForParty();
+                    for (int x = 0; x < voteForParty.length; x++) {
+                        results[x] += voteForParty[x];
+                        System.out.println(voteForParty[x]);
+                    }
                 }
             }
         }
 
-        System.out.println("Results : ");
-        for (int i = 0; i < results.length; i++) {
-
-        }*/
-        // arr for parties votes
-        // show all ballot boxes votes
+//        System.out.println("Results : ");
+//        for (int i = 0; i < results.length; i++) {
+//
+//        }
     }
 }

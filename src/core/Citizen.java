@@ -1,5 +1,7 @@
 package core;
 
+import java.util.Objects;
+
 public class Citizen {
     /* Defaults:
       name: citizen
@@ -125,18 +127,12 @@ public class Citizen {
     }
 
     public boolean setBallotBox(BallotBox ballotBox) {
-        // if you can set the BallotBox at least to one of its successor
-        // return true
-
-        if(ballotBox instanceof Army)
-            this.ballotBox = new Army((Army)ballotBox);
-        else if(ballotBox instanceof Corona)
-            this.ballotBox = new Corona((Corona)ballotBox);
-        else if(ballotBox instanceof Regular)
-            this.ballotBox = new Regular((Regular)ballotBox);
-        else
+        if (ballotBox != null)
+            this.ballotBox = ballotBox;
+        else {
+            this.ballotBox = null;
             return false;
-
+        }
         return true;
     }
 
@@ -162,14 +158,17 @@ public class Citizen {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        Citizen citizen = (Citizen) obj;
-        if ( !name.equals(citizen.getName()) || id != citizen.getID()
-                || birthYear != citizen.birthYear || isolation != citizen.isolation
-                || !ballotBox.equals(citizen.getBallotBox()) || party.equals(citizen.getParty())
-                || voted != citizen.getVoted() )
-            return false;
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Citizen citizen = (Citizen) o;
+        return birthYear == citizen.birthYear &&
+                isolation == citizen.isolation &&
+                voted == citizen.voted &&
+                Objects.equals(name, citizen.name) &&
+                Objects.equals(id, citizen.id) &&
+                Objects.equals(ballotBox, citizen.ballotBox) &&
+                Objects.equals(party, citizen.party);
     }
 
     @Override

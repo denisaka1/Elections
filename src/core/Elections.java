@@ -64,7 +64,9 @@ public class Elections {
     public String getAllParties() {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < parties.length; i++) {
-            sb.append(parties[i].toString() + "\n");
+            if (parties[i] != null) {
+                sb.append(parties[i].toString() + "\n");
+            }
         }
         return sb.toString();
     }
@@ -111,7 +113,6 @@ public class Elections {
             addParty(party);
         } else {
             parties[partiesCounter] = new Party(party);
-//            parties[partiesCounter] = party;
             updateBallotBoxes(parties[partiesCounter]);
             partiesCounter++;
             return true;
@@ -121,7 +122,7 @@ public class Elections {
 
     private void updateBallotBoxes(Party party){
         for(int i = 0; i < ballotBoxesCounter; i++){
-            ballotBoxes[i].addParty(party);
+            ballotBoxes[i].addParties(party);
         }
     }
 
@@ -146,13 +147,8 @@ public class Elections {
     }
 
     private BallotBox assignBallotBox (BallotBox ballotBox){
-
-        if(ballotBox instanceof Army)
-            return new Army((Army)ballotBox);
-        else if(ballotBox instanceof Corona)
-            return new Corona((Corona)ballotBox);
-        else if(ballotBox instanceof Regular)
-            return new Regular((Regular)ballotBox);
+        if (ballotBox instanceof Army || ballotBox instanceof Corona || ballotBox instanceof Regular)
+            return ballotBox;
 
         return null;
     }
@@ -161,15 +157,14 @@ public class Elections {
         if (ballotBoxes.length == 0) {
             this.ballotBoxes = new BallotBox[1];
         }
-        if(ballotBox != null){
+        if (ballotBox != null) {
             if (existBallotBox(ballotBox)) {
                 return false;
             } else if (ballotBoxesCounter >= ballotBoxes.length) {
                 expandBallotBoxes();
                 addBallotBox(ballotBox);
             } else {
-//                ballotBoxes[ballotBoxesCounter] = assignBallotBox(ballotBox);
-                ballotBoxes[ballotBoxesCounter] = ballotBox;
+                ballotBoxes[ballotBoxesCounter] = assignBallotBox(ballotBox);
                 ballotBoxesCounter++;
                 return true;
             }

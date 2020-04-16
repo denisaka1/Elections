@@ -12,7 +12,7 @@ public abstract class BallotBox {
        votesForParty.length: 0
    */
     protected static int numGen; // auto generated
-    protected String address;
+    private String address;
     private int votePercentage; // total of legal citizens that can vote to a specific ballot box
     private Citizen[] citizens; // list of all citizens that can vote to this specific ballotBox
     private Party[] parties;
@@ -28,8 +28,6 @@ public abstract class BallotBox {
         setParties(parties);
         setVotesForParty(votesForParty);
         numGen++;
-        citizenCounter = 0;
-        partiesCounter = 0;
     }
 
     public BallotBox(String address) {
@@ -37,12 +35,11 @@ public abstract class BallotBox {
     }
 
     public BallotBox(BallotBox ballotBox){
-//        this(ballotBox.address, ballotBox.votePercentage, ballotBox.citizens, ballotBox.parties, ballotBox.votesForParty);
-        this(ballotBox.getAddress(), ballotBox.getVotePercentage(), ballotBox.getCitizens(), ballotBox.getParties(), ballotBox.getVotesForParty());
+        this(ballotBox.address, ballotBox.votePercentage, ballotBox.citizens, ballotBox.parties, ballotBox.votesForParty);
     }
 
     /************ Set Functions ************/
-    private boolean setAddress(String address){
+    private boolean setAddress(String address) {
         boolean isSet = false;
         if(address != null){
             this.address = address;
@@ -53,9 +50,9 @@ public abstract class BallotBox {
         return isSet;
     }
 
-    private boolean setVotePercentage(int votePercentage){
+    private boolean setVotePercentage(int votePercentage) {
         boolean isSet = false;
-        if(votePercentage >= 0){
+        if(votePercentage >= 0) {
             this.votePercentage = votePercentage;
             isSet = true;
         }else
@@ -63,37 +60,29 @@ public abstract class BallotBox {
         return isSet;
     }
 
-    private boolean setCitizens(Citizen[] citizens){
-//        if(citizens == null || citizens.length == 0){
-//            this.citizens = new Citizen[0];
-//            return false;
-//        }else{
+    private boolean setCitizens(Citizen[] citizens) {
+        if (citizens != null) {
             this.citizens = citizens;
-//            this.citizens = new Citizen[citizens.length];
-//            for (int i = 0; i < citizens.length; i++) {
-//                this.citizens[i] = new Citizen(citizens[i]);
-//            }
-//        }
-        return true;
-    }
-
-    private boolean setParties(Party[] parties){
-        boolean isSet = true;
-        if(parties == null || parties.length == 0){
-            this.parties = new Party[0];
-            isSet = false;
-        }else{
-            this.parties = new Party[parties.length];
-            for (int i = 0; i < parties.length; i++) {
-                this.parties[i] = new Party(parties[i]);
-            }
+            citizenCounter = this.citizens.length;
+            return true;
         }
-        return isSet;
+        this.citizens = new Citizen[0];
+        return false;
     }
 
-    private boolean setVotesForParty(int[] votesForParty){
+    private boolean setParties(Party[] parties) {
+        if (parties != null) {
+            this.parties = parties;
+            partiesCounter = this.parties.length;
+            return true;
+        }
+        this.parties = new Party[0];
+        return false;
+    }
+
+    private boolean setVotesForParty(int[] votesForParty) {
         boolean isSet = true;
-        if(votesForParty == null || parties.length == 0 || votesForParty.length == 0){
+        if(votesForParty == null || parties.length == 0 || votesForParty.length == 0) {
             this.votesForParty = new int[0];
             isSet = false;
         }else{
@@ -136,16 +125,16 @@ public abstract class BallotBox {
     }
 
     /************** Functions **************/
-    public void vote(Citizen citizen, Party party){
-        if(party != null && existParty(party) && canVote(citizen)){
+    public void vote(Citizen citizen, Party party) {
+        if(party != null && isPartyExists(party) && canVote(citizen)) {
             citizen.vote();
             addVote(party);
         }
     }
 
-    private void calculateTotalVotePercentage(){
+    private void calculateTotalVotePercentage() {
         int votesSum = 0;
-        for(int i = 0; i < votesForParty.length; i++){
+        for(int i = 0; i < votesForParty.length; i++) {
             votesSum += votesForParty[i];
         }
         if (citizens.length > 0)
@@ -153,153 +142,128 @@ public abstract class BallotBox {
     }
 
     // Citizen
-    private void expandCitizens() {
-        Citizen[] temp = new Citizen[citizens.length * 2];
-        for (int i = 0; i < citizens.length; i++) {
-            temp[i] = citizens[i];
+//    private void expandCitizens() {
+//        Citizen[] temp = new Citizen[citizens.length * 2];
+//        for (int i = 0; i < citizens.length; i++) {
+//            temp[i] = citizens[i];
+//        }
+//        this.citizens = temp;
+//    }
+//
+//    public boolean addCitizen(Citizen citizen) {
+//        if (citizens.length == 0) {
+//            this.citizens = new Citizen[1];
+//        }
+//
+//        if (citizenCounter >= citizens.length) {
+//            expandCitizens();
+//            addCitizen(citizen);
+//        } else if (isCitizenExists(citizen)) {
+//            return false;
+//        } else {
+//            citizens[citizenCounter] = citizen;
+//            citizens[citizenCounter].setBallotBox(this);
+//            citizenCounter++;
+//            return true;
+//        }
+//        return false;
+//    }
+
+//    protected boolean isCitizenExists(Citizen citizen) {
+//        for (int i = 0; i < citizens.length; i++) {
+//            if (citizens[i] != null) {
+//                if (citizens[i].equals(citizen))
+//                    return true;
+//            }
+//        }
+//        return false;
+//    }
+
+    // Party
+//    private void expandParties() {
+//        Party[] temp = new Party[parties.length * 2];
+//        int[] votesTemp = new int[parties.length * 2];
+//
+//        for (int i = 0; i < parties.length; i++) {
+//            temp[i] = parties[i];
+//            votesTemp[i] = votesForParty[i];
+//        }
+//        this.parties = temp;
+//        this.votesForParty = votesTemp;
+//    }
+//
+//    public boolean addParty(Party party) {
+//        if (parties.length == 0) {
+//            this.parties = new Party[1];
+//            this.votesForParty = new int[1];
+//        }
+//
+//        if (partiesCounter >= parties.length) {
+//            expandParties();
+//            addParty(party);
+//        } else if (existParty(party)) {
+//            return false;
+//        } else {
+//            parties[partiesCounter] = party;
+//            partiesCounter++;
+//            return true;
+//        }
+//        return false;
+//    }
+
+//    private boolean existParty(Party party) {
+//        for (int i = 0; i < parties.length; i++) {
+//            if (parties[i] != null) {
+//                if (parties[i].equals(party))
+//                    return true;
+//            }
+//        }
+//        return false;
+//    }
+
+    public void addCitizens(Citizen... newCitizens){
+        // assign temp Citizen array -> first comes base array
+        //                           -> second comes the new array
+        int k = newCitizens.length + this.citizens.length;
+        Citizen[] temp = new Citizen[k * 2];
+        for(int i = 0; i < k; i++){
+            if (this.citizens.length > i)
+                temp[i] = this.citizens[i];
+            else {
+                if (newCitizens[i - this.citizens.length] != null) {
+                    temp[i] = newCitizens[i - this.citizens.length];
+                    citizenCounter++;
+                    temp[i].setBallotBox(this);
+                }
+            }
         }
+
         this.citizens = temp;
     }
 
-    public boolean addCitizen(Citizen citizen) {
-        if (citizens.length == 0) {
-            this.citizens = new Citizen[1];
-        }
+    public void addParties(Party... newParties) {
 
-        if (citizenCounter >= citizens.length) {
-            expandCitizens();
-            addCitizen(citizen);
-        } else if (isCitizenExists(citizen)) {
-            return false;
-        } else {
-            citizens[citizenCounter] = citizen;
-            citizen.setBallotBox(this);
-            citizenCounter++;
-            return true;
-        }
-        return false;
-    }
+        int k = newParties.length + this.parties.length;
+        Party[] tempParty = new Party[k * 2];
+        int[] tempVoteForParty = new int[k * 2];
 
-//    private void updateCitizen(Citizen citizen) {
-//        citizen.setBallotBox(this);
-//    }
-
-    protected boolean isCitizenExists(Citizen citizen) {
-        for (int i = 0; i < citizens.length; i++) {
-            if (citizens[i] != null) {
-                if (citizens[i].equals(citizen))
-                    return true;
+        for (int i = 0; i < k; i++) {
+            if (this.parties.length > i) {
+                tempParty[i] = this.parties[i];
+                tempVoteForParty[i] = this.votesForParty[i];
+            } else {
+                if (newParties[i - this.parties.length] != null) {
+                    tempParty[i] = newParties[i - this.parties.length];
+                    partiesCounter++;
+                }
             }
         }
-        return false;
+
+        this.parties = tempParty;
+        this.votesForParty = tempVoteForParty;
     }
 
-    // Party
-    private void expandParties() {
-        Party[] temp = new Party[parties.length * 2];
-        int[] votesTemp = new int[parties.length * 2];
-
-        for (int i = 0; i < parties.length; i++) {
-            temp[i] = parties[i];
-            votesTemp[i] = votesForParty[i];
-        }
-        this.parties = temp;
-        this.votesForParty = votesTemp;
-    }
-
-    public boolean addParty(Party party) {
-        if (parties.length == 0) {
-            this.parties = new Party[1];
-            this.votesForParty = new int[1];
-        }
-
-        if (partiesCounter >= parties.length) {
-            expandParties();
-            addParty(party);
-        } else if (existParty(party)) {
-            return false;
-        } else {
-            parties[partiesCounter] = party;
-            partiesCounter++;
-            return true;
-        }
-        return false;
-    }
-
-    private boolean existParty(Party party) {
-        for (int i = 0; i < parties.length; i++) {
-            if (parties[i] != null) {
-                if (parties[i].equals(party))
-                    return true;
-            }
-        }
-        return false;
-    }
-
-/*    public void addCitizens(Citizen... newCitizens){
-        // assign temp Citizen array -> first comes base array
-        //                           -> second comes the new array
-
-        Citizen[] temp = new Citizen[(newCitizens.length + this.citizens.length) * 2];
-        int k = this.citizens.length;
-
-*//*        int k = temp.length - this.citizens.length;
-        for(int i = 0; i < temp.length; i++){
-            if(k > i)
-                temp[i] = new Citizen(this.citizens[i]);
-            else
-                temp[i] = new Citizen(newCitizens[i-k]);
-        }*//*
-
-        for(int i = 0; i < this.citizens.length; i++){
-            temp[i] = new Citizen(this.citizens[i]);
-        }
-
-        for(int i = 0; i < newCitizens.length; i++){
-            k += i;
-            temp[k] = new Citizen(newCitizens[i]);
-        }
-
-        this.citizens = new Citizen[temp.length];
-        for(int i = 0; i < temp.length; i++){
-            this.citizens[i] = temp[i];
-        }
-
-    }
-
-    public void addParties(Party... newParties){
-        Party[] tempParty = new Party[(newParties.length + this.parties.length) * 2];
-        int[] tempVoteForParty = new int[tempParty.length];
-
-        int k = this.parties.length;
-        for(int i = 0; i < this.parties.length; i++){
-            tempParty[i] = new Party(this.parties[i]);
-            tempVoteForParty[i] = votesForParty[i];
-        }
-
-
-        for(int i = 0; i < newParties.length; i++){
-            k += i;
-            tempParty[k] = new Party(newParties[i]);
-        }
-
-//        for(int i = 0; i < tempParty.length; i++){
-//            if(k > i){
-//                tempParty[i] = new Party(this.parties[i]);
-//                tempVoteForParty[i] = votesForParty[i];
-//            }else
-//                tempParty[i] = new Party(newParties[i - k]);
-//        }
-
-        this.parties = new Party[tempParty.length];
-        this.votesForParty = new int[parties.length];
-        for(int i = 0; i < parties.length; i++){
-            parties[i] = tempParty[i];
-            votesForParty[i] = tempVoteForParty[i];
-        }
-    }*/
-
-/*    protected boolean isCitizenExists(Citizen newCitizen){
+    protected boolean isCitizenExists(Citizen newCitizen){
         boolean exists = false;
         for(Citizen citizen: citizens){
             if(citizen != null && newCitizen != null)
@@ -316,7 +280,7 @@ public abstract class BallotBox {
                     return true;
         }
         return false;
-    }*/
+    }
 
     protected void addVote(Party party){
         for(int i = 0; i < parties.length; i++){
