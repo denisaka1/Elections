@@ -103,6 +103,7 @@ public class Elections {
             addParty(party);
         } else {
             parties[partiesCounter] = new Party(party);
+            parties[partiesCounter] = new Party(party);
             updateBallotBoxes(parties[partiesCounter]);
             partiesCounter++;
             return true;
@@ -159,7 +160,8 @@ public class Elections {
                 expandBallotBoxes();
                 addBallotBox(ballotBox);
             } else {
-                ballotBoxes[ballotBoxesCounter] = assignBallotBox(ballotBox);
+//                ballotBoxes[ballotBoxesCounter] = assignBallotBox(ballotBox);
+                ballotBoxes[ballotBoxesCounter] = ballotBox;
                 ballotBoxesCounter++;
                 return true;
             }

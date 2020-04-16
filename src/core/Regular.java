@@ -10,11 +10,11 @@ public class Regular extends BallotBox {
     }
 
     public Regular(String address) {
-        super(address);
+        super(address); // TODO: fix
     }
 
     public Regular(Regular regular){
-        super(regular);
+        super(regular); // TODO: fix
     }
 
     @Override

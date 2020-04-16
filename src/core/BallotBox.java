@@ -37,7 +37,8 @@ public abstract class BallotBox {
     }
 
     public BallotBox(BallotBox ballotBox){
-        this(ballotBox.address, ballotBox.votePercentage, ballotBox.citizens, ballotBox.parties, ballotBox.votesForParty);
+//        this(ballotBox.address, ballotBox.votePercentage, ballotBox.citizens, ballotBox.parties, ballotBox.votesForParty);
+        this(ballotBox.getAddress(), ballotBox.getVotePercentage(), ballotBox.getCitizens(), ballotBox.getParties(), ballotBox.getVotesForParty());
     }
 
     /************ Set Functions ************/
@@ -63,17 +64,17 @@ public abstract class BallotBox {
     }
 
     private boolean setCitizens(Citizen[] citizens){
-        boolean isSet = true;
-        if(citizens == null || citizens.length == 0){
-            this.citizens = new Citizen[0];
-            isSet = false;
-        }else{
-            this.citizens = new Citizen[citizens.length];
-            for (int i = 0; i < citizens.length; i++) {
-                this.citizens[i] = new Citizen(citizens[i]);
-            }
-        }
-        return isSet;
+//        if(citizens == null || citizens.length == 0){
+//            this.citizens = new Citizen[0];
+//            return false;
+//        }else{
+            this.citizens = citizens;
+//            this.citizens = new Citizen[citizens.length];
+//            for (int i = 0; i < citizens.length; i++) {
+//                this.citizens[i] = new Citizen(citizens[i]);
+//            }
+//        }
+        return true;
     }
 
     private boolean setParties(Party[] parties){
@@ -107,6 +108,10 @@ public abstract class BallotBox {
     /************ Get Functions ************/
     public static int getNumGen() {
         return numGen;
+    }
+
+    public int getVotePercentage() {
+        return votePercentage;
     }
 
     public String getAddress() {
@@ -161,11 +166,11 @@ public abstract class BallotBox {
             this.citizens = new Citizen[1];
         }
 
-        if (isCitizenExists(citizen)) {
-            return false;
-        } else if (citizenCounter >= citizens.length) {
+        if (citizenCounter >= citizens.length) {
             expandCitizens();
             addCitizen(citizen);
+        } else if (isCitizenExists(citizen)) {
+            return false;
         } else {
             citizens[citizenCounter] = citizen;
             citizenCounter++;
@@ -179,7 +184,6 @@ public abstract class BallotBox {
             if (citizens[i] != null) {
                 if (citizens[i].equals(citizen))
                     return true;
-
             }
         }
         return false;
@@ -188,15 +192,20 @@ public abstract class BallotBox {
     // Party
     private void expandParties() {
         Party[] temp = new Party[parties.length * 2];
+        int[] votesTemp = new int[parties.length * 2];
+
         for (int i = 0; i < parties.length; i++) {
             temp[i] = parties[i];
+            votesTemp[i] = votesForParty[i];
         }
         this.parties = temp;
+        this.votesForParty = votesTemp;
     }
 
     public boolean addParty(Party party) {
         if (parties.length == 0) {
             this.parties = new Party[1];
+            this.votesForParty = new int[1];
         }
 
         if (existParty(party)) {
