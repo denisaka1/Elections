@@ -286,7 +286,7 @@ public abstract class BallotBox {
         for(int i = 0; i < parties.length; i++){
             if(party.equals(parties[i])){
                 votesForParty[i]++;
-                System.out.println("Vote has been added!\n#added to party number:" + i + "\n#added to votesForParty number" + i);
+                System.out.println("Vote has been added!\n#added to party number:" + i + "\n#added to votesForParty number " + i );
             }
         }
     }

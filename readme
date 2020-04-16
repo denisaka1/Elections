@@ -3,7 +3,7 @@ Barak Moskovich - 315836916
 Denis Karabitski -
 
 TODO: Unit 1:
-      ServicesManager - showResults (each BallotBox & Total)
+      Vote check (show random parties number -> BUGS)
       Elections - addBallotBox (add all Parties to each ballotBox)
                   addParty ( assign to each ballotBox the party)
       Full sync between the functions

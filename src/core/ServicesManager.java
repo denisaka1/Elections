@@ -15,7 +15,7 @@ public class ServicesManager {
 
         // Parties
         Party p1 = new Party("Likud", "right", 1973, 1, 1);
-        Party p2 = new Party("Kaḥol Lavan", "center", 2019, 1, 1);
+        Party p2 = new Party("Kahol_Lavan", "center", 2019, 1, 1);
         Party p3 = new Party("Meretz", "left", 1992, 1, 1);
 
         // Citizens
@@ -137,25 +137,30 @@ public class ServicesManager {
         int[] results = new int[election.getAllParties().length()];
         BallotBox[] ballotBoxes = election.getBallotBoxes();
         int[] voteForParty;
-        int[] partiesVotes = new int[election.getParties().length];
+        Party[] parties;
 
-
-        for (int i = 0; i < election.getBallotBoxes().length; i++) {
-            for (int j = 0; j < ballotBoxes.length; j++) {
-                if (ballotBoxes[i] != null) {
-                    System.out.println(ballotBoxes[i].toString());
-                    voteForParty = ballotBoxes[i].getVotesForParty();
-                    for (int x = 0; x < voteForParty.length; x++) {
-                        results[x] += voteForParty[x];
-                        System.out.println(voteForParty[x]);
+        for (int i = 0; i < ballotBoxes.length; i++) {
+            if (ballotBoxes[i] != null) {
+                System.out.print(ballotBoxes[i].toString());
+                voteForParty = ballotBoxes[i].getVotesForParty();
+                parties = ballotBoxes[i].getParties();
+                for (int j = 0; j < parties.length; j++) {
+                    if (parties[j] != null) {
+                        results[j] += voteForParty[j];
+                        System.out.println(parties[j].getName() + " : " + voteForParty[j]);
                     }
                 }
+
+                System.out.println("");
             }
         }
 
-//        System.out.println("Results : ");
-//        for (int i = 0; i < results.length; i++) {
-//
-//        }
+        parties = election.getParties();
+        System.out.println("Final Results : ");
+        for (int i = 0; i < parties.length; i++) {
+            if (parties[i] != null) {
+                System.out.println(parties[i].getName() + " : " + results[i]);
+            }
+        }
     }
 }
