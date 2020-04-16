@@ -33,8 +33,8 @@ public class Citizen {
         this(citizen.getName(), citizen.getID(), citizen.getBirthYear(), citizen.isIsolation(), citizen.getBallotBox(), citizen.getParty(), citizen.getVoted());
     }
 
-    public Citizen(String name, String id, int birthYear, boolean isolation, Party party) {
-        this (name, id, birthYear, isolation, null, party, false);
+    public Citizen(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox) {
+        this (name, id, birthYear, isolation, ballotBox, null, false);
     }
 
     public Citizen(String name, String id, int birthYear) {
@@ -98,27 +98,25 @@ public class Citizen {
     }
 
     private boolean setId(String id){
-        boolean done = false;
         boolean legalIdLength = id.length() >= 1 && id.length() <= 9;
 
         if(id != null && legalIdLength){
             this.id = id;
-            done = true;
+            return true;
         }else
             this.id = "123456789";
 
-        return done;
+        return false;
     }
 
     private boolean setBirthYear(int birthYear){
-        boolean done = false;
         if(birthYear >= 0){
             this.birthYear = birthYear;
-            done = true;
+            return true;
         }else
             this.birthYear = 1990;
 
-        return done;
+        return false;
     }
 
     private boolean setIsolation(boolean isolation) {
@@ -130,8 +128,6 @@ public class Citizen {
         // if you can set the BallotBox at least to one of its successor
         // return true
 
-        boolean done = true;
-
         if(ballotBox instanceof Army)
             this.ballotBox = new Army((Army)ballotBox);
         else if(ballotBox instanceof Corona)
@@ -139,21 +135,19 @@ public class Citizen {
         else if(ballotBox instanceof Regular)
             this.ballotBox = new Regular((Regular)ballotBox);
         else
-            done = false;
+            return false;
 
-        return done;
+        return true;
     }
 
     public boolean setInParty(Party party) {
-        boolean done = false;
-
         if(party != null){
-            done = true;
             this.party = new Party(party);
+            return true;
         }else
             this.party = null;
 
-        return done;
+        return false;
     }
 
     private boolean setVoted(boolean voted) {

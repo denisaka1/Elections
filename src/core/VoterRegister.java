@@ -11,7 +11,7 @@ public class VoterRegister {
     }
 
     public VoterRegister() {
-        this(new Citizen[2]);
+        this(new Citizen[0]);
     }
 
     /************ Get Functions ************/
@@ -50,6 +50,10 @@ public class VoterRegister {
     }
 
     public boolean addCitizen(Citizen citizen) {
+        if (citizens.length == 0) {
+            this.citizens = new Citizen[1];
+        }
+
         if (existCitizen(citizen)) {
             return false;
         } else if (citizensCounter >= citizens.length) {

@@ -26,4 +26,14 @@ public class Regular extends BallotBox {
 
         return canVote;
     }
+
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("BallotBox #" + numGen + "\n");
+        sb.append("Address : " + address + "\n");
+        sb.append("Type : Regular\n");
+        return sb.toString();
+    }
 }

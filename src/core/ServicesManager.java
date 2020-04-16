@@ -12,17 +12,26 @@ public class ServicesManager {
         ballotBoxes[0] = new Regular("Balfour");
         ballotBoxes[1] = new Army("Jenin");
         ballotBoxes[2] = new Corona("Tel Aviv");
+
+        // Parties
+        Party p1 = new Party("Likud", "right", 1973, 1, 1);
+        Party p2 = new Party("Kaḥol Lavan", "center", 2019, 1, 1);
+        Party p3 = new Party("Meretz", "left", 1992, 1, 1);
+
+        // Citizens
+        Citizen c1 = new Citizen("Barak", "000000001", 2002, false, ballotBoxes[0] , null, false); // Army
+        Citizen c2 = new Citizen("Denis", "000000002", 1990, false, ballotBoxes[0] , null, false);
+        Citizen c3 = new Citizen("Dana", "000000003", 1980, true, ballotBoxes[1] , null, false); // Corona
+        Citizen c4 = new Citizen("Alon", "000000004", 1986, true, ballotBoxes[1] , null, false); // Corona
+        Citizen c5 = new Citizen("Tal", "000000005", 1996, false, ballotBoxes[2] , null, false);
+        Citizen c6 = new Citizen("Bar", "000000006", 1994, false, ballotBoxes[2] , null, false);
+
+        // Add ballot boxes to elections
         election.addBallotBox(ballotBoxes[0]);
         election.addBallotBox(ballotBoxes[1]);
         election.addBallotBox(ballotBoxes[2]);
 
-        // Citizens
-        Citizen c1 = new Citizen("Citizen1", "000000001", 2002, false, null, null, false); // Army
-        Citizen c2 = new Citizen("Citizen2", "000000002", 1990, false, null, null, false);
-        Citizen c3 = new Citizen("Citizen3", "000000003", 1980, true, null, null, false); // Corona
-        Citizen c4 = new Citizen("Citizen4", "000000004", 1986, true, null, null, false); // Corona
-        Citizen c5 = new Citizen("Citizen5", "000000005", 1996, false, null, null, false);
-        Citizen c6 = new Citizen("Citizen6", "000000006", 1994, false, null, null, false);
+        // Add citizen to VoterRegister
         vr.addCitizen(c1);
         vr.addCitizen(c2);
         vr.addCitizen(c3);
@@ -30,22 +39,36 @@ public class ServicesManager {
         vr.addCitizen(c5);
         vr.addCitizen(c6);
 
-        // Parties
-        Party p1 = new Party("Likud", "right", 1973, 1, 1);
-        Party p2 = new Party("Kaḥol Lavan", "center", 2019, 1, 1);
-        Party p3 = new Party("Meretz", "left", 1992, 1, 1);
+        // Add citizens to ballot boxes
+        ballotBoxes[0].addCitizen(c1);
+        ballotBoxes[0].addCitizen(c2);
+        ballotBoxes[1].addCitizen(c3);
+        ballotBoxes[1].addCitizen(c4);
+        ballotBoxes[2].addCitizen(c5);
+        ballotBoxes[2].addCitizen(c6);
 
-        // Candidates
-        // Candidates to Party 1
+        // Add parties to ballot boxes
+        ballotBoxes[0].addParty(p1);
+        ballotBoxes[0].addParty(p2);
+        ballotBoxes[0].addParty(p3);
+
+        ballotBoxes[1].addParty(p1);
+        ballotBoxes[1].addParty(p2);
+        ballotBoxes[1].addParty(p3);
+
+        ballotBoxes[2].addParty(p1);
+        ballotBoxes[2].addParty(p2);
+        ballotBoxes[2].addParty(p3);
+
+        // Add candidates to parties
         p1.addCandidate(c1, 1);
         p1.addCandidate(c2, 4);
-        // Candidates to Party 2
         p2.addCandidate(c3, 2);
         p2.addCandidate(c4, 2);
-        // Candidates to Party 3
         p3.addCandidate(c5, 2);
         p3.addCandidate(c6, 1);
 
+        // Add parties to elections
         election.addParty(p1);
         election.addParty(p2);
         election.addParty(p3);
@@ -74,6 +97,10 @@ public class ServicesManager {
         vr.addCitizen(citizen);
     }
 
+    public static BallotBox getPartyByNumber(int number) {
+        return election.getBallotBoxByNumber(number);
+    }
+
     public static void addParty(Party party) {
         election.addParty(party);
     }
@@ -99,9 +126,41 @@ public class ServicesManager {
         return election.getAllParties();
     }
 
-    public static void beginElections() {
+    public static void beginElections(Scanner s) {
+        Citizen[] citizens = vr.getCitizens(); // Reference
+        Party partyVote = null;
+        for (int i = 0; i < citizens.length; i++) {
+            if (citizens[i] != null) {
+                if (!citizens[i].getVoted()) {
+                    partyVote = election.getPartiesByName(Program.getVoteParty(s, citizens[i].getName()));
+                    if (partyVote != null) {
+                        citizens[i].getBallotBox().vote(citizens[i], partyVote);
+                        partyVote = null;
+                    }
+                }
+            }
+        }
     }
 
     public static void showResults() {
+/*        int[] results = new int[election.getAllParties().length()];
+        BallotBox[] ballotBoxes = election.getBallotBoxes();
+        int[] voteForParty;
+        int[] partiesVotes = new int[election.getParties().length];
+        for (int i = 0; i < election.getBallotBoxes().length; i++) {
+            for (int j = 0; j < ballotBoxes.length; j++) {
+                voteForParty = ballotBoxes[i].getVotesForParty();
+                for (int x = 0; x < voteForParty.length; x++) {
+                    results[x] += voteForParty[x];
+                }
+            }
+        }
+
+        System.out.println("Results : ");
+        for (int i = 0; i < results.length; i++) {
+
+        }*/
+        // arr for parties votes
+        // show all ballot boxes votes
     }
 }

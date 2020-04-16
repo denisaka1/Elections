@@ -1,5 +1,6 @@
 package core;
 
+import javax.swing.*;
 import java.util.Scanner;
 
 public class Program {
@@ -35,10 +36,12 @@ public class Program {
                 case 7:
                     System.out.println(ServicesManager.showAllParties());
                     break;
-//                case 8:
-//                    break;
-//                case 9:
-//                    break;
+                case 8:
+                    ServicesManager.beginElections(s);
+                    break;
+                case 9:
+                    ServicesManager.showResults();
+                    break;
                 case 10:
                 default:
                     exit = true;
@@ -48,16 +51,12 @@ public class Program {
     }
 
     public static Citizen getCitizen(Scanner s, boolean inParty) {
-        // TODO: ballotBox not used
-        // TODO: inParty not used
-        // TODO: party never changed value
         String name;
         String id;
         int birthYear;
         char ansChar;
         boolean isolation;
         BallotBox ballotBox;
-        Party party = null;
 
         System.out.print("Enter name : ");
         name = s.next();
@@ -77,7 +76,10 @@ public class Program {
         else
             isolation = false;
 
-        return new Citizen(name, id, birthYear, isolation, party);
+        System.out.println("Enter Ballot Box Number : ");
+        ballotBox = ServicesManager.getPartyByNumber(s.nextInt());
+
+        return new Citizen(name, id, birthYear, isolation, ballotBox);
     }
 
     public static Party getParty(Scanner s) {
@@ -153,5 +155,14 @@ public class Program {
         return info;
     }
 
-
+    public static String getVoteParty(Scanner s, String citizenName) {
+        System.out.print(citizenName + ", You want to vote ? [Y/N]");
+        char ansChar = s.next().toCharArray()[0];
+        if (ansChar == 'y' || ansChar == 'Y') {
+            System.out.print("You want to vote to : ");
+            return s.next();
+        }
+        else
+            return null;
+    }
 }

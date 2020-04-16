@@ -26,4 +26,13 @@ public class Corona extends BallotBox {
 
         return canVote;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("BallotBox #" + numGen + "\n");
+        sb.append("Address : " + address + "\n");
+        sb.append("Type : Corona\n");
+        return sb.toString();
+    }
 }

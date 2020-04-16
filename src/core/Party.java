@@ -73,39 +73,36 @@ public class Party {
 
     /************ Set Functions ************/
     private boolean setName(String name) {
-        boolean done;
-        if(name != null){
+        if(name != null) {
             this.name = name;
-            done = true;
-        }else{
-            done = false;
+            return true;
+        } else {
             this.name = "Default";
+            return false;
         }
-        return done;
     }
 
     private boolean setSection(String section) {
-        boolean done = false;
         if(section.contains(RIGHT_SECTION) || section.contains(LEFT_SECTION) || section.contains(CENTER_SECTION)){
             this.section = section.toLowerCase();
-            done = true;
-        }else{
+            return true;
+        } else {
             this.section = RIGHT_SECTION;
         }
-        return done;
+        return false;
     }
 
-    private boolean setCreationDate(int year, int month, int day){
+    private boolean setCreationDate(int year, int month, int day) {
         boolean done = false;
         boolean legalYear = year >= 0;
         int resultDay;
         int resultMonth;
         int resultYear;
 
-        if(legalYear && day >= 0){
+        if(legalYear && day >= 0) {
             resultYear = year;
             resultMonth = month;
-            switch(resultMonth){
+            switch(resultMonth) {
                 case 1:
                 case 3:
                 case 5:
@@ -147,7 +144,7 @@ public class Party {
                     resultMonth = 1;
                     break;
             }
-        }else{
+        } else {
             resultDay = 1;
             resultMonth = 1;
             resultYear = 2020;
@@ -160,18 +157,16 @@ public class Party {
     }
 
     private boolean setCandidates(Citizen[] candidates) {
-        boolean done = false;
-
-        if(candidates != null){
+        if(candidates != null) {
             this.candidates = new Citizen[candidates.length];
             for(int i = 0; i < candidates.length; i++){
                 this.candidates[i] = new Citizen(candidates[i]);
             }
-            done = true;
-        }else
+            return true;
+        } else
             this.candidates = new Citizen[0];
 
-        return done;
+        return false;
     }
 
     private boolean setCandidatesPlaces() {

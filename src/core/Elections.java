@@ -19,11 +19,11 @@ public class Elections {
     }
 
     public Elections(int month, int year) {
-        this (new Party[2], new BallotBox[2],month, year);
+        this (new Party[0], new BallotBox[0],month, year);
     }
 
     public Elections() {
-        this (new Party[2], new BallotBox[2],1, 2020); // Default
+        this (new Party[0], new BallotBox[0],1, 2020); // Default
     }
 
     /************ Get Functions ************/
@@ -51,6 +51,14 @@ public class Elections {
             }
         }
         return null;
+    }
+
+    public BallotBox getBallotBoxByNumber(int number) {
+        // Exception
+        if (ballotBoxes.length < number)
+            return ballotBoxes[number];
+        else
+            return ballotBoxes[0];
     }
 
     /************ Set Functions ************/
@@ -84,6 +92,10 @@ public class Elections {
     }
 
     public boolean addParty(Party party) {
+        if (parties.length == 0) {
+            this.parties = new Party[1];
+        }
+
         if (existParty(party)) {
             return false;
         } else if (partiesCounter >= parties.length) {
@@ -118,6 +130,10 @@ public class Elections {
     }
 
     public boolean addBallotBox(BallotBox ballotBox) {
+        if (ballotBoxes.length == 0) {
+            this.ballotBoxes = new BallotBox[1];
+        }
+
         if (existBallotBox(ballotBox)) {
             return false;
         } else if (ballotBoxesCounter >= ballotBoxes.length) {

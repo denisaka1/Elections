@@ -11,12 +11,14 @@ public abstract class BallotBox {
        parties.length: 0
        votesForParty.length: 0
    */
-    private static int numGen; // auto generated
-    private String address;
+    protected static int numGen; // auto generated
+    protected String address;
     private int votePercentage; // total of legal citizens that can vote to a specific ballot box
     private Citizen[] citizens; // list of all citizens that can vote to this specific ballotBox
     private Party[] parties;
     private int[] votesForParty;
+    private int citizenCounter;
+    private int partiesCounter;
 
     /************ Constructor ************/
     public BallotBox(String address, int votePercentage, Citizen[] citizens, Party[] parties, int[] votesForParty) {
@@ -26,6 +28,8 @@ public abstract class BallotBox {
         setParties(parties);
         setVotesForParty(votesForParty);
         numGen++;
+        citizenCounter = 0;
+        partiesCounter = 0;
     }
 
     public BallotBox(String address) {
@@ -128,7 +132,7 @@ public abstract class BallotBox {
 
     /************** Functions **************/
     public void vote(Citizen citizen, Party party){
-        if(party != null && isPartyExists(party) && canVote(citizen)){
+        if(party != null && existParty(party) && canVote(citizen)){
             citizen.vote();
             addVote(party);
         }
@@ -139,32 +143,110 @@ public abstract class BallotBox {
         for(int i = 0; i < votesForParty.length; i++){
             votesSum += votesForParty[i];
         }
-        votePercentage = (votesSum / citizens.length) * 100;
+        if (citizens.length > 0)
+            votePercentage = (votesSum / citizens.length) * 100;
     }
 
-    public void addCitizens(Citizen... newCitizens){
+    // Citizen
+    private void expandCitizens() {
+        Citizen[] temp = new Citizen[citizens.length * 2];
+        for (int i = 0; i < citizens.length; i++) {
+            temp[i] = citizens[i];
+        }
+        this.citizens = temp;
+    }
+
+    public boolean addCitizen(Citizen citizen) {
+        if (citizens.length == 0) {
+            this.citizens = new Citizen[1];
+        }
+
+        if (isCitizenExists(citizen)) {
+            return false;
+        } else if (citizenCounter >= citizens.length) {
+            expandCitizens();
+            addCitizen(citizen);
+        } else {
+            citizens[citizenCounter] = citizen;
+            citizenCounter++;
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean isCitizenExists(Citizen citizen) {
+        for (int i = 0; i < citizens.length; i++) {
+            if (citizens[i] != null) {
+                if (citizens[i].equals(citizen))
+                    return true;
+
+            }
+        }
+        return false;
+    }
+
+    // Party
+    private void expandParties() {
+        Party[] temp = new Party[parties.length * 2];
+        for (int i = 0; i < parties.length; i++) {
+            temp[i] = parties[i];
+        }
+        this.parties = temp;
+    }
+
+    public boolean addParty(Party party) {
+        if (parties.length == 0) {
+            this.parties = new Party[1];
+        }
+
+        if (existParty(party)) {
+            return false;
+        } else if (partiesCounter >= parties.length) {
+            expandParties();
+            addParty(party);
+        } else {
+            parties[partiesCounter] = party;
+            partiesCounter++;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean existParty(Party party) {
+        for (int i = 0; i < parties.length; i++) {
+            if (parties[i] != null) {
+                if (parties[i].equals(party))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+
+
+/*    public void addCitizens(Citizen... newCitizens){
         // assign temp Citizen array -> first comes base array
         //                           -> second comes the new array
 
         Citizen[] temp = new Citizen[(newCitizens.length + this.citizens.length) * 2];
+        int k = this.citizens.length;
 
-        int k = temp.length - this.citizens.length;
+*//*        int k = temp.length - this.citizens.length;
         for(int i = 0; i < temp.length; i++){
             if(k > i)
                 temp[i] = new Citizen(this.citizens[i]);
             else
                 temp[i] = new Citizen(newCitizens[i-k]);
+        }*//*
+
+        for(int i = 0; i < this.citizens.length; i++){
+            temp[i] = new Citizen(this.citizens[i]);
         }
 
-//        for(int i = 0; i < this.citizens.length; i++){
-//            temp[i] = new Citizen(this.citizens[i]);
-//        }
-//
-//
-//        for(int i = 0; i < newCitizens.length; i++){
-//            k += i;
-//            temp[k] = new Citizen(newCitizens[i]);
-//        }
+        for(int i = 0; i < newCitizens.length; i++){
+            k += i;
+            temp[k] = new Citizen(newCitizens[i]);
+        }
 
         this.citizens = new Citizen[temp.length];
         for(int i = 0; i < temp.length; i++){
@@ -174,33 +256,28 @@ public abstract class BallotBox {
     }
 
     public void addParties(Party... newParties){
-        // assign tempParty array -> first comes base array
-        //                        -> second comes the new array
-        // assign tempVoteForParty -> first comes the base array
-        //
-
         Party[] tempParty = new Party[(newParties.length + this.parties.length) * 2];
         int[] tempVoteForParty = new int[tempParty.length];
 
-        int k = tempParty.length - this.parties.length;
-//        for(int i = 0; i < this.parties.length; i++){
-//            tempParty[i] = new Party(this.parties[i]);
-//            tempVoteForParty[i] = votesForParty[i];
-//        }
-
-
-//        for(int i = 0; i < newParties.length; i++){
-//            k += i;
-//            tempParty[k] = new Party(newParties[i]);
-//        }
-
-        for(int i = 0; i < tempParty.length; i++){
-            if(k > i){
-                tempParty[i] = new Party(this.parties[i]);
-                tempVoteForParty[i] = votesForParty[i];
-            }else
-                tempParty[i] = new Party(newParties[i - k]);
+        int k = this.parties.length;
+        for(int i = 0; i < this.parties.length; i++){
+            tempParty[i] = new Party(this.parties[i]);
+            tempVoteForParty[i] = votesForParty[i];
         }
+
+
+        for(int i = 0; i < newParties.length; i++){
+            k += i;
+            tempParty[k] = new Party(newParties[i]);
+        }
+
+//        for(int i = 0; i < tempParty.length; i++){
+//            if(k > i){
+//                tempParty[i] = new Party(this.parties[i]);
+//                tempVoteForParty[i] = votesForParty[i];
+//            }else
+//                tempParty[i] = new Party(newParties[i - k]);
+//        }
 
         this.parties = new Party[tempParty.length];
         this.votesForParty = new int[parties.length];
@@ -208,9 +285,9 @@ public abstract class BallotBox {
             parties[i] = tempParty[i];
             votesForParty[i] = tempVoteForParty[i];
         }
-    }
+    }*/
 
-    protected boolean isCitizenExists(Citizen newCitizen){
+/*    protected boolean isCitizenExists(Citizen newCitizen){
         boolean exists = false;
         for(Citizen citizen: citizens){
             if(citizen.equals(newCitizen))
@@ -220,19 +297,18 @@ public abstract class BallotBox {
     }
 
     private boolean isPartyExists(Party newParty){
-        boolean exists = false;
         for(Party party: parties){
             if(party.equals(newParty))
-                exists = true;
+                return true;
         }
-        return exists;
-    }
+        return false;
+    }*/
 
     protected void addVote(Party party){
         for(int i = 0; i < parties.length; i++){
             if(party.equals(parties[i])){
                 votesForParty[i]++;
-//                System.out.println("Vote has been added!\n#added to party number:" + i + "\n#added to votesForParty number" + i);
+                System.out.println("Vote has been added!\n#added to party number:" + i + "\n#added to votesForParty number" + i);
             }
         }
     }

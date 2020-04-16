@@ -23,15 +23,13 @@ public class Army extends BallotBox {
 
     /************ Set Functions ************/
     private boolean setYear(int year){
-        boolean done = false;
-
         if(year >= 0){
             this.year = year;
-            done = true;
+            return true;
         }else
             this.year = 2020;
 
-        return done;
+        return false;
     }
 
     /************** Functions **************/
@@ -47,4 +45,13 @@ public class Army extends BallotBox {
         return canVote;
     }
 
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("BallotBox #" + numGen + "\n");
+        sb.append("Address : " + address + "\n");
+        sb.append("Type : Army\n");
+        return sb.toString();
+    }
 }
