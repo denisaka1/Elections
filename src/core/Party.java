@@ -185,7 +185,7 @@ public class Party {
             expandCandidates();
             addCandidate(candidate, place);
         } else {
-            candidates[counterCandidates] = candidate;
+            candidates[counterCandidates] = new Citizen(candidate);
             candidatesPlaces[counterCandidates] = place;
             counterCandidates++;
             candidate.setInParty(this);

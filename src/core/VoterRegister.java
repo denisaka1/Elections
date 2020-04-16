@@ -22,17 +22,19 @@ public class VoterRegister {
     public int getIndexByCitizen(Citizen citizen) {
         int counter = 0;
         for (int i = 0; i < citizens.length; i++) {
-            if (citizens[i].equals(citizen)) {
-                return counter;
-            }
-            counter++;
+            if(citizen != null)
+                if (citizens[i].equals(citizen)) {
+//                    return counter;
+                    return i;
+                }
+//            counter++;
         }
         return -1;
     }
 
     public Citizen getCitizenById(String id) {
         for (int i = 0; i < citizens.length; i++) {
-            if (citizens[i] != null) {
+            if (citizens[i] != null && id != null) {
                 if (citizens[i].getID().equals(id))
                     return citizens[i];
             }
@@ -60,7 +62,7 @@ public class VoterRegister {
             expandCitizens();
             addCitizen(citizen);
         } else {
-            citizens[citizensCounter] = citizen;
+            citizens[citizensCounter] = new Citizen(citizen);
             citizensCounter++;
             return true;
         }
@@ -69,7 +71,7 @@ public class VoterRegister {
 
     private boolean existCitizen(Citizen citizen) {
         for (int i = 0; i < citizens.length; i++) {
-            if (citizens[i] != null) {
+            if (citizens[i] != null && citizen != null) {
                 if (citizens[i].equals(citizen)) {
                     return true;
                 }

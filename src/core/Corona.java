@@ -30,8 +30,7 @@ public class Corona extends BallotBox {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("BallotBox #" + numGen + "\n");
-        sb.append("Address : " + address + "\n");
+        sb.append(super.toString());
         sb.append("Type : Corona\n");
         return sb.toString();
     }

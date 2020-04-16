@@ -18,7 +18,7 @@ public class Army extends BallotBox {
     }
 
     public Army(Army army){
-        this(army.getAddress(), army.getTotalVotePerecentage(), army.getCitizens(), army.getParties(), army.getVotesForParty(), army.year);
+        this(army.getAddress(), army.getTotalVotePercentage(), army.getCitizens(), army.getParties(), army.getVotesForParty(), army.year);
     }
 
     /************ Set Functions ************/
@@ -49,8 +49,7 @@ public class Army extends BallotBox {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("BallotBox #" + numGen + "\n");
-        sb.append("Address : " + address + "\n");
+        sb.append(super.toString());
         sb.append("Type : Army\n");
         return sb.toString();
     }

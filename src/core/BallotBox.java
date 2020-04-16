@@ -68,7 +68,7 @@ public abstract class BallotBox {
             this.citizens = new Citizen[0];
             isSet = false;
         }else{
-            this.citizens = new Citizen[citizens.length * 2];
+            this.citizens = new Citizen[citizens.length];
             for (int i = 0; i < citizens.length; i++) {
                 this.citizens[i] = new Citizen(citizens[i]);
             }
@@ -82,7 +82,7 @@ public abstract class BallotBox {
             this.parties = new Party[0];
             isSet = false;
         }else{
-            this.parties = new Party[parties.length * 2];
+            this.parties = new Party[parties.length];
             for (int i = 0; i < parties.length; i++) {
                 this.parties[i] = new Party(parties[i]);
             }
@@ -96,7 +96,7 @@ public abstract class BallotBox {
             this.votesForParty = new int[0];
             isSet = false;
         }else{
-            this.votesForParty = new int[parties.length * 2];
+            this.votesForParty = new int[parties.length];
             for (int i = 0; i < parties.length; i++) {
                 this.votesForParty[i] = votesForParty[i];
             }
@@ -113,7 +113,7 @@ public abstract class BallotBox {
         return address;
     }
 
-    public int getTotalVotePerecentage() {
+    public int getTotalVotePercentage() {
         calculateTotalVotePercentage();
         return votePercentage;
     }
@@ -290,16 +290,18 @@ public abstract class BallotBox {
 /*    protected boolean isCitizenExists(Citizen newCitizen){
         boolean exists = false;
         for(Citizen citizen: citizens){
-            if(citizen.equals(newCitizen))
-                exists = true;
+            if(citizen != null && newCitizen != null)
+                if(citizen.equals(newCitizen))
+                    exists = true;
         }
         return exists;
     }
 
     private boolean isPartyExists(Party newParty){
         for(Party party: parties){
-            if(party.equals(newParty))
-                return true;
+            if(party != null && newParty != null)
+                if(party.equals(newParty))
+                    return true;
         }
         return false;
     }*/

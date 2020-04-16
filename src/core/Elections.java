@@ -45,7 +45,7 @@ public class Elections {
 
     public Party getPartiesByName(String name) {
         for (int i = 0; i < parties.length; i++) {
-            if (parties[i] != null) {
+            if (parties[i] != null && name != null) {
                 if (parties[i].getName().equals(name))
                     return parties[i];
             }
@@ -102,16 +102,23 @@ public class Elections {
             expandParties();
             addParty(party);
         } else {
-            parties[partiesCounter] = party;
+            parties[partiesCounter] = new Party(party);
+            updateBallotBoxes(parties[partiesCounter]);
             partiesCounter++;
             return true;
         }
         return false;
     }
 
+    private void updateBallotBoxes(Party party){
+        for(int i = 0; i < ballotBoxesCounter; i++){
+            ballotBoxes[i].addParty(party);
+        }
+    }
+
     private boolean existParty(Party party) {
         for (int i = 0; i < parties.length; i++) {
-            if (parties[i] != null) {
+            if (parties[i] != null && party != null) {
                 if (parties[i].equals(party)) {
                     return true;
                 } else if (parties[i].getName().equals(party.getName()))
@@ -129,27 +136,40 @@ public class Elections {
         this.ballotBoxes = temp;
     }
 
+    private BallotBox assignBallotBox (BallotBox ballotBox){
+
+        if(ballotBox instanceof Army)
+            return new Army((Army)ballotBox);
+        else if(ballotBox instanceof Corona)
+            return new Corona((Corona)ballotBox);
+        else if(ballotBox instanceof Regular)
+            return new Regular((Regular)ballotBox);
+
+        return null;
+    }
+
     public boolean addBallotBox(BallotBox ballotBox) {
         if (ballotBoxes.length == 0) {
             this.ballotBoxes = new BallotBox[1];
         }
-
-        if (existBallotBox(ballotBox)) {
-            return false;
-        } else if (ballotBoxesCounter >= ballotBoxes.length) {
-            expandBallotBoxes();
-            addBallotBox(ballotBox);
-        } else {
-            ballotBoxes[ballotBoxesCounter] = ballotBox;
-            ballotBoxesCounter++;
-            return true;
+        if(ballotBox != null){
+            if (existBallotBox(ballotBox)) {
+                return false;
+            } else if (ballotBoxesCounter >= ballotBoxes.length) {
+                expandBallotBoxes();
+                addBallotBox(ballotBox);
+            } else {
+                ballotBoxes[ballotBoxesCounter] = assignBallotBox(ballotBox);
+                ballotBoxesCounter++;
+                return true;
+            }
         }
         return false;
     }
 
     private boolean existBallotBox(BallotBox ballotBox) {
         for (int i = 0; i < ballotBoxes.length; i++) {
-            if (ballotBoxes[i] != null) {
+            if (ballotBoxes[i] != null && ballotBox != null) {
                 if (ballotBoxes[i].equals(ballotBox)) {
                     return true;
                 }
