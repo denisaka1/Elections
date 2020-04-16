@@ -10,11 +10,11 @@ public class Corona extends BallotBox {
     }
 
     public Corona(String address) {
-        super(address);
+        this(address, 0, new Citizen[0], new Party[0],new int[0]);
     }
 
     public Corona(Corona corona){
-        super(corona);
+        this(corona.getAddress(), corona.getVotePercentage(), corona.getCitizens(), corona.getParties(), corona.getVotesForParty());
     }
 
     @Override

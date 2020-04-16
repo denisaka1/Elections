@@ -19,12 +19,12 @@ public class ServicesManager {
         Party p3 = new Party("Meretz", "left", 1992, 1, 1);
 
         // Citizens
-        Citizen c1 = new Citizen("Barak", "000000001", 2002, false, null , null, false); // Army
-        Citizen c2 = new Citizen("Denis", "000000002", 1990, false, null , null, false);
-        Citizen c3 = new Citizen("Dana", "000000003", 1980, true, null , null, false); // Corona
-        Citizen c4 = new Citizen("Alon", "000000004", 1986, true, null , null, false); // Corona
-        Citizen c5 = new Citizen("Tal", "000000005", 1996, false, null , null, false);
-        Citizen c6 = new Citizen("Bar", "000000006", 1994, false, null , null, false);
+        Citizen c1 = new Citizen("Barak", "000000001", 2002, false, null, null, false); // Army
+        Citizen c2 = new Citizen("Denis", "000000002", 1990, false, null, null, false);
+        Citizen c3 = new Citizen("Dana", "000000003", 1980, true, null, null, false); // Corona
+        Citizen c4 = new Citizen("Alon", "000000004", 1986, true, null, null, false); // Corona
+        Citizen c5 = new Citizen("Tal", "000000005", 1996, false, null, null, false);
+        Citizen c6 = new Citizen("Bar", "000000006", 1994, false, null, null, false);
 
         // Add ballot boxes to elections
         election.addBallotBox(ballotBoxes[0]);
@@ -72,7 +72,6 @@ public class ServicesManager {
         election.addParty(p1);
         election.addParty(p2);
         election.addParty(p3);
-
     }
 
     public static void showMenu() {

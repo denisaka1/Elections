@@ -61,6 +61,14 @@ public class Elections {
             return ballotBoxes[0];
     }
 
+    public String getAllParties() {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < parties.length; i++) {
+            sb.append(parties[i].toString() + "\n");
+        }
+        return sb.toString();
+    }
+
     /************ Set Functions ************/
     public boolean setYear(int year) {
         if (year >= 2020) {
@@ -103,7 +111,7 @@ public class Elections {
             addParty(party);
         } else {
             parties[partiesCounter] = new Party(party);
-            parties[partiesCounter] = new Party(party);
+//            parties[partiesCounter] = party;
             updateBallotBoxes(parties[partiesCounter]);
             partiesCounter++;
             return true;
@@ -184,14 +192,6 @@ public class Elections {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < ballotBoxes.length; i++) {
             sb.append(ballotBoxes[i].toString() + "\n");
-        }
-        return sb.toString();
-    }
-
-    public String getAllParties() {
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < parties.length; i++) {
-            sb.append(parties[i].toString() + "\n");
         }
         return sb.toString();
     }

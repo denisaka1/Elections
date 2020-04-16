@@ -10,11 +10,11 @@ public class Regular extends BallotBox {
     }
 
     public Regular(String address) {
-        super(address); // TODO: fix
+        this(address, 0, new Citizen[0], new Party[0],new int[0]);
     }
 
     public Regular(Regular regular){
-        super(regular); // TODO: fix
+        this(regular.getAddress(), regular.getVotePercentage(), regular.getCitizens(), regular.getParties(), regular.getVotesForParty());
     }
 
     @Override

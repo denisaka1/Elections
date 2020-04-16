@@ -173,11 +173,16 @@ public abstract class BallotBox {
             return false;
         } else {
             citizens[citizenCounter] = citizen;
+            citizen.setBallotBox(this);
             citizenCounter++;
             return true;
         }
         return false;
     }
+
+//    private void updateCitizen(Citizen citizen) {
+//        citizen.setBallotBox(this);
+//    }
 
     protected boolean isCitizenExists(Citizen citizen) {
         for (int i = 0; i < citizens.length; i++) {
@@ -208,11 +213,11 @@ public abstract class BallotBox {
             this.votesForParty = new int[1];
         }
 
-        if (existParty(party)) {
-            return false;
-        } else if (partiesCounter >= parties.length) {
+        if (partiesCounter >= parties.length) {
             expandParties();
             addParty(party);
+        } else if (existParty(party)) {
+            return false;
         } else {
             parties[partiesCounter] = party;
             partiesCounter++;
@@ -230,8 +235,6 @@ public abstract class BallotBox {
         }
         return false;
     }
-
-
 
 /*    public void addCitizens(Citizen... newCitizens){
         // assign temp Citizen array -> first comes base array

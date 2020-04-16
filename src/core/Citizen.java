@@ -124,7 +124,7 @@ public class Citizen {
         return isolation;
     }
 
-    private boolean setBallotBox(BallotBox ballotBox) {
+    public boolean setBallotBox(BallotBox ballotBox) {
         // if you can set the BallotBox at least to one of its successor
         // return true
 

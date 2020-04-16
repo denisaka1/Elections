@@ -22,12 +22,11 @@ public class VoterRegister {
     public int getIndexByCitizen(Citizen citizen) {
         int counter = 0;
         for (int i = 0; i < citizens.length; i++) {
-            if(citizen != null)
+            if(citizen != null) {
                 if (citizens[i].equals(citizen)) {
-//                    return counter;
                     return i;
                 }
-//            counter++;
+            }
         }
         return -1;
     }
