@@ -3,3 +3,7 @@ Barak Moskovich - 315836916
 Denis Karabitski - 
 
 TODO: ServicesManager - showResults (each BallotBox & Total)
+      BallotBox - addParties (votesForParty should update with it)
+                  addCitizens
+      Elections - addBallotBox (add all Parties to each ballotBox)
+                  addParty ( assign to each ballotBox the party)
