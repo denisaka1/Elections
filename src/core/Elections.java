@@ -30,6 +30,8 @@ public class Elections {
 
     public Elections() {
         this (new Party[0], new BallotBox[0],1, 2020); // Default
+        this.partiesCounter = 0;
+        this.ballotBoxesCounter = 0;
     }
 
     /************ Get Functions ************/
@@ -86,6 +88,7 @@ public class Elections {
             partiesCounter = parties.length;
             return true;
         }
+        this.parties = new Party[0];
         partiesCounter = 0;
         return false;
     }
@@ -99,6 +102,7 @@ public class Elections {
             ballotBoxesCounter = ballotBoxes.length;
             return true;
         }
+        this.ballotBoxes = new BallotBox[0];
         ballotBoxesCounter = 0;
         return false;
     }
@@ -198,17 +202,19 @@ public class Elections {
     }
 
     public boolean addBallotBox(BallotBox ballotBox) {
-        if (ballotBoxes.length == 0) {
+        if (this.ballotBoxes == null && (ballotBox == null || ballotBoxes.length == 0) ){
             this.ballotBoxes = new BallotBox[1];
+            this.ballotBoxes[0] = returnBallotBox(ballotBox);
         }
-        if (ballotBox != null) {
+        else {
             if (existBallotBox(ballotBox)) {
                 return false;
             } else if (ballotBoxesCounter >= ballotBoxes.length) {
                 expandBallotBoxes();
                 addBallotBox(ballotBox);
             } else {
-                ballotBoxes[ballotBoxesCounter] = assignBallotBox(ballotBox);
+//                ballotBoxes[ballotBoxesCounter] = assignBallotBox(ballotBox);
+                ballotBoxes[ballotBoxesCounter] = returnBallotBox(ballotBox);
                 ballotBoxesCounter++;
                 return true;
             }

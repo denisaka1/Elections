@@ -11,6 +11,7 @@ public class Party {
         month: 1
         year: 2020
         candidates: new Citizen[0]
+        candidatesPlaces.length: 0
         counterCandidates: 0
     */
 
@@ -46,6 +47,7 @@ public class Party {
 //        this(party.name, party.section, party.year, party.month, party.day, party.candidates, 0);
         this(party.name, party.section, party.year, party.month, party.day, party.candidates);
         this.counterCandidates = party.counterCandidates;
+        this.candidatesPlaces = new int[0];
     }
 
     /************ Get Functions ************/
@@ -169,10 +171,12 @@ public class Party {
                 this.candidates[i] = new Citizen(candidates[i]);
             }
             counterCandidates = candidates.length;
+            this.candidatesPlaces = new int[candidates.length];
             return true;
-        } else
-            this.candidates = new Citizen[0];
+        }
+        this.candidates = new Citizen[0];
         counterCandidates = 0;
+        this.candidatesPlaces = new int[0];
         return false;
     }
 /*
