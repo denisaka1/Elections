@@ -1,6 +1,14 @@
 package core;
 
+import java.util.Arrays;
+
 public class Elections {
+    /* Defaults:
+       parties.length: 0
+       ballotBoxes.length: 0
+       month: 1
+       year: 2020
+   */
     private Party[] parties;
     private BallotBox[] ballotBoxes;
     private int partiesCounter;
@@ -10,12 +18,10 @@ public class Elections {
 
     /************ Constructor ************/
     public Elections(Party[] parties, BallotBox[] ballotBoxes, int month, int year) {
-        this.parties = parties;
-        this.ballotBoxes = ballotBoxes;
-        this.month = month;
-        this.year = year;
-        this.partiesCounter = 0;
-        this.ballotBoxesCounter = 0;
+        setParties(parties);
+        setBallotBoxes(ballotBoxes);
+        setMonth(month);
+        setYear(year);
     }
 
     public Elections(int month, int year) {
@@ -72,7 +78,32 @@ public class Elections {
     }
 
     /************ Set Functions ************/
-    public boolean setYear(int year) {
+    private boolean setParties(Party[] parties){
+        if(parties != null && parties.length != 0){
+            for(int i = 0; i < parties.length; i++){
+                this.parties[i] = new Party(parties[i]);
+            }
+            partiesCounter = parties.length;
+            return true;
+        }
+        partiesCounter = 0;
+        return false;
+    }
+
+    private boolean setBallotBoxes(BallotBox[] ballotBoxes){
+        if(ballotBoxes != null && ballotBoxes.length != 0){
+            ballotBoxes = new BallotBox[ballotBoxes.length];
+            for(int i = 0; i < ballotBoxes.length; i++){
+                this.ballotBoxes[i] = returnBallotBox(ballotBoxes[i]);
+            }
+            ballotBoxesCounter = ballotBoxes.length;
+            return true;
+        }
+        ballotBoxesCounter = 0;
+        return false;
+    }
+
+    private boolean setYear(int year) {
         if (year >= 2020) {
             this.year = year;
             return true;
@@ -82,7 +113,7 @@ public class Elections {
         }
     }
 
-    public boolean setMonth(int month) {
+    private boolean setMonth(int month) {
         if (month >= 1 && month <= 12) {
             this.month = month;
             return true;
@@ -92,7 +123,20 @@ public class Elections {
         }
     }
 
+
+
     /************** Functions **************/
+    private BallotBox returnBallotBox(BallotBox ballotBox){
+        if(ballotBox instanceof Army)
+            return new Army((Army)ballotBox);
+        else if(ballotBox instanceof Corona)
+            return new Corona((Corona)ballotBox);
+        else if(ballotBox instanceof Regular)
+            return new Regular((Regular)ballotBox);
+        else
+            return null;
+    }
+
     private void expandParties() {
         Party[] temp = new Party[parties.length * 2];
         for (int i = 0; i < parties.length; i++) {
@@ -191,6 +235,7 @@ public class Elections {
         return sb.toString();
     }
 
+    /*
     @Override
     public boolean equals(Object obj) {
         Elections elections = (Elections) obj;
@@ -199,6 +244,61 @@ public class Elections {
             return true;
         return false;
     }
+     */
+
+    public boolean equals(Elections other){
+        if( other == null) return false;
+
+        return  partiesCounter == other.partiesCounter &&
+                ballotBoxesCounter == other.ballotBoxesCounter &&
+                Arrays.equals(parties, other.parties) &&
+                Arrays.equals(ballotBoxes, other.ballotBoxes) &&
+                month == other.month &&
+                year == other.year;
+    }
+
+/*
+    private boolean isSameParties(Party[] other){
+        boolean isSame = true;
+        for(int i = 0; i < partiesCounter; i++){
+            if(isSame && ( parties[i] != null || other[i] != null ) && parties[i].equals(other[i]))
+                isSame = false;
+        }
+        return isSame;
+    }
+
+    private boolean isSameBallotBoxes(BallotBox[] other){
+        boolean isSame = true;
+        for(int i = 0; i < ballotBoxesCounter; i++){
+            if(isSame && ( ballotBoxes[i] != null || other[i] != null ) && ballotBoxes[i].equals(other[i]))
+                isSame = false;
+        }
+        return isSame;
+    }
+
+
+    public boolean equals(Elections other){
+        if(other != null){
+            boolean isSameParties = false;
+            boolean isSameBallotBoxes = false;
+            boolean isSameDate = year == other.year && month == other.month;
+
+            if(partiesCounter == other.partiesCounter)
+                isSameParties = isSameParties(other.parties);
+            if(ballotBoxesCounter == other.ballotBoxesCounter)
+                isSameBallotBoxes = isSameBallotBoxes(other.ballotBoxes);
+
+            if(isSameParties && isSameBallotBoxes && isSameDate)
+                return true;
+
+        }
+        return false;
+    }
+ */
+
+    // Party[] parties, BallotBox[] ballotBoxes, int month, int year
+    //    private int partiesCounter;
+    //    private int ballotBoxesCounter;
 
     @Override
     public String toString() {

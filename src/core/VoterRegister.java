@@ -1,17 +1,35 @@
 package core;
 
+import java.util.Arrays;
+
 public class VoterRegister {
+    /* Defaults:
+       citizens.length: 0
+       citizensCounter: 0
+   */
     private Citizen[] citizens;
     private int citizensCounter;
 
     /************ Constructor ************/
     public VoterRegister(Citizen[] citizens) {
-        this.citizens = citizens;
-        this.citizensCounter = 0;
+        setCitizens(citizens);
     }
 
     public VoterRegister() {
         this(new Citizen[0]);
+    }
+
+    /************ Set Functions ************/
+    private boolean setCitizens(Citizen[] citizens){
+        if(citizens != null && citizens.length != 0){
+            for(int i = 0; i < citizens.length; i++){
+                this.citizens[i] = new Citizen(citizens[i]);
+            }
+            citizensCounter = citizens.length;
+            return true;
+        }
+        citizensCounter = 0;
+        return false;
     }
 
     /************ Get Functions ************/
@@ -20,7 +38,6 @@ public class VoterRegister {
     }
 
     public int getIndexByCitizen(Citizen citizen) {
-        int counter = 0;
         for (int i = 0; i < citizens.length; i++) {
             if(citizen != null) {
                 if (citizens[i].equals(citizen)) {
@@ -79,12 +96,19 @@ public class VoterRegister {
         return false;
     }
 
-    @Override
+/*    @Override
     public boolean equals(Object obj) {
         VoterRegister voterRegister = (VoterRegister) obj;
         if (!voterRegister.getCitizens().equals(voterRegister))
             return false;
         return true;
+    }
+ */
+
+    public boolean equals(VoterRegister other){
+        if(other == null) return false;
+        return  citizensCounter == other.citizensCounter &&
+                Arrays.equals(citizens, other.citizens);
     }
 
     @Override

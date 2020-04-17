@@ -6,6 +6,7 @@ TODO: Unit 1:
       Vote check (show random parties number -> BUGS)
       Elections - addBallotBox (add all Parties to each ballotBox)
                   addParty ( assign to each ballotBox the party)
+                  *** check *** ! (if election constructor works)!!!!
       Full sync between the functions
       Convert all Add functions to ... parameter
 
@@ -15,3 +16,33 @@ TODO: Unit 2:
       ID check
       VoterRegister Citizen above age 18
       Interface to user
+
+
+v1.4
+added:
+       BallotBox -> getPartiesNumber
+                 -> getCitizensNumber
+
+       Elections -> setters in the constructor
+
+       VoterRegister -> setter
+
+fixed:
+       BallotBox -> equals
+
+       Regular   -> equals
+
+       Army      -> equals
+
+       Corona    -> equals
+
+       Citizen   -> equals
+
+       Party     -> equals
+                 -> setCandidates
+                 -> erased counterCandidates from base constructor
+
+       Elections -> equals
+
+       VoterRegister -> equals
+

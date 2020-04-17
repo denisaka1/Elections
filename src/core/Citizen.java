@@ -1,5 +1,6 @@
 package core;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Citizen {
@@ -32,7 +33,7 @@ public class Citizen {
     }
 
     public Citizen(Citizen citizen) {
-        this(citizen.getName(), citizen.getID(), citizen.getBirthYear(), citizen.isIsolation(), citizen.getBallotBox(), citizen.getParty(), citizen.getVoted());
+        this(citizen.name, citizen.id, citizen.birthYear, citizen.isolation, citizen.ballotBox, citizen.party, citizen.voted);
     }
 
     public Citizen(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox) {
@@ -157,19 +158,36 @@ public class Citizen {
             setVoted(true);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Citizen citizen = (Citizen) o;
-        return birthYear == citizen.birthYear &&
-                isolation == citizen.isolation &&
-                voted == citizen.voted &&
-                Objects.equals(name, citizen.name) &&
-                Objects.equals(id, citizen.id) &&
-                Objects.equals(ballotBox, citizen.ballotBox) &&
-                Objects.equals(party, citizen.party);
+
+    public boolean equals(Citizen other) {
+        if(other == null && this == null) return true;
+        else
+            return birthYear == other.birthYear &&
+                isolation == other.isolation &&
+                voted == other.voted &&
+                name.equals(other.name) &&
+                id.equals(other.id) &&
+                    ( ballotBox.equals(other.ballotBox) || (ballotBox == null && other.ballotBox == null) )&&
+                    ( party.equals(other.party) || (party == null && other.party == null) );
     }
+
+/*    public boolean equals(Citizen other){
+        if(other != null){
+            boolean isSameName = name.equals(other.name);
+            boolean isSameId = id.equals(other.id);
+            boolean isSameBirthYear = birthYear == other.birthYear;
+            boolean isSameBallotBox = ballotBox.equals(other.ballotBox);
+            boolean isSameParty = party.equals(other.party);
+            boolean isSameVoted = voted == other.voted;
+
+            if(isSameName && isSameId && isSameBirthYear && isSameBallotBox && isSameParty && isSameVoted )
+                return true;
+        }
+        return false;
+    }
+ */
+
+    // String name, String id, int birthYear, boolean isolation, BallotBox ballotBox, Party party, boolean voted
 
     @Override
     public String toString() {

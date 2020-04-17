@@ -11,14 +11,14 @@ public abstract class BallotBox {
        parties.length: 0
        votesForParty.length: 0
    */
-    protected static int numGen; // auto generated
+    private static int numGen; // auto generated
     private String address;
     private int votePercentage; // total of legal citizens that can vote to a specific ballot box
     private Citizen[] citizens; // list of all citizens that can vote to this specific ballotBox
     private Party[] parties;
     private int[] votesForParty;
-    private int citizenCounter;
-    private int partiesCounter;
+    protected int citizenCounter;
+    protected int partiesCounter;
 
     /************ Constructor ************/
     public BallotBox(String address, int votePercentage, Citizen[] citizens, Party[] parties, int[] votesForParty) {
@@ -36,6 +36,8 @@ public abstract class BallotBox {
 
     public BallotBox(BallotBox ballotBox){
         this(ballotBox.address, ballotBox.votePercentage, ballotBox.citizens, ballotBox.parties, ballotBox.votesForParty);
+        this.citizenCounter = ballotBox.citizenCounter;
+        this.partiesCounter = ballotBox.partiesCounter;
     }
 
     /************ Set Functions ************/
@@ -122,6 +124,14 @@ public abstract class BallotBox {
 
     public int[] getVotesForParty() {
         return votesForParty;
+    }
+
+    public int getNumberOfCitizens(){
+        return citizenCounter;
+    }
+
+    public int getNumberOfParties(){
+        return partiesCounter;
     }
 
     /************** Functions **************/
@@ -293,17 +303,72 @@ public abstract class BallotBox {
 
     abstract public boolean canVote(Citizen citizen);
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BallotBox ballotBox = (BallotBox) o;
-        return votePercentage == ballotBox.votePercentage &&
-                Objects.equals(address, ballotBox.address) &&
-                Arrays.equals(citizens, ballotBox.citizens) &&
-                Arrays.equals(parties, ballotBox.parties) &&
-                Arrays.equals(votesForParty, ballotBox.votesForParty);
+    public boolean equals(BallotBox other) {
+        if(other == null && this == null) return true;
+        else
+            return votePercentage == other.votePercentage &&
+                    address.equals(other.address) &&
+                    Arrays.equals(citizens, other.citizens) &&
+                    Arrays.equals(parties, other.parties) &&
+                    Arrays.equals(votesForParty, other.votesForParty);
     }
+
+
+/*    private boolean isSameCitizens(Citizen[] other){
+        boolean isSame = true;
+        for(int i = 0; i < citizenCounter; i++){
+            if(isSame && ( citizens[i] == null || other[i] == null ) && !citizens[i].equals(other[i]) )
+                isSame = false;
+        }
+        return isSame;
+    }
+
+    private boolean isSamePartiesAndVoteForParty(Party[] otherParties, int[] otherVotes){
+        boolean isSame = true;
+        for(int i = 0; i < partiesCounter; i++){
+            if(isSame && ( parties[i] == null || otherParties[i] == null ) && !parties[i].equals(otherParties[i]) &&
+                votesForParty[i] != otherVotes[i])
+                isSame = false;
+        }
+        return isSame;
+    }
+
+    /*
+    // use only if the function isSamePartiesAndVoteForParty doesn't work for votes
+    private boolean isSameVoteForParties(int[] other){
+        boolean isSame = true;
+        for(int i = 0; i < partiesCounter; i++){
+            if(isSame && votesForParty[i] != other[i])
+                isSame = false;
+        }
+        return isSame;
+    }
+
+
+    public boolean equals(BallotBox other){
+        if(other != null){
+            boolean isSameAddress = address.equals(other.address);
+            boolean isSameVotePercentage = votePercentage == other.votePercentage;
+
+            boolean isSameCitizenCounter = citizenCounter == other.citizenCounter;
+            boolean isSameCitizens = false;
+            if(isSameCitizenCounter)
+                isSameCitizens = isSameCitizens(other.citizens);
+
+            boolean isSamePartyCounter = partiesCounter == other.partiesCounter;
+            boolean isSamePartiesAndVotes = false;
+            if(isSamePartyCounter)
+                isSamePartiesAndVotes = isSamePartiesAndVoteForParty(other.parties, other.votesForParty);
+
+            if(isSameAddress && isSameVotePercentage && isSameCitizens && isSamePartiesAndVotes)
+                return true;
+        }
+
+        return false;
+
+    }*/
+
+    // String address, int votePercentage, Citizen[] citizens, Party[] parties, int[] votesForParty
 
     @Override
     public String toString() {
