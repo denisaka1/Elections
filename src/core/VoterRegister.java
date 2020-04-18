@@ -28,6 +28,7 @@ public class VoterRegister {
             citizensCounter = citizens.length;
             return true;
         }
+        this.citizens = new Citizen[0];
         citizensCounter = 0;
         return false;
     }
@@ -83,6 +84,23 @@ public class VoterRegister {
             return true;
         }
         return false;
+    }
+
+    public void addCitizens(Citizen... newCitizens){
+        int k = newCitizens.length + this.citizens.length;
+        Citizen[] temp = new Citizen[k * 2];
+
+        for(int i = 0; i < k; i++){
+            if(this.citizens.length > i)
+                temp[i] = this.citizens[i];
+            else{
+                if(newCitizens[i - this.citizens.length] != null && !existCitizen(newCitizens[i - this.citizens.length])){
+                    temp[i] = new Citizen(newCitizens[i - this.citizens.length]);
+                    citizensCounter++;
+                }
+            }
+        }
+        this.citizens = temp;
     }
 
     private boolean existCitizen(Citizen citizen) {

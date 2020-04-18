@@ -46,3 +46,15 @@ fixed:
 
        VoterRegister -> equals
 
+v1.5
+added:
+       Elections -> addParties
+                 -> AddBallotBoxes
+
+       VoterRegister -> addCitizens
+
+fixed:
+       ServiceManager -> addParties
+                      -> addBallotBoxes
+
+

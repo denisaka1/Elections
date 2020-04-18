@@ -27,17 +27,19 @@ public class ServicesManager {
         Citizen c6 = new Citizen("Bar", "000000006", 1994, true, null, null, false);
 
         // Add ballot boxes to elections
-        election.addBallotBox(ballotBoxes[0]);
-        election.addBallotBox(ballotBoxes[1]);
-        election.addBallotBox(ballotBoxes[2]);
+//        election.addBallotBox(ballotBoxes[0]);
+//        election.addBallotBox(ballotBoxes[1]);
+//        election.addBallotBox(ballotBoxes[2]);
+        election.addBallotBoxes(ballotBoxes[0], ballotBoxes[1], ballotBoxes[2]);
 
         // Add citizen to VoterRegister
-        vr.addCitizen(c1);
-        vr.addCitizen(c2);
-        vr.addCitizen(c3);
-        vr.addCitizen(c4);
-        vr.addCitizen(c5);
-        vr.addCitizen(c6);
+//        vr.addCitizen(c1);
+//        vr.addCitizen(c2);
+//        vr.addCitizen(c3);
+//        vr.addCitizen(c4);
+//        vr.addCitizen(c5);
+//        vr.addCitizen(c6);
+        vr.addCitizens(c1, c2, c3, c4, c5, c6);
 
         Citizen[] citizens = vr.getCitizens();
 
@@ -60,9 +62,10 @@ public class ServicesManager {
         p3.addCandidate(c6, 1);
 
         // Add parties to elections
-        election.addParty(p1);
-        election.addParty(p2);
-        election.addParty(p3);
+//        election.addParty(p1);
+//        election.addParty(p2);
+//        election.addParty(p3);
+        election.addParties(p1, p2, p3);
     }
 
     public static void showMenu() {

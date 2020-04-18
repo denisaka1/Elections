@@ -240,7 +240,7 @@ public abstract class BallotBox {
             if (this.citizens.length > i)
                 temp[i] = this.citizens[i];
             else {
-                if (newCitizens[i - this.citizens.length] != null) {
+                if (newCitizens[i - this.citizens.length] != null && !isCitizenExists(newCitizens[i - this.citizens.length])) {
                     temp[i] = newCitizens[i - this.citizens.length];
                     citizenCounter++;
                     temp[i].setBallotBox(this);
@@ -262,7 +262,7 @@ public abstract class BallotBox {
                 tempParty[i] = this.parties[i];
                 tempVoteForParty[i] = this.votesForParty[i];
             } else {
-                if (newParties[i - this.parties.length] != null) {
+                if (newParties[i - this.parties.length] != null && !isPartyExists(newParties[i - this.parties.length])) {
                     tempParty[i] = newParties[i - this.parties.length];
                     partiesCounter++;
                 }

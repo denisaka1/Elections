@@ -201,6 +201,13 @@ public class Elections {
         return null;
     }
 
+    private void updateParties(Party party){
+        for(int i = 0; i < this.ballotBoxes.length; i++){
+            if(ballotBoxes[i] != null)
+                ballotBoxes[i].addParties(party);
+        }
+    }
+
     public boolean addBallotBox(BallotBox ballotBox) {
         if (this.ballotBoxes == null && (ballotBox == null || ballotBoxes.length == 0) ){
             this.ballotBoxes = new BallotBox[1];
@@ -220,6 +227,41 @@ public class Elections {
             }
         }
         return false;
+    }
+
+    public void addBallotBoxes(BallotBox... newBallotBoxes){
+        int k = newBallotBoxes.length + this.ballotBoxes.length;
+        BallotBox[] temp = new BallotBox[k * 2];
+
+        for(int i = 0; i < k; i++){
+            if(this.ballotBoxes.length > i)
+                temp[i] = this.ballotBoxes[i];
+            else{
+                if(newBallotBoxes[i - this.ballotBoxes.length] != null && !existBallotBox(newBallotBoxes[i - this.ballotBoxes.length])){
+                    temp[i] = returnBallotBox(newBallotBoxes[i - this.ballotBoxes.length]);
+                    ballotBoxesCounter++;
+                }
+            }
+        }
+        this.ballotBoxes = temp;
+    }
+
+    public void addParties(Party... newParties){
+        int k = newParties.length + this.parties.length;
+        Party[] temp = new Party[k * 2];
+
+        for(int i = 0; i < k; i++){
+            if(this.parties.length > i)
+                temp[i] = this.parties[i];
+            else{
+                if(newParties[i - this.parties.length] != null && !existParty(newParties[i - this.parties.length])){
+                    temp[i] = new Party(newParties[i - this.parties.length]);
+                    updateParties(temp[i]);
+                    partiesCounter++;
+                }
+            }
+        }
+        this.parties = temp;
     }
 
     private boolean existBallotBox(BallotBox ballotBox) {
