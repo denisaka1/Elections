@@ -166,9 +166,9 @@ public class Citizen {
                 isolation == other.isolation &&
                 voted == other.voted &&
                 name.equals(other.name) &&
-                id.equals(other.id) &&
-                    ( ballotBox.equals(other.ballotBox) || (ballotBox == null && other.ballotBox == null) )&&
-                    ( party.equals(other.party) || (party == null && other.party == null) );
+                id.equals(other.id);
+//                    && ( ballotBox.equals(other.ballotBox) || (ballotBox == null && other.ballotBox == null) )&&
+//                    ( party.equals(other.party) || (party == null && other.party == null) );
     }
 
 /*    public boolean equals(Citizen other){

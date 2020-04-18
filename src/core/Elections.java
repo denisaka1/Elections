@@ -56,6 +56,7 @@ public class Elections {
             if (parties[i] != null && name != null) {
                 if (parties[i].getName().equals(name))
                     return parties[i];
+                    return parties[i];
             }
         }
         return null;
@@ -97,7 +98,7 @@ public class Elections {
         if(ballotBoxes != null && ballotBoxes.length != 0){
             ballotBoxes = new BallotBox[ballotBoxes.length];
             for(int i = 0; i < ballotBoxes.length; i++){
-                this.ballotBoxes[i] = returnBallotBox(ballotBoxes[i]);
+                this.ballotBoxes[i] = assignBallotBox(ballotBoxes[i]);
             }
             ballotBoxesCounter = ballotBoxes.length;
             return true;
@@ -127,18 +128,13 @@ public class Elections {
         }
     }
 
-
-
     /************** Functions **************/
-    private BallotBox returnBallotBox(BallotBox ballotBox){
-        if(ballotBox instanceof Army)
-            return new Army((Army)ballotBox);
-        else if(ballotBox instanceof Corona)
-            return new Corona((Corona)ballotBox);
-        else if(ballotBox instanceof Regular)
-            return new Regular((Regular)ballotBox);
-        else
-            return null;
+    public void addCitizenToBallotBoxes(Citizen citizen) {
+        for (int i = 0; i < ballotBoxes.length; i++) {
+            if (ballotBoxes[i] != null) {
+                ballotBoxes[i].addCitizens(citizen);
+            }
+        }
     }
 
     private void expandParties() {
@@ -154,11 +150,11 @@ public class Elections {
             this.parties = new Party[1];
         }
 
-        if (existParty(party)) {
-            return false;
-        } else if (partiesCounter >= parties.length) {
+        if (partiesCounter >= parties.length) {
             expandParties();
             addParty(party);
+        } else if (existParty(party)) {
+            return false;
         } else {
             parties[partiesCounter] = new Party(party);
             updateBallotBoxes(parties[partiesCounter]);
@@ -209,19 +205,17 @@ public class Elections {
     }
 
     public boolean addBallotBox(BallotBox ballotBox) {
-        if (this.ballotBoxes == null && (ballotBox == null || ballotBoxes.length == 0) ){
+        if (this.ballotBoxes == null || ballotBoxes.length == 0 ){
             this.ballotBoxes = new BallotBox[1];
-            this.ballotBoxes[0] = returnBallotBox(ballotBox);
-        }
-        else {
-            if (existBallotBox(ballotBox)) {
-                return false;
-            } else if (ballotBoxesCounter >= ballotBoxes.length) {
+            this.ballotBoxes[0] = assignBallotBox(ballotBox);
+        } else {
+            if (ballotBoxesCounter >= ballotBoxes.length) {
                 expandBallotBoxes();
                 addBallotBox(ballotBox);
+            } else if (existBallotBox(ballotBox)) {
+                return false;
             } else {
-//                ballotBoxes[ballotBoxesCounter] = assignBallotBox(ballotBox);
-                ballotBoxes[ballotBoxesCounter] = returnBallotBox(ballotBox);
+                ballotBoxes[ballotBoxesCounter] = assignBallotBox(ballotBox);
                 ballotBoxesCounter++;
                 return true;
             }
@@ -238,7 +232,7 @@ public class Elections {
                 temp[i] = this.ballotBoxes[i];
             else{
                 if(newBallotBoxes[i - this.ballotBoxes.length] != null && !existBallotBox(newBallotBoxes[i - this.ballotBoxes.length])){
-                    temp[i] = returnBallotBox(newBallotBoxes[i - this.ballotBoxes.length]);
+                    temp[i] = assignBallotBox(newBallotBoxes[i - this.ballotBoxes.length]);
                     ballotBoxesCounter++;
                 }
             }
@@ -278,7 +272,9 @@ public class Elections {
     public String getAllBallotBoxes() {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < ballotBoxes.length; i++) {
-            sb.append(ballotBoxes[i].toString() + "\n");
+            if (ballotBoxes[i] != null)
+                sb.append(ballotBoxes[i].toString() + "\n");
+                sb.append(ballotBoxes[i].toString() + "\n");
         }
         return sb.toString();
     }

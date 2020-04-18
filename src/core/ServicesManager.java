@@ -19,12 +19,12 @@ public class ServicesManager {
         Party p3 = new Party("Meretz", "left", 1992, 1, 1);
 
         // Citizens
-        Citizen c1 = new Citizen("Barak", "000000001", 2002, false, null, null, false); // Army
-        Citizen c2 = new Citizen("Denis", "000000002", 1990, false, null, null, false);
-        Citizen c3 = new Citizen("Dana", "000000003", 2002, false, null, null, false); // Corona
-        Citizen c4 = new Citizen("Alon", "000000004", 1986, false, null, null, false); // Corona
-        Citizen c5 = new Citizen("Tal", "000000005", 1996, true, null, null, false);
-        Citizen c6 = new Citizen("Bar", "000000006", 1994, true, null, null, false);
+        Citizen c1 = new Citizen("Barak", "000000001", 2002, false, null, null, false); // Regular
+        Citizen c2 = new Citizen("Denis", "000000002", 1990, false, null, null, false); // Regular
+        Citizen c3 = new Citizen("Dana", "000000003", 2002, false, null, null, false); // Army
+        Citizen c4 = new Citizen("Alon", "000000004", 2001, false, null, null, false); // Army
+        Citizen c5 = new Citizen("Tal", "000000005", 1986, true, null, null, false); // Corona
+        Citizen c6 = new Citizen("Bar", "000000006", 1994, true, null, null, false); // Corona
 
         // Add ballot boxes to elections
 //        election.addBallotBox(ballotBoxes[0]);
@@ -55,7 +55,7 @@ public class ServicesManager {
 
         // Add candidates to parties
         p1.addCandidate(c1, 1);
-        p1.addCandidate(c2, 4);
+        p1.addCandidate(c2, 2);
         p2.addCandidate(c3, 2);
         p2.addCandidate(c4, 2);
         p3.addCandidate(c5, 2);
@@ -89,6 +89,9 @@ public class ServicesManager {
 
     public static void addCitizen(Citizen citizen) {
         vr.addCitizen(citizen);
+        Citizen refToCitizen = vr.getCitizenById(citizen.getID());
+        election.addCitizenToBallotBoxes(refToCitizen);
+
     }
 
     public static BallotBox getPartyByNumber(int number) {

@@ -12,6 +12,7 @@ public abstract class BallotBox {
        votesForParty.length: 0
    */
     private static int numGen; // auto generated
+    private int id;
     private String address;
     private int votePercentage; // total of legal citizens that can vote to a specific ballot box
     private Citizen[] citizens; // list of all citizens that can vote to this specific ballotBox
@@ -27,6 +28,7 @@ public abstract class BallotBox {
         setCitizens(citizens);
         setParties(parties);
         setVotesForParty(votesForParty);
+        this.id = numGen;
         numGen++;
     }
 
@@ -257,7 +259,29 @@ public abstract class BallotBox {
         Party[] tempParty = new Party[k * 2];
         int[] tempVoteForParty = new int[k * 2];
 
+        int newPartiesCounter = 0;
         for (int i = 0; i < k; i++) {
+            if (this.parties.length > i) {
+                if (this.parties[i] != null) {
+                    tempParty[i] = this.parties[i];
+                    tempVoteForParty[i] = this.votesForParty[i];
+                } else {
+                    if (newPartiesCounter < newParties.length) {
+                        tempParty[i] = newParties[newPartiesCounter];
+                        partiesCounter++;
+                        newPartiesCounter++;
+                    }
+                }
+            } else {
+                if (newPartiesCounter < newParties.length) {
+                    tempParty[i] = newParties[newPartiesCounter];
+                    partiesCounter++;
+                    newPartiesCounter++;
+                }
+            }
+        }
+
+/*        for (int i = 0; i < k; i++) {
             if (this.parties.length > i) {
                 tempParty[i] = this.parties[i];
                 tempVoteForParty[i] = this.votesForParty[i];
@@ -267,34 +291,40 @@ public abstract class BallotBox {
                     partiesCounter++;
                 }
             }
-        }
+        }*/
 
         this.parties = tempParty;
         this.votesForParty = tempVoteForParty;
     }
 
-    protected boolean isCitizenExists(Citizen newCitizen){
+    private void sortParties() {
+        for (int i = 0; i < this.parties.length; i++) {
+
+        }
+    }
+
+    protected boolean isCitizenExists(Citizen newCitizen) {
         boolean exists = false;
-        for(Citizen citizen: citizens){
-            if(citizen != null && newCitizen != null)
-                if(citizen.equals(newCitizen))
+        for (Citizen citizen: citizens) {
+            if (citizen != null && newCitizen != null)
+                if (citizen.equals(newCitizen))
                     exists = true;
         }
         return exists;
     }
 
-    private boolean isPartyExists(Party newParty){
-        for(Party party: parties){
-            if(party != null && newParty != null)
-                if(party.equals(newParty))
+    private boolean isPartyExists(Party newParty) {
+        for (Party party: parties) {
+            if (party != null && newParty != null)
+                if (party.equals(newParty))
                     return true;
         }
         return false;
     }
 
-    protected void addVote(Party party){
-        for(int i = 0; i < parties.length; i++){
-            if(party.equals(parties[i])){
+    protected void addVote(Party party) {
+        for (int i = 0; i < parties.length; i++) {
+            if (party.equals(parties[i])) {
                 votesForParty[i]++;
                 System.out.println("Vote has been added!\n#added to party number:" + i + "\n#added to votesForParty number " + i );
             }
@@ -304,7 +334,7 @@ public abstract class BallotBox {
     abstract public boolean canVote(Citizen citizen);
 
     public boolean equals(BallotBox other) {
-        if(other == null && this == null) return true;
+        if (other == null && this == null) return true;
         else
             return votePercentage == other.votePercentage &&
                     address.equals(other.address) &&
@@ -373,7 +403,7 @@ public abstract class BallotBox {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("BallotBox #" + numGen + "\n");
+        sb.append("BallotBox #" + id + "\n");
         sb.append("Address : " + address + "\n");
         return sb.toString();
     }

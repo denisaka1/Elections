@@ -188,13 +188,17 @@ public class Party {
 
     /************** Functions **************/
     public boolean addCandidate(Citizen candidate, int place) {
-        if (candidates.length == 0) {
+        if (candidates == null || candidates.length == 0) {
             this.candidates = new Citizen[1];
             this.candidatesPlaces = new int[1];
         }
 
         if (counterCandidates >= candidates.length) {
-            expandCandidates();
+            if (place > (candidates.length * 2))
+                expandCandidatesByPlace(place);
+            else
+                expandCandidates();
+
             addCandidate(candidate, place);
         } else {
             candidates[counterCandidates] = new Citizen(candidate);
@@ -240,7 +244,7 @@ public class Party {
 
     private void expandCandidates() {
         Citizen[] tempCitizen = new Citizen[candidates.length * 2];
-        int[] tempPlaces = new int[candidatesPlaces.length * 2];
+        int[] tempPlaces = new int[candidates.length * 2];
         for (int i = 0; i < candidates.length; i++) {
             tempCitizen[i] = candidates[i];
             tempPlaces[i] = candidatesPlaces[i];
@@ -301,7 +305,7 @@ public class Party {
         sb.append("Party name : " + name + "\n");
         sb.append("Section : " + section + "\n");
         sb.append("Creation Date : " + day + "/" + month + "/" + year + "\n");
-        sb.append("Candidates : " + Arrays.toString(candidates) + "\n");
+        sb.append("Candidates : " + candidates.length + "\n");
         return sb.toString();
     }
 }
