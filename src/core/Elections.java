@@ -56,7 +56,6 @@ public class Elections {
             if (parties[i] != null && name != null) {
                 if (parties[i].getName().equals(name))
                     return parties[i];
-                    return parties[i];
             }
         }
         return null;
@@ -204,7 +203,36 @@ public class Elections {
         }
     }
 
-    public boolean addBallotBox(BallotBox ballotBox) {
+    private BallotBox returnBallotBox(BallotBox ballotBox){
+        if(ballotBox instanceof Army)
+            return new Army((Army)ballotBox);
+        else if(ballotBox instanceof Corona)
+            return new Corona((Corona)ballotBox);
+        else if(ballotBox instanceof Regular)
+            return new Regular((Regular)ballotBox);
+        else
+            return null;
+    }
+
+    public void addBallotBoxes(BallotBox... newBallotBoxes){
+        int k = newBallotBoxes.length + this.ballotBoxes.length;
+        BallotBox[] temp = new BallotBox[k * 2];
+
+        for(int i = 0; i < k; i++){
+            if(this.ballotBoxes.length > i)
+                temp[i] = this.ballotBoxes[i];
+            else{
+                if(newBallotBoxes[i - this.ballotBoxes.length] != null && !existBallotBox(newBallotBoxes[i - this.ballotBoxes.length])){
+                    temp[i] = returnBallotBox(newBallotBoxes[i - this.ballotBoxes.length]);
+//                    temp[i] = assignBallotBox(newBallotBoxes[i - this.ballotBoxes.length]);
+                    ballotBoxesCounter++;
+                }
+            }
+        }
+        this.ballotBoxes = temp;
+    }
+
+        public boolean addBallotBox(BallotBox ballotBox) {
         if (this.ballotBoxes == null || ballotBoxes.length == 0 ){
             this.ballotBoxes = new BallotBox[1];
             this.ballotBoxes[0] = assignBallotBox(ballotBox);
@@ -221,23 +249,6 @@ public class Elections {
             }
         }
         return false;
-    }
-
-    public void addBallotBoxes(BallotBox... newBallotBoxes){
-        int k = newBallotBoxes.length + this.ballotBoxes.length;
-        BallotBox[] temp = new BallotBox[k * 2];
-
-        for(int i = 0; i < k; i++){
-            if(this.ballotBoxes.length > i)
-                temp[i] = this.ballotBoxes[i];
-            else{
-                if(newBallotBoxes[i - this.ballotBoxes.length] != null && !existBallotBox(newBallotBoxes[i - this.ballotBoxes.length])){
-                    temp[i] = assignBallotBox(newBallotBoxes[i - this.ballotBoxes.length]);
-                    ballotBoxesCounter++;
-                }
-            }
-        }
-        this.ballotBoxes = temp;
     }
 
     public void addParties(Party... newParties){

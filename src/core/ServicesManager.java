@@ -30,7 +30,7 @@ public class ServicesManager {
 //        election.addBallotBox(ballotBoxes[0]);
 //        election.addBallotBox(ballotBoxes[1]);
 //        election.addBallotBox(ballotBoxes[2]);
-        election.addBallotBoxes(ballotBoxes[0], ballotBoxes[1], ballotBoxes[2]);
+//        election.addBallotBoxes(ballotBoxes[0], ballotBoxes[1], ballotBoxes[2]);
 
         // Add citizen to VoterRegister
 //        vr.addCitizen(c1);
@@ -47,6 +47,8 @@ public class ServicesManager {
         ballotBoxes[0].addCitizens(citizens[0], citizens[1]);
         ballotBoxes[1].addCitizens(citizens[2], citizens[3]);
         ballotBoxes[2].addCitizens(citizens[4], citizens[5]);
+
+        election.addBallotBoxes(ballotBoxes[0], ballotBoxes[1], ballotBoxes[2]);
 
         // Add parties to ballot boxes
 //        ballotBoxes[0].addParties(p1, p2, p3);
@@ -84,7 +86,7 @@ public class ServicesManager {
     }
 
     public static void addBallotBox(BallotBox ballotBox) {
-        election.addBallotBox(ballotBox);
+        election.addBallotBoxes(ballotBox);
     }
 
     public static void addCitizen(Citizen citizen) {
