@@ -114,19 +114,13 @@ public class VoterRegister {
         return false;
     }
 
-/*    @Override
-    public boolean equals(Object obj) {
-        VoterRegister voterRegister = (VoterRegister) obj;
-        if (!voterRegister.getCitizens().equals(voterRegister))
+    public boolean equals(VoterRegister voterRegister){
+        if (voterRegister == null && this == null)
+            return true;
+        else if  (voterRegister == null || this == null)
             return false;
-        return true;
-    }
- */
-
-    public boolean equals(VoterRegister other){
-        if(other == null) return false;
-        return  citizensCounter == other.citizensCounter &&
-                Arrays.equals(citizens, other.citizens);
+        return citizensCounter == voterRegister.citizensCounter &&
+                Arrays.equals(citizens, voterRegister.citizens);
     }
 
     @Override

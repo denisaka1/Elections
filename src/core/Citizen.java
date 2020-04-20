@@ -101,13 +101,13 @@ public class Citizen {
     }
 
     private boolean setId(String id){
-        boolean legalIdLength = id.length() >= 1 && id.length() <= 9;
+        boolean legalIdLength = id.length() >= 8 && id.length() <= 9;
 
-        if(id != null && legalIdLength){
+        if (id != null && legalIdLength){
             this.id = id;
             return true;
-        }else
-            this.id = "123456789";
+        } else
+            this.id = "-1";
 
         return false;
     }
@@ -159,35 +159,13 @@ public class Citizen {
     }
 
 
-    public boolean equals(Citizen other) {
-        if(other == null && this == null) return true;
-        else
-            return birthYear == other.birthYear &&
-                isolation == other.isolation &&
-                voted == other.voted &&
-                name.equals(other.name) &&
-                id.equals(other.id);
-//                    && ( ballotBox.equals(other.ballotBox) || (ballotBox == null && other.ballotBox == null) )&&
-//                    ( party.equals(other.party) || (party == null && other.party == null) );
+    public boolean equals(Citizen citizen) {
+        if(citizen == null && this == null)
+            return true;
+        else if (citizen == null || this == null)
+            return false;
+        return id.equals(citizen.id); // enough to check only id
     }
-
-/*    public boolean equals(Citizen other){
-        if(other != null){
-            boolean isSameName = name.equals(other.name);
-            boolean isSameId = id.equals(other.id);
-            boolean isSameBirthYear = birthYear == other.birthYear;
-            boolean isSameBallotBox = ballotBox.equals(other.ballotBox);
-            boolean isSameParty = party.equals(other.party);
-            boolean isSameVoted = voted == other.voted;
-
-            if(isSameName && isSameId && isSameBirthYear && isSameBallotBox && isSameParty && isSameVoted )
-                return true;
-        }
-        return false;
-    }
- */
-
-    // String name, String id, int birthYear, boolean isolation, BallotBox ballotBox, Party party, boolean voted
 
     @Override
     public String toString() {

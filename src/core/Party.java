@@ -27,25 +27,23 @@ public class Party {
     private int[] candidatesPlaces;
     private int counterCandidates;
 
-    /************ Constructor ************/
-//    public Party(String name, String section, int year, int month, int day, Citizen[] candidates, int counterCandidates) {
-    public Party(String name, String section, int year, int month, int day, Citizen[] candidates) {
+    public Party(String name, String section, int year, int month, int day, Citizen[] candidates, int[] candidatesPlaces) {
         setName(name);
         setSection(section);
         setCreationDate(year, month, day);
         setCandidates(candidates);
-//        setCandidatesPlaces();
+        setCandidatesPlaces(candidatesPlaces);
 //        this.counterCandidates = counterCandidates;
     }
 
     public Party(String name, String section, int year, int month, int day) {
 //        this(name, section, year, month, day, new Citizen[0], 0);
-        this(name, section, year, month, day, new Citizen[0]);
+        this(name, section, year, month, day, new Citizen[0], new int[0]);
     }
 
     public Party(Party party){
 //        this(party.name, party.section, party.year, party.month, party.day, party.candidates, 0);
-        this(party.name, party.section, party.year, party.month, party.day, party.candidates);
+        this(party.name, party.section, party.year, party.month, party.day, party.candidates, party.candidatesPlaces);
         this.counterCandidates = party.counterCandidates;
         this.candidatesPlaces = new int[0];
     }
@@ -80,6 +78,16 @@ public class Party {
     }
 
     /************ Set Functions ************/
+    private void setCandidatesPlaces(int[] candidatesPlaces) {
+        if (candidates.length != candidatesPlaces.length) {
+            int[] tempPlaces = candidatesPlaces;
+            this.candidatesPlaces = new int[candidates.length];
+            this.candidatesPlaces = tempPlaces;
+        } else {
+            this.candidatesPlaces = candidatesPlaces;
+        }
+    }
+
     private boolean setName(String name) {
         if(name != null) {
             this.name = name;
@@ -201,10 +209,10 @@ public class Party {
 
             addCandidate(candidate, place);
         } else {
-            candidates[counterCandidates] = new Citizen(candidate);
+            candidates[counterCandidates] = candidate;
             candidatesPlaces[counterCandidates] = place;
             counterCandidates++;
-            candidate.setInParty(this); // todo <
+            candidate.setInParty(this); // todo : not this, from election
             candidatesSort();
             return true;
         }
@@ -217,7 +225,7 @@ public class Party {
             Citizen citizenMin = candidates[i];
             int minIndex = i;
             for (int j = i+1; j < candidatesPlaces.length; j++) {
-                if (candidatesPlaces[j] < min) {
+                if (candidatesPlaces[j] < min && candidatesPlaces[j] > 0) {
                     min = candidatesPlaces[j];
                     citizenMin = candidates[j];
                     minIndex = j;
@@ -235,11 +243,14 @@ public class Party {
     }
 
     private void expandCandidatesByPlace(int place) {
-        Citizen[] temp = new Citizen[place + 1];
+        Citizen[] tempCitizen = new Citizen[place + 1];
+        int[] tempPlaces = new int[place + 1];
         for (int i = 0; i < candidates.length; i++) {
-            temp[i] = candidates[i];
+            tempCitizen[i] = candidates[i];
+            tempPlaces[i] = candidatesPlaces[i];
         }
-        this.candidates = temp;
+        this.candidates = tempCitizen;
+        this.candidatesPlaces = tempPlaces;
     }
 
     private void expandCandidates() {
@@ -255,49 +266,12 @@ public class Party {
 
 
     public boolean equals(Party party) {
-        if (party == null) return false;
-        return year == party.year &&
-                month == party.month &&
-                day == party.day &&
-                counterCandidates == party.counterCandidates &&
-                name.equals(party.name) &&
-                section.equals(party.section) &&
-                Arrays.equals(candidates, party.candidates) &&
-                Arrays.equals(candidatesPlaces, party.candidatesPlaces);
+        if (this == null && party == null)
+            return true;
+        else if (party == null || this == null)
+            return false;
+        return name.toUpperCase().equals(party.name.toUpperCase()); // enough to check only name
     }
-
-
- /*   private boolean isSameCandidates(Citizen[] other, int[] otherPlaces){
-        boolean isSame = true;
-
-        for(int i = 0; i < counterCandidates; i++){
-            if(isSame && ( candidates[i] != null || other[i] != null ) && !candidates[i].equals(other[i]) &&
-                            candidatesPlaces[i] != otherPlaces[i])
-                isSame = false;
-        }
-        return isSame;
-    }
-
-    public boolean equals(Party other){
-        if(other != null){
-            boolean isSameName = name.equals(other.name);
-            boolean isSameSection = section.equals(other.section);
-            boolean isSameDate = year == other.year && month == other.month && day == other.day;
-
-            boolean isSameCounterCandidates = counterCandidates == other.counterCandidates;
-            boolean isSameCandiadatesAndPlaces = false;
-
-            if(isSameCounterCandidates)
-                isSameCandiadatesAndPlaces = isSameCandidates(other.candidates, other.candidatesPlaces);
-
-            if(isSameName && isSameSection && isSameDate && isSameCandiadatesAndPlaces)
-                return true;
-        }
-        return false;
-    }
-  */
-
-    // String name, String section, int year, int month, int day, Citizen[] candidates
 
     @Override
     public String toString() {

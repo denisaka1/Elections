@@ -14,7 +14,7 @@ public class Corona extends BallotBox {
     }
 
     public Corona(Corona corona){
-        super(corona.getAddress(), corona.getVotePercentage(), corona.getCitizens(), corona.getParties(), corona.getVotesForParty());
+        super(corona);
     }
 
     @Override
@@ -27,8 +27,8 @@ public class Corona extends BallotBox {
         return canVote;
     }
 
-    public boolean equals(Corona other){
-        return super.equals(other);
+    public boolean equals(Corona corona){
+        return super.equals(corona);
     }
 
     @Override
