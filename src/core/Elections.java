@@ -30,8 +30,6 @@ public class Elections {
 
     public Elections() {
         this (new Party[0], new BallotBox[0],1, 2020); // Default
-        this.partiesCounter = 0;
-        this.ballotBoxesCounter = 0;
     }
 
     /************ Get Functions ************/

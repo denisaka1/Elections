@@ -60,7 +60,7 @@ public abstract class BallotBox {
             this.votePercentage = votePercentage;
             isSet = true;
         }else
-            this.votePercentage = -1;
+            this.votePercentage = 0;
         return isSet;
     }
 
@@ -71,6 +71,7 @@ public abstract class BallotBox {
             return true;
         }
         this.citizens = new Citizen[0];
+        citizenCounter = 0;
         return false;
     }
 
@@ -81,6 +82,7 @@ public abstract class BallotBox {
             return true;
         }
         this.parties = new Party[0];
+        partiesCounter = 0;
         return false;
     }
 

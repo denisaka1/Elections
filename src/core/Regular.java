@@ -15,8 +15,6 @@ public class Regular extends BallotBox {
 
     public Regular(Regular regular){
         super(regular.getAddress(), regular.getVotePercentage(), regular.getCitizens(), regular.getParties(), regular.getVotesForParty());
-        this.citizenCounter = regular.citizenCounter;
-        this.partiesCounter = regular.partiesCounter;
     }
 
     @Override

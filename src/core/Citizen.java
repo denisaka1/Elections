@@ -139,7 +139,7 @@ public class Citizen {
 
     public boolean setInParty(Party party) {
         if(party != null){
-            this.party = new Party(party);
+            this.party = party;
             return true;
         }else
             this.party = null;

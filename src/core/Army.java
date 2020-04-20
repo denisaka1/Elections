@@ -20,8 +20,6 @@ public class Army extends BallotBox {
     public Army(Army army){
         super(army.getAddress(), army.getTotalVotePercentage(), army.getCitizens(), army.getParties(), army.getVotesForParty());
         setYear(army.year);
-//        this.citizenCounter = army.citizenCounter;
-//        this.partiesCounter = army.partiesCounter;
     }
 
     /************ Set Functions ************/
