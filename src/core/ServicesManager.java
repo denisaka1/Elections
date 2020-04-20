@@ -12,62 +12,50 @@ public class ServicesManager {
         ballotBoxes[0] = new Regular("Balfour");
         ballotBoxes[1] = new Army("Jenin");
         ballotBoxes[2] = new Corona("Tel Aviv");
+        BallotBox.numGen = 0;
 
         // Parties
-        Party p1 = new Party("Likud", "right", 1973, 1, 1);
-        Party p2 = new Party("Kahol_Lavan", "center", 2019, 1, 1);
-        Party p3 = new Party("Meretz", "left", 1992, 1, 1);
+        Party[] parties = new Party[3];
+        parties[0] = new Party("Likud", "right", 1973, 1, 1);
+        parties[1] = new Party("Kahol_Lavan", "center", 2019, 1, 1);
+        parties[2] = new Party("Meretz", "left", 1992, 1, 1);
+
+        addBallotBox(ballotBoxes[0]);
+        addBallotBox(ballotBoxes[1]);
+        addBallotBox(ballotBoxes[2]);
+
+        BallotBox[] refBallotBoxes = election.getBallotBoxes();
 
         // Citizens
-        Citizen c1 = new Citizen("Barak", "000000001", 2002, false, null, null, false); // Regular
-        Citizen c2 = new Citizen("Denis", "000000002", 1990, false, null, null, false); // Regular
-        Citizen c3 = new Citizen("Dana", "000000003", 2002, false, null, null, false); // Army
-        Citizen c4 = new Citizen("Alon", "000000004", 2001, false, null, null, false); // Army
-        Citizen c5 = new Citizen("Tal", "000000005", 1986, true, null, null, false); // Corona
-        Citizen c6 = new Citizen("Bar", "000000006", 1994, true, null, null, false); // Corona
+        Citizen[] citizens = new Citizen[6];
+        citizens[0] = new Citizen("Barak", "000000001", 2002, false, refBallotBoxes[0], null, false); // Regular
+        citizens[1] = new Citizen("Denis", "000000002", 1990, false, refBallotBoxes[0], null, false); // Regular
+        citizens[2] = new Citizen("Dana", "000000003", 2002, false, refBallotBoxes[1], null, false); // Army
+        citizens[3] = new Citizen("Alon", "000000004", 2001, false, refBallotBoxes[1], null, false); // Army
+        citizens[4] = new Citizen("Tal", "000000005", 1986, true, refBallotBoxes[2], null, false); // Corona
+        citizens[5] = new Citizen("Bar", "000000006", 1994, true, refBallotBoxes[2], null, false); // Corona
 
-        // Add ballot boxes to elections
-//        election.addBallotBox(ballotBoxes[0]);
-//        election.addBallotBox(ballotBoxes[1]);
-//        election.addBallotBox(ballotBoxes[2]);
-//        election.addBallotBoxes(ballotBoxes[0], ballotBoxes[1], ballotBoxes[2]);
+        addCitizen(citizens[0]);
+        addCitizen(citizens[1]);
+        addCitizen(citizens[2]);
+        addCitizen(citizens[3]);
+        addCitizen(citizens[4]);
+        addCitizen(citizens[5]);
 
-        // Add citizen to VoterRegister
-//        vr.addCitizen(c1);
-//        vr.addCitizen(c2);
-//        vr.addCitizen(c3);
-//        vr.addCitizen(c4);
-//        vr.addCitizen(c5);
-//        vr.addCitizen(c6);
-        vr.addCitizens(c1, c2, c3, c4, c5, c6);
+        Citizen[] refCitizen = vr.getCitizens();
 
-        Citizen[] citizens = vr.getCitizens();
+        addParty(parties[0]);
+        addParty(parties[1]);
+        addParty(parties[2]);
 
-        // Add citizens to ballot boxes
-        ballotBoxes[0].addCitizens(citizens[0], citizens[1]);
-        ballotBoxes[1].addCitizens(citizens[2], citizens[3]);
-        ballotBoxes[2].addCitizens(citizens[4], citizens[5]);
+        addCandidate(refCitizen[0].getID(), parties[0].getName(), 1);
+        addCandidate(refCitizen[1].getID(), parties[0].getName(), 2);
+        addCandidate(refCitizen[2].getID(), parties[1].getName(), 2);
+        addCandidate(refCitizen[3].getID(), parties[1].getName(), 1);
+        addCandidate(refCitizen[4].getID(), parties[2].getName(), 5); // check
+        addCandidate(refCitizen[5].getID(), parties[2].getName(), 1);
 
-        election.addBallotBoxes(ballotBoxes[0], ballotBoxes[1], ballotBoxes[2]);
 
-        // Add parties to ballot boxes
-//        ballotBoxes[0].addParties(p1, p2, p3);
-//        ballotBoxes[1].addParties(p1, p2, p3);
-//        ballotBoxes[2].addParties(p1, p2, p3);
-
-        // Add candidates to parties
-        p1.addCandidate(c1, 1);
-        p1.addCandidate(c2, 2);
-        p2.addCandidate(c3, 2);
-        p2.addCandidate(c4, 2);
-        p3.addCandidate(c5, 2);
-        p3.addCandidate(c6, 1);
-
-        // Add parties to elections
-//        election.addParty(p1);
-//        election.addParty(p2);
-//        election.addParty(p3);
-        election.addParties(p1, p2, p3);
     }
 
     public static void showMenu() {
@@ -96,7 +84,7 @@ public class ServicesManager {
 
     }
 
-    public static BallotBox getPartyByNumber(int number) {
+    public static BallotBox getBallotBoxByNumber(int number) {
         return election.getBallotBoxByNumber(number);
     }
 

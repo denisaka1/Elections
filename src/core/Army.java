@@ -18,9 +18,10 @@ public class Army extends BallotBox {
     }
 
     public Army(Army army){
-        this(army.getAddress(), army.getTotalVotePercentage(), army.getCitizens(), army.getParties(), army.getVotesForParty(), army.year);
-        this.citizenCounter = army.citizenCounter;
-        this.partiesCounter = army.partiesCounter;
+        super(army.getAddress(), army.getTotalVotePercentage(), army.getCitizens(), army.getParties(), army.getVotesForParty());
+        setYear(army.year);
+//        this.citizenCounter = army.citizenCounter;
+//        this.partiesCounter = army.partiesCounter;
     }
 
     /************ Set Functions ************/

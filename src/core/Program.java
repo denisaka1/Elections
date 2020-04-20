@@ -76,7 +76,7 @@ public class Program {
             isolation = false;
 
         System.out.println("Enter Ballot Box Number : ");
-        ballotBox = ServicesManager.getPartyByNumber(s.nextInt());
+        ballotBox = ServicesManager.getBallotBoxByNumber(s.nextInt());
 
         return new Citizen(name, id, birthYear, isolation, ballotBox);
     }

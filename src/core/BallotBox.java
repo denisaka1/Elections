@@ -1,8 +1,5 @@
 package core;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 public abstract class BallotBox {
     /* Defaults:
        address: Afeka
@@ -11,7 +8,7 @@ public abstract class BallotBox {
        parties.length: 0
        votesForParty.length: 0
    */
-    private static int numGen; // auto generated
+    public static int numGen; // auto generated // TODO: private
     private int id;
     private String address;
     private int votePercentage; // total of legal citizens that can vote to a specific ballot box
@@ -37,9 +34,12 @@ public abstract class BallotBox {
     }
 
     public BallotBox(BallotBox ballotBox){
-        this(ballotBox.address, ballotBox.votePercentage, ballotBox.citizens, ballotBox.parties, ballotBox.votesForParty);
-        this.citizenCounter = ballotBox.citizenCounter;
-        this.partiesCounter = ballotBox.partiesCounter;
+//        this(ballotBox.address, ballotBox.votePercentage, ballotBox.citizens, ballotBox.parties, ballotBox.votesForParty);
+        setAddress(ballotBox.address);
+        setVotePercentage(ballotBox.votePercentage);
+        setCitizens(ballotBox.citizens);
+        setParties(ballotBox.parties);
+        setVotesForParty(ballotBox.votesForParty);
     }
 
     /************ Set Functions ************/
@@ -99,8 +99,8 @@ public abstract class BallotBox {
     }
 
     /************ Get Functions ************/
-    public static int getNumGen() {
-        return numGen;
+    public int getId() {
+        return id;
     }
 
     public int getVotePercentage() {
@@ -233,7 +233,35 @@ public abstract class BallotBox {
 //        return false;
 //    }
 
-    public void addCitizens(Citizen... newCitizens){
+    public void addCitizens(Citizen... newCitizens) {
+        int k = newCitizens.length + this.citizens.length;
+        Citizen[] tempBallotBoxes = new Citizen[k * 2];
+
+        int newCitizensCounter = 0;
+        for (int i = 0; i < k; i++) {
+            if (this.citizens.length > i) {
+                if (this.citizens[i] != null) {
+                    tempBallotBoxes[i] = this.citizens[i];
+                } else {
+                    if (newCitizensCounter < newCitizens.length) {
+                        tempBallotBoxes[i] = newCitizens[newCitizensCounter];
+                        citizenCounter++;
+                        newCitizensCounter++;
+                    }
+                }
+            } else {
+                if (newCitizensCounter < newCitizens.length) {
+                    tempBallotBoxes[i] = newCitizens[newCitizensCounter];
+                    citizenCounter++;
+                    newCitizensCounter++;
+                }
+            }
+        }
+
+        this.citizens = tempBallotBoxes;
+    }
+
+    public void addCitizensV2(Citizen... newCitizens){
         // assign temp Citizen array -> first comes base array
         //                           -> second comes the new array
         int k = newCitizens.length + this.citizens.length;
@@ -245,7 +273,6 @@ public abstract class BallotBox {
                 if (newCitizens[i - this.citizens.length] != null && !isCitizenExists(newCitizens[i - this.citizens.length])) {
                     temp[i] = newCitizens[i - this.citizens.length];
                     citizenCounter++;
-                    temp[i].setBallotBox(this);
                 }
             }
         }
@@ -254,7 +281,6 @@ public abstract class BallotBox {
     }
 
     public void addParties(Party... newParties) {
-
         int k = newParties.length + this.parties.length;
         Party[] tempParty = new Party[k * 2];
         int[] tempVoteForParty = new int[k * 2];
@@ -281,23 +307,11 @@ public abstract class BallotBox {
             }
         }
 
-/*        for (int i = 0; i < k; i++) {
-            if (this.parties.length > i) {
-                tempParty[i] = this.parties[i];
-                tempVoteForParty[i] = this.votesForParty[i];
-            } else {
-                if (newParties[i - this.parties.length] != null && !isPartyExists(newParties[i - this.parties.length])) {
-                    tempParty[i] = newParties[i - this.parties.length];
-                    partiesCounter++;
-                }
-            }
-        }*/
-
         this.parties = tempParty;
         this.votesForParty = tempVoteForParty;
     }
 
-    private void sortParties() {
+    private void sortParties() { // ?
         for (int i = 0; i < this.parties.length; i++) {
 
         }
@@ -334,13 +348,16 @@ public abstract class BallotBox {
     abstract public boolean canVote(Citizen citizen);
 
     public boolean equals(BallotBox other) {
-        if (other == null && this == null) return true;
+        if (other == null && this == null)
+            return true;
+        else if (other == null || this == null)
+            return false;
         else
             return votePercentage == other.votePercentage &&
                     address.equals(other.address) &&
-                    Arrays.equals(citizens, other.citizens) &&
-                    Arrays.equals(parties, other.parties) &&
-                    Arrays.equals(votesForParty, other.votesForParty);
+                    citizens.equals(other.citizens) &&
+                    parties.equals(other.parties) &&
+                    votesForParty.equals(other.votesForParty);
     }
 
 
@@ -373,33 +390,7 @@ public abstract class BallotBox {
         }
         return isSame;
     }
-
-
-    public boolean equals(BallotBox other){
-        if(other != null){
-            boolean isSameAddress = address.equals(other.address);
-            boolean isSameVotePercentage = votePercentage == other.votePercentage;
-
-            boolean isSameCitizenCounter = citizenCounter == other.citizenCounter;
-            boolean isSameCitizens = false;
-            if(isSameCitizenCounter)
-                isSameCitizens = isSameCitizens(other.citizens);
-
-            boolean isSamePartyCounter = partiesCounter == other.partiesCounter;
-            boolean isSamePartiesAndVotes = false;
-            if(isSamePartyCounter)
-                isSamePartiesAndVotes = isSamePartiesAndVoteForParty(other.parties, other.votesForParty);
-
-            if(isSameAddress && isSameVotePercentage && isSameCitizens && isSamePartiesAndVotes)
-                return true;
-        }
-
-        return false;
-
-    }*/
-
-    // String address, int votePercentage, Citizen[] citizens, Party[] parties, int[] votesForParty
-
+*/
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();

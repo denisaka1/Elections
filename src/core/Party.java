@@ -168,7 +168,7 @@ public class Party {
         if(candidates != null) {
             this.candidates = new Citizen[candidates.length];
             for(int i = 0; i < candidates.length; i++){
-                this.candidates[i] = new Citizen(candidates[i]);
+                this.candidates[i] = candidates[i];
             }
             counterCandidates = candidates.length;
             this.candidatesPlaces = new int[candidates.length];
@@ -204,7 +204,7 @@ public class Party {
             candidates[counterCandidates] = new Citizen(candidate);
             candidatesPlaces[counterCandidates] = place;
             counterCandidates++;
-            candidate.setInParty(this);
+            candidate.setInParty(this); // todo <
             candidatesSort();
             return true;
         }

@@ -62,8 +62,7 @@ public class Elections {
     }
 
     public BallotBox getBallotBoxByNumber(int number) {
-        // Exception
-        if (ballotBoxes.length < number)
+        if (number < ballotBoxes.length)
             return ballotBoxes[number];
         else
             return ballotBoxes[0];
@@ -97,7 +96,8 @@ public class Elections {
         if(ballotBoxes != null && ballotBoxes.length != 0){
             ballotBoxes = new BallotBox[ballotBoxes.length];
             for(int i = 0; i < ballotBoxes.length; i++){
-                this.ballotBoxes[i] = assignBallotBox(ballotBoxes[i]);
+//                this.ballotBoxes[i] = assignBallotBox(ballotBoxes[i]);
+                this.ballotBoxes[i] = returnBallotBox(ballotBoxes[i]);
             }
             ballotBoxesCounter = ballotBoxes.length;
             return true;
@@ -131,7 +131,9 @@ public class Elections {
     public void addCitizenToBallotBoxes(Citizen citizen) {
         for (int i = 0; i < ballotBoxes.length; i++) {
             if (ballotBoxes[i] != null) {
-                ballotBoxes[i].addCitizens(citizen);
+                if (ballotBoxes[i].equals(citizen.getBallotBox())) {
+                    ballotBoxes[i].addCitizens(citizen);
+                }
             }
         }
     }
@@ -144,7 +146,7 @@ public class Elections {
         this.parties = temp;
     }
 
-    public boolean addParty(Party party) {
+    public boolean addParty(Party party) { // TODO : change to addParties
         if (parties.length == 0) {
             this.parties = new Party[1];
         }
@@ -163,11 +165,6 @@ public class Elections {
         return false;
     }
 
-    private void updateBallotBoxes(Party party){
-        for(int i = 0; i < ballotBoxesCounter; i++){
-            ballotBoxes[i].addParties(party);
-        }
-    }
 
     private boolean existParty(Party party) {
         for (int i = 0; i < parties.length; i++) {
@@ -181,25 +178,18 @@ public class Elections {
         return false;
     }
 
-    private void expandBallotBoxes() {
-        BallotBox[] temp = new BallotBox[ballotBoxes.length * 2];
-        for (int i = 0; i < ballotBoxes.length; i++) {
-            temp[i] = ballotBoxes[i];
-        }
-        this.ballotBoxes = temp;
-    }
-
-    private BallotBox assignBallotBox (BallotBox ballotBox){
+/*    private BallotBox assignBallotBox (BallotBox ballotBox){
         if (ballotBox instanceof Army || ballotBox instanceof Corona || ballotBox instanceof Regular)
             return ballotBox;
 
         return null;
-    }
+    }*/
 
-    private void updateParties(Party party){
-        for(int i = 0; i < this.ballotBoxes.length; i++){
-            if(ballotBoxes[i] != null)
+    private void updateBallotBoxes(Party party) {
+        for(int i = 0; i < ballotBoxesCounter; i++) {
+            if (ballotBoxes[i] != null) {
                 ballotBoxes[i].addParties(party);
+            }
         }
     }
 
@@ -214,7 +204,7 @@ public class Elections {
             return null;
     }
 
-    public void addBallotBoxes(BallotBox... newBallotBoxes){
+/*    public void addBallotBoxesOld(BallotBox... newBallotBoxes) {
         int k = newBallotBoxes.length + this.ballotBoxes.length;
         BallotBox[] temp = new BallotBox[k * 2];
 
@@ -230,9 +220,39 @@ public class Elections {
             }
         }
         this.ballotBoxes = temp;
+    }*/
+
+
+    public void addBallotBoxes(BallotBox... newBallotBoxes) {
+        int k = newBallotBoxes.length + this.ballotBoxes.length;
+        BallotBox[] tempBallotBoxes = new BallotBox[k * 2];
+
+        int newBallotBoxesCounter = 0;
+        for (int i = 0; i < k; i++) {
+            if (this.ballotBoxes.length > i) {
+                if (this.ballotBoxes[i] != null) {
+                    tempBallotBoxes[i] = this.ballotBoxes[i];
+                } else {
+                    if (newBallotBoxesCounter < newBallotBoxes.length) {
+                        tempBallotBoxes[i] = returnBallotBox( newBallotBoxes[newBallotBoxesCounter] );
+                        ballotBoxesCounter++;
+                        newBallotBoxesCounter++;
+                    }
+                }
+            } else {
+                if (newBallotBoxesCounter < newBallotBoxes.length) {
+                    tempBallotBoxes[i] = returnBallotBox( newBallotBoxes[newBallotBoxesCounter] );
+                    ballotBoxesCounter++;
+                    newBallotBoxesCounter++;
+                }
+            }
+        }
+
+        this.ballotBoxes = tempBallotBoxes;
     }
 
-        public boolean addBallotBox(BallotBox ballotBox) {
+
+/*    public boolean addBallotBox(BallotBox ballotBox) { // TODO : Maybe del ?
         if (this.ballotBoxes == null || ballotBoxes.length == 0 ){
             this.ballotBoxes = new BallotBox[1];
             this.ballotBoxes[0] = assignBallotBox(ballotBox);
@@ -251,6 +271,15 @@ public class Elections {
         return false;
     }
 
+    private void expandBallotBoxes() {
+        BallotBox[] temp = new BallotBox[ballotBoxes.length * 2];
+        for (int i = 0; i < ballotBoxes.length; i++) {
+            temp[i] = ballotBoxes[i];
+        }
+        this.ballotBoxes = temp;
+    }
+ */
+
     public void addParties(Party... newParties){
         int k = newParties.length + this.parties.length;
         Party[] temp = new Party[k * 2];
@@ -261,7 +290,7 @@ public class Elections {
             else{
                 if(newParties[i - this.parties.length] != null && !existParty(newParties[i - this.parties.length])){
                     temp[i] = new Party(newParties[i - this.parties.length]);
-                    updateParties(temp[i]);
+                    updateBallotBoxes(temp[i]); //
                     partiesCounter++;
                 }
             }
@@ -285,25 +314,13 @@ public class Elections {
         for (int i = 0; i < ballotBoxes.length; i++) {
             if (ballotBoxes[i] != null)
                 sb.append(ballotBoxes[i].toString() + "\n");
-                sb.append(ballotBoxes[i].toString() + "\n");
         }
         return sb.toString();
     }
 
-    /*
-    @Override
-    public boolean equals(Object obj) {
-        Elections elections = (Elections) obj;
-        if (!elections.getParties().equals(elections) || elections.getMonth() != month
-                || elections.getYear() != year)
-            return true;
-        return false;
-    }
-     */
-
-    public boolean equals(Elections other){
-        if( other == null) return false;
-
+    public boolean equals(Elections other) {
+        if( other == null)
+            return false;
         return  partiesCounter == other.partiesCounter &&
                 ballotBoxesCounter == other.ballotBoxesCounter &&
                 Arrays.equals(parties, other.parties) &&
@@ -311,49 +328,6 @@ public class Elections {
                 month == other.month &&
                 year == other.year;
     }
-
-/*
-    private boolean isSameParties(Party[] other){
-        boolean isSame = true;
-        for(int i = 0; i < partiesCounter; i++){
-            if(isSame && ( parties[i] != null || other[i] != null ) && parties[i].equals(other[i]))
-                isSame = false;
-        }
-        return isSame;
-    }
-
-    private boolean isSameBallotBoxes(BallotBox[] other){
-        boolean isSame = true;
-        for(int i = 0; i < ballotBoxesCounter; i++){
-            if(isSame && ( ballotBoxes[i] != null || other[i] != null ) && ballotBoxes[i].equals(other[i]))
-                isSame = false;
-        }
-        return isSame;
-    }
-
-
-    public boolean equals(Elections other){
-        if(other != null){
-            boolean isSameParties = false;
-            boolean isSameBallotBoxes = false;
-            boolean isSameDate = year == other.year && month == other.month;
-
-            if(partiesCounter == other.partiesCounter)
-                isSameParties = isSameParties(other.parties);
-            if(ballotBoxesCounter == other.ballotBoxesCounter)
-                isSameBallotBoxes = isSameBallotBoxes(other.ballotBoxes);
-
-            if(isSameParties && isSameBallotBoxes && isSameDate)
-                return true;
-
-        }
-        return false;
-    }
- */
-
-    // Party[] parties, BallotBox[] ballotBoxes, int month, int year
-    //    private int partiesCounter;
-    //    private int ballotBoxesCounter;
 
     @Override
     public String toString() {
