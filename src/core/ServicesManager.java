@@ -53,6 +53,9 @@ public class ServicesManager {
         addCandidate(refCitizen[3].getID(), parties[1].getName(), 1);
         addCandidate(refCitizen[4].getID(), parties[2].getName(), 5); // check
         addCandidate(refCitizen[5].getID(), parties[2].getName(), 1);
+
+//        System.out.println(election.toString());
+//        System.out.println(vr.toString());
     }
 
     public static void showMenu() {
@@ -71,7 +74,7 @@ public class ServicesManager {
     }
 
     public static void addBallotBox(BallotBox ballotBox) {
-        if (!election.existBallotBox(ballotBox))
+        if (ballotBox.getAddress().length() != 0 && !election.existBallotBox(ballotBox))
             election.addBallotBoxes(ballotBox);
         else
             System.out.println("This BallotBox has already been created!!!\n");
@@ -79,7 +82,7 @@ public class ServicesManager {
     }
 
     public static void addCitizen(Citizen citizen) {
-        if (!citizen.getID().equals("-1")) {
+        if (!citizen.getID().equals("-1") && citizen.getName().length() != 0) {
             vr.addCitizen(citizen);
             Citizen refToCitizen = vr.getCitizenById(citizen.getID());
             election.addCitizenToBallotBoxes(refToCitizen);
@@ -92,16 +95,22 @@ public class ServicesManager {
     }
 
     public static void addParty(Party party) {
-        election.addParty(party);
+        if(party.getName().length() != 0 && !election.existParty(party))
+            election.addParty(party);
+        else
+            System.out.println("You are not allowed to add this party");
     }
 
     public static void addCandidate(String citizenID, String partyName, int place) {
-        Citizen citizen = vr.getCitizenById(citizenID);
-        Party party = election.getPartiesByName(partyName);
+        if(citizenID.length() != 0 && citizenID != null && partyName != null && partyName.length() != 0) {
+            Citizen citizen = vr.getCitizenById(citizenID);
+            Party party = election.getPartiesByName(partyName);
 
-        if (citizen != null && party != null) {
-            party.addCandidate(citizen, place);
-        } else {
+            if (citizen != null && party != null) {
+                party.addCandidate(citizen, place);
+            }
+        }
+        else {
             System.out.println("An error has occurred\n");
         }
     }

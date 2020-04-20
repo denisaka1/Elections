@@ -38,7 +38,7 @@ public class VoterRegister {
         return citizens;
     }
 
-    public int getIndexByCitizen(Citizen citizen) {
+/*    public int getIndexByCitizen(Citizen citizen) {
         for (int i = 0; i < citizens.length; i++) {
             if(citizen != null) {
                 if (citizens[i].equals(citizen)) {
@@ -47,7 +47,7 @@ public class VoterRegister {
             }
         }
         return -1;
-    }
+    }*/
 
     public Citizen getCitizenById(String id) {
         for (int i = 0; i < citizens.length; i++) {
@@ -126,9 +126,8 @@ public class VoterRegister {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < citizens.length; i++)
-            if (citizens[i] != null)
-                sb.append(citizens[i] + "\n");
+        for (int i = 0; i < citizensCounter; i++)
+            sb.append(citizens[i] + "\n");
         return sb.toString();
     }
 }

@@ -8,7 +8,7 @@ public abstract class BallotBox {
        parties.length: 0
        votesForParty.length: 0
    */
-    public static int numGen; // auto generated // TODO: private
+    private static int numGen; // auto generated
     private int id;
     private String address;
     private int votePercentage; // total of legal citizens that can vote to a specific ballot box
@@ -34,7 +34,6 @@ public abstract class BallotBox {
     }
 
     public BallotBox(BallotBox ballotBox){
-//        this(ballotBox.address, ballotBox.votePercentage, ballotBox.citizens, ballotBox.parties, ballotBox.votesForParty);
         setAddress(ballotBox.address);
         setVotePercentage(ballotBox.votePercentage);
         setCitizens(ballotBox.citizens);
@@ -61,7 +60,7 @@ public abstract class BallotBox {
             this.votePercentage = votePercentage;
             isSet = true;
         }else
-            this.votePercentage = 0;
+            this.votePercentage = -1;
         return isSet;
     }
 
@@ -72,7 +71,6 @@ public abstract class BallotBox {
             return true;
         }
         this.citizens = new Citizen[0];
-        citizenCounter = 0;
         return false;
     }
 
@@ -83,7 +81,6 @@ public abstract class BallotBox {
             return true;
         }
         this.parties = new Party[0];
-        partiesCounter = 0;
         return false;
     }
 
@@ -106,22 +103,18 @@ public abstract class BallotBox {
         return id;
     }
 
-    public int getVotePercentage() {
-        return votePercentage;
-    }
-
     public String getAddress() {
         return address;
     }
 
-    public int getTotalVotePercentage() {
-        calculateTotalVotePercentage();
+    public int getVotePercentage() {
+        calculateVotePercentage();
         return votePercentage;
     }
 
-    public Citizen[] getCitizens() {
+/*    public Citizen[] getCitizens() {
         return citizens;
-    }
+    }*/
 
     public Party[] getParties() {
         return parties;
@@ -131,13 +124,13 @@ public abstract class BallotBox {
         return votesForParty;
     }
 
-    public int getNumberOfCitizens(){
+/*    public int getNumberOfCitizens(){
         return citizenCounter;
-    }
+    }*/
 
-    public int getNumberOfParties(){
+/*    public int getNumberOfParties(){
         return partiesCounter;
-    }
+    }*/
 
     /************** Functions **************/
     public void vote(Citizen citizen, Party party) {
@@ -147,7 +140,7 @@ public abstract class BallotBox {
         }
     }
 
-    private void calculateTotalVotePercentage() {
+    private void calculateVotePercentage() {
         int votesSum = 0;
         for(int i = 0; i < votesForParty.length; i++) {
             votesSum += votesForParty[i];
