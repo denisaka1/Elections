@@ -54,7 +54,7 @@ public class Elections {
     public Party getPartiesByName(String name) {
         for (int i = 0; i < parties.length; i++) {
             if (parties[i] != null && name != null) {
-                if (parties[i].getName().equals(name))
+                if (parties[i].getName().toUpperCase().equals(name.toUpperCase()))
                     return parties[i];
             }
         }
@@ -204,25 +204,6 @@ public class Elections {
             return null;
     }
 
-/*    public void addBallotBoxesOld(BallotBox... newBallotBoxes) {
-        int k = newBallotBoxes.length + this.ballotBoxes.length;
-        BallotBox[] temp = new BallotBox[k * 2];
-
-        for(int i = 0; i < k; i++){
-            if(this.ballotBoxes.length > i)
-                temp[i] = this.ballotBoxes[i];
-            else{
-                if(newBallotBoxes[i - this.ballotBoxes.length] != null && !existBallotBox(newBallotBoxes[i - this.ballotBoxes.length])){
-                    temp[i] = returnBallotBox(newBallotBoxes[i - this.ballotBoxes.length]);
-//                    temp[i] = assignBallotBox(newBallotBoxes[i - this.ballotBoxes.length]);
-                    ballotBoxesCounter++;
-                }
-            }
-        }
-        this.ballotBoxes = temp;
-    }*/
-
-
     public void addBallotBoxes(BallotBox... newBallotBoxes) {
         int k = newBallotBoxes.length + this.ballotBoxes.length;
         BallotBox[] tempBallotBoxes = new BallotBox[k * 2];
@@ -298,7 +279,7 @@ public class Elections {
         this.parties = temp;
     }
 
-    private boolean existBallotBox(BallotBox ballotBox) {
+    public boolean existBallotBox(BallotBox ballotBox) {
         for (int i = 0; i < ballotBoxes.length; i++) {
             if (ballotBoxes[i] != null && ballotBox != null) {
                 if (ballotBoxes[i].equals(ballotBox)) {
@@ -307,6 +288,16 @@ public class Elections {
             }
         }
         return false;
+    }
+
+    public String getAllPartiesLine() {
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < parties.length; i++) {
+            if (parties[i] != null) {
+                sb.append(parties[i].getName() + "(" + parties[i].getSection() + ") ");
+            }
+        }
+        return sb.toString();
     }
 
     public String getAllBallotBoxes() {
@@ -318,15 +309,12 @@ public class Elections {
         return sb.toString();
     }
 
-    public boolean equals(Elections other) {
-        if( other == null)
+    public boolean equals(Elections elections) {
+        if (this == null && elections == null)
+            return true;
+        else if (this == null || elections == null)
             return false;
-        return  partiesCounter == other.partiesCounter &&
-                ballotBoxesCounter == other.ballotBoxesCounter &&
-                Arrays.equals(parties, other.parties) &&
-                Arrays.equals(ballotBoxes, other.ballotBoxes) &&
-                month == other.month &&
-                year == other.year;
+        return month == elections.month && year == elections.year; // enough to check only date
     }
 
     @Override

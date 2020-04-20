@@ -18,10 +18,8 @@ public class Army extends BallotBox {
     }
 
     public Army(Army army){
-        super(army.getAddress(), army.getTotalVotePercentage(), army.getCitizens(), army.getParties(), army.getVotesForParty());
-        setYear(army.year);
-//        this.citizenCounter = army.citizenCounter;
-//        this.partiesCounter = army.partiesCounter;
+        super(army);
+        year = army.year;
     }
 
     /************ Set Functions ************/
@@ -48,8 +46,8 @@ public class Army extends BallotBox {
         return canVote;
     }
 
-    public boolean equals(Army other){
-        return super.equals(other) && year == other.year;
+    public boolean equals(Army army){
+        return super.equals(army);
     }
 
     @Override

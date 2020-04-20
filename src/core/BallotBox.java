@@ -40,6 +40,7 @@ public abstract class BallotBox {
         setCitizens(ballotBox.citizens);
         setParties(ballotBox.parties);
         setVotesForParty(ballotBox.votesForParty);
+        this.id = ballotBox.id;
     }
 
     /************ Set Functions ************/
@@ -153,86 +154,6 @@ public abstract class BallotBox {
             votePercentage = (votesSum / citizens.length) * 100;
     }
 
-    // Citizen
-//    private void expandCitizens() {
-//        Citizen[] temp = new Citizen[citizens.length * 2];
-//        for (int i = 0; i < citizens.length; i++) {
-//            temp[i] = citizens[i];
-//        }
-//        this.citizens = temp;
-//    }
-//
-//    public boolean addCitizen(Citizen citizen) {
-//        if (citizens.length == 0) {
-//            this.citizens = new Citizen[1];
-//        }
-//
-//        if (citizenCounter >= citizens.length) {
-//            expandCitizens();
-//            addCitizen(citizen);
-//        } else if (isCitizenExists(citizen)) {
-//            return false;
-//        } else {
-//            citizens[citizenCounter] = citizen;
-//            citizens[citizenCounter].setBallotBox(this);
-//            citizenCounter++;
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    protected boolean isCitizenExists(Citizen citizen) {
-//        for (int i = 0; i < citizens.length; i++) {
-//            if (citizens[i] != null) {
-//                if (citizens[i].equals(citizen))
-//                    return true;
-//            }
-//        }
-//        return false;
-//    }
-
-    // Party
-//    private void expandParties() {
-//        Party[] temp = new Party[parties.length * 2];
-//        int[] votesTemp = new int[parties.length * 2];
-//
-//        for (int i = 0; i < parties.length; i++) {
-//            temp[i] = parties[i];
-//            votesTemp[i] = votesForParty[i];
-//        }
-//        this.parties = temp;
-//        this.votesForParty = votesTemp;
-//    }
-//
-//    public boolean addParty(Party party) {
-//        if (parties.length == 0) {
-//            this.parties = new Party[1];
-//            this.votesForParty = new int[1];
-//        }
-//
-//        if (partiesCounter >= parties.length) {
-//            expandParties();
-//            addParty(party);
-//        } else if (existParty(party)) {
-//            return false;
-//        } else {
-//            parties[partiesCounter] = party;
-//            partiesCounter++;
-//            return true;
-//        }
-//        return false;
-//    }
-
-//    private boolean existParty(Party party) {
-//        for (int i = 0; i < parties.length; i++) {
-//            if (parties[i] != null) {
-//                if (parties[i].equals(party))
-//                    return true;
-//            }
-//        }
-//        return false;
-//    }
-
     public void addCitizens(Citizen... newCitizens) {
         int k = newCitizens.length + this.citizens.length;
         Citizen[] tempBallotBoxes = new Citizen[k * 2];
@@ -259,25 +180,6 @@ public abstract class BallotBox {
         }
 
         this.citizens = tempBallotBoxes;
-    }
-
-    public void addCitizensV2(Citizen... newCitizens){
-        // assign temp Citizen array -> first comes base array
-        //                           -> second comes the new array
-        int k = newCitizens.length + this.citizens.length;
-        Citizen[] temp = new Citizen[k * 2];
-        for(int i = 0; i < k; i++){
-            if (this.citizens.length > i)
-                temp[i] = this.citizens[i];
-            else {
-                if (newCitizens[i - this.citizens.length] != null && !isCitizenExists(newCitizens[i - this.citizens.length])) {
-                    temp[i] = newCitizens[i - this.citizens.length];
-                    citizenCounter++;
-                }
-            }
-        }
-
-        this.citizens = temp;
     }
 
     public void addParties(Party... newParties) {
@@ -311,12 +213,6 @@ public abstract class BallotBox {
         this.votesForParty = tempVoteForParty;
     }
 
-    private void sortParties() { // ?
-        for (int i = 0; i < this.parties.length; i++) {
-
-        }
-    }
-
     protected boolean isCitizenExists(Citizen newCitizen) {
         boolean exists = false;
         for (Citizen citizen: citizens) {
@@ -340,57 +236,21 @@ public abstract class BallotBox {
         for (int i = 0; i < parties.length; i++) {
             if (party.equals(parties[i])) {
                 votesForParty[i]++;
-                System.out.println("Vote has been added!\n#added to party number:" + i + "\n#added to votesForParty number " + i );
+                System.out.println("Vote has been added!\n#added to party number:" + i + "\n#added to votesForParty number " + i ); // To test
             }
         }
     }
 
     abstract public boolean canVote(Citizen citizen);
 
-    public boolean equals(BallotBox other) {
-        if (other == null && this == null)
+    public boolean equals(BallotBox ballotBox) {
+        if (ballotBox == null && this == null)
             return true;
-        else if (other == null || this == null)
+        else if (ballotBox == null || this == null)
             return false;
-        else
-            return votePercentage == other.votePercentage &&
-                    address.equals(other.address) &&
-                    citizens.equals(other.citizens) &&
-                    parties.equals(other.parties) &&
-                    votesForParty.equals(other.votesForParty);
+        return address.equals(ballotBox.address); // enough to check only address
     }
 
-
-/*    private boolean isSameCitizens(Citizen[] other){
-        boolean isSame = true;
-        for(int i = 0; i < citizenCounter; i++){
-            if(isSame && ( citizens[i] == null || other[i] == null ) && !citizens[i].equals(other[i]) )
-                isSame = false;
-        }
-        return isSame;
-    }
-
-    private boolean isSamePartiesAndVoteForParty(Party[] otherParties, int[] otherVotes){
-        boolean isSame = true;
-        for(int i = 0; i < partiesCounter; i++){
-            if(isSame && ( parties[i] == null || otherParties[i] == null ) && !parties[i].equals(otherParties[i]) &&
-                votesForParty[i] != otherVotes[i])
-                isSame = false;
-        }
-        return isSame;
-    }
-
-    /*
-    // use only if the function isSamePartiesAndVoteForParty doesn't work for votes
-    private boolean isSameVoteForParties(int[] other){
-        boolean isSame = true;
-        for(int i = 0; i < partiesCounter; i++){
-            if(isSame && votesForParty[i] != other[i])
-                isSame = false;
-        }
-        return isSame;
-    }
-*/
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();

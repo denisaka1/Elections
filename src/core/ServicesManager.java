@@ -12,12 +12,11 @@ public class ServicesManager {
         ballotBoxes[0] = new Regular("Balfour");
         ballotBoxes[1] = new Army("Jenin");
         ballotBoxes[2] = new Corona("Tel Aviv");
-        BallotBox.numGen = 0;
 
         // Parties
         Party[] parties = new Party[3];
         parties[0] = new Party("Likud", "right", 1973, 1, 1);
-        parties[1] = new Party("Kahol_Lavan", "center", 2019, 1, 1);
+        parties[1] = new Party("Kahol Lavan", "center", 2019, 1, 1);
         parties[2] = new Party("Meretz", "left", 1992, 1, 1);
 
         addBallotBox(ballotBoxes[0]);
@@ -54,8 +53,6 @@ public class ServicesManager {
         addCandidate(refCitizen[3].getID(), parties[1].getName(), 1);
         addCandidate(refCitizen[4].getID(), parties[2].getName(), 5); // check
         addCandidate(refCitizen[5].getID(), parties[2].getName(), 1);
-
-
     }
 
     public static void showMenu() {
@@ -74,14 +71,20 @@ public class ServicesManager {
     }
 
     public static void addBallotBox(BallotBox ballotBox) {
-        election.addBallotBoxes(ballotBox);
+        if (!election.existBallotBox(ballotBox))
+            election.addBallotBoxes(ballotBox);
+        else
+            System.out.println("This BallotBox has already been created!!!\n");
+
     }
 
     public static void addCitizen(Citizen citizen) {
-        vr.addCitizen(citizen);
-        Citizen refToCitizen = vr.getCitizenById(citizen.getID());
-        election.addCitizenToBallotBoxes(refToCitizen);
-
+        if (!citizen.getID().equals("-1")) {
+            vr.addCitizen(citizen);
+            Citizen refToCitizen = vr.getCitizenById(citizen.getID());
+            election.addCitizenToBallotBoxes(refToCitizen);
+        } else
+            System.out.println("You are prohibited to enter as a citizen!");
     }
 
     public static BallotBox getBallotBoxByNumber(int number) {
@@ -98,6 +101,8 @@ public class ServicesManager {
 
         if (citizen != null && party != null) {
             party.addCandidate(citizen, place);
+        } else {
+            System.out.println("An error has occurred\n");
         }
     }
 
@@ -115,14 +120,16 @@ public class ServicesManager {
 
     public static void beginElections(Scanner s) {
         Citizen[] citizens = vr.getCitizens(); // Reference
-        Party partyVote = null;
+        Party partyVote;
+        System.out.println(election.getAllPartiesLine());
         for (int i = 0; i < citizens.length; i++) {
             if (citizens[i] != null) {
                 if (!citizens[i].getVoted()) {
                     partyVote = election.getPartiesByName(Program.getVoteParty(s, citizens[i].getName()));
                     if (partyVote != null) {
                         citizens[i].getBallotBox().vote(citizens[i], partyVote);
-                        partyVote = null;
+                    } else {
+                        System.out.println("Ooops... Something went wrong with your vote...\n");
                     }
                 }
             }
@@ -135,6 +142,7 @@ public class ServicesManager {
         int[] voteForParty;
         Party[] parties;
 
+        System.out.println("--------------------------------------------------\n");
         for (int i = 0; i < ballotBoxes.length; i++) {
             if (ballotBoxes[i] != null) {
                 System.out.print(ballotBoxes[i].toString());
@@ -150,6 +158,7 @@ public class ServicesManager {
                 System.out.println("");
             }
         }
+        System.out.println("--------------------------------------------------\n");
 
         parties = election.getParties();
         System.out.println("Final Results : ");

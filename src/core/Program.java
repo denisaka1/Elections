@@ -4,10 +4,9 @@ import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
-
         Scanner s = new Scanner(System.in);
+        ServicesManager.hardCodeToTest(); // HARD CODE
 
-        ServicesManager.hardCodeToTest();
         boolean exit = false;
         while (!exit) {
             ServicesManager.showMenu();
@@ -57,8 +56,9 @@ public class Program {
         boolean isolation;
         BallotBox ballotBox;
 
+        s.nextLine();
         System.out.print("Enter name : ");
-        name = s.next();
+        name = s.nextLine();
 
         System.out.print("Enter ID :");
         id = s.next();
@@ -89,8 +89,9 @@ public class Program {
         int month;
         int day;
 
+        s.nextLine();
         System.out.print("Enter name : ");
-        name = s.next();
+        name = s.nextLine();
 
         System.out.print("Enter Section \n1 - Right \n2 - Center \n3 - Left ");
         sectionAns = s.nextInt();
@@ -122,9 +123,9 @@ public class Program {
     public static BallotBox getBallotBox(Scanner s) {
         String address;
         int kind;
-
+        s.nextLine();
         System.out.print("Enter Address : ");
-        address = s.next();
+        address = s.nextLine();
 
         System.out.print("Which kind of ballot box \n1 - Regular \n2 - Army \n3 - Corona ");
         kind = s.nextInt();
@@ -145,11 +146,13 @@ public class Program {
         System.out.print("Enter Citizen ID : ");
         info[0] = s.next();
 
+        System.out.println(ServicesManager.election.getAllPartiesLine());
+        s.nextLine();
         System.out.print("Enter Party Name : ");
-        info[1] = s.next();
+        info[1] = s.nextLine();
 
-        System.out.print("Enter Place : "); // Exception int
-        info[2] = s.next();
+        System.out.print("Enter Place : ");
+        info[2] = Integer.toString(s.nextInt());
 
         return info;
     }
@@ -158,8 +161,9 @@ public class Program {
         System.out.print(citizenName + ", You want to vote ? [Y/N]");
         char ansChar = s.next().toCharArray()[0];
         if (ansChar == 'y' || ansChar == 'Y') {
+            s.nextLine();
             System.out.print("You want to vote to : ");
-            return s.next();
+            return s.nextLine();
         }
         else
             return null;
