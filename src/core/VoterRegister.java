@@ -126,9 +126,8 @@ public class VoterRegister {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < citizens.length; i++)
-            if (citizens[i] != null)
-                sb.append(citizens[i] + "\n");
+        for (int i = 0; i < citizensCounter; i++)
+            sb.append(citizens[i] + "\n");
         return sb.toString();
     }
 }
