@@ -53,6 +53,9 @@ public class ServicesManager {
         addCandidate(refCitizen[3].getID(), parties[1].getName(), 1);
         addCandidate(refCitizen[4].getID(), parties[2].getName(), 5);
         addCandidate(refCitizen[5].getID(), parties[2].getName(), 1);
+
+//        System.out.println(election.toString());
+//        System.out.println(vr.toString());
     }
 
     public static void showMenu() {
@@ -71,7 +74,7 @@ public class ServicesManager {
     }
 
     public static void addBallotBox(BallotBox ballotBox) {
-        if (!election.existBallotBox(ballotBox))
+        if (ballotBox.getAddress().length() != 0 && !election.existBallotBox(ballotBox))
             election.addBallotBoxes(ballotBox);
         else
             System.out.println("This BallotBox has already been created!!!\n");
@@ -79,8 +82,7 @@ public class ServicesManager {
     }
 
     public static void addCitizen(Citizen citizen) {
-        if (!citizen.getID().equals("-1")) {
-
+        if (!citizen.getID().equals("-1") && citizen.getName().length() != 0) {
             if (citizen.isIsolation() && !(citizen.getBallotBox() instanceof Corona) ||
                     (election.getYear() - citizen.getBirthYear()) <= 21 &&  !(citizen.getBallotBox() instanceof Army))
                 System.out.println("You are prohibited to enter as a citizen to this ballot box!");
@@ -98,17 +100,22 @@ public class ServicesManager {
     }
 
     public static void addParty(Party party) {
-        election.addParty(party);
+        if (party.getName().length() != 0 && !election.existParty(party))
+            election.addParty(party);
+        else
+            System.out.println("You are not allowed to add this party");
     }
 
     public static void addCandidate(String citizenID, String partyName, int place) {
-        Citizen citizen = vr.getCitizenById(citizenID);
-        Party party = election.getPartiesByName(partyName);
+        if (citizenID.length() != 0 && citizenID != null && partyName != null && partyName.length() != 0) {
+            Citizen citizen = vr.getCitizenById(citizenID);
+            Party party = election.getPartiesByName(partyName);
 
-        if (citizen != null && party != null) {
-            party.addCandidate(citizen, place);
-        } else {
-            System.out.println("An error has occurred\n");
+            if (citizen != null && party != null) {
+                party.addCandidate(citizen, place);
+            } else {
+                System.out.println("An error has occurred\n");
+            }
         }
     }
 
@@ -134,7 +141,7 @@ public class ServicesManager {
                 if (!citizens[i].getVoted()) {
                     getVote = Program.getVoteParty(s, citizens[i].getName());
                     if (getVote.equals("false")) {
-                        System.out.println("Don't worry, See you in three months");
+                        System.out.println("Don't worry, See you in three months\n");
                     } else {
                         partyVote = election.getPartiesByName(getVote);
                         if (partyVote != null) {
@@ -142,7 +149,7 @@ public class ServicesManager {
                                 if (Program.CoronaQuiz(s))
                                     citizens[i].getBallotBox().vote(citizens[i], partyVote);
                                 else
-                                    System.out.println("You have been violated Ministers of health rules against Corona pandemic !!! You have to pay a 15,000 Shekels fee !!!");
+                                    System.out.println("You have been violated Ministers of health rules against Corona pandemic !!! You have to pay a 15,000 Shekels fee !!!\n");
                             } else
                                 citizens[i].getBallotBox().vote(citizens[i], partyVote);
                         } else {

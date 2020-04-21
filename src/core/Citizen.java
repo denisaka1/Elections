@@ -1,8 +1,5 @@
 package core;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 public class Citizen {
     /* Defaults:
       name: citizen
@@ -170,17 +167,22 @@ public class Citizen {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
+        sb.append("----------------\n");
         sb.append("Name : " + name + ", ID : " + id + ", Birth Year :" + birthYear + "\n");
         if (isolation)
             sb.append("In isolation \n");
+        else
+            sb.append("Not in isolation\n");
 
         if (voted)
             sb.append("Voted in " + ballotBox + "\n");
         else
-            sb.append("Vote in " + ballotBox + "\n");
+            sb.append("Can vote in " + ballotBox + "\n");
 
         if (party != null)
             sb.append("Party : " + party.getName() + "\n");
+
+        sb.append("----------------\n");
 
         return sb.toString();
     }

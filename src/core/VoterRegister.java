@@ -38,7 +38,7 @@ public class VoterRegister {
         return citizens;
     }
 
-    public int getIndexByCitizen(Citizen citizen) {
+/*    public int getIndexByCitizen(Citizen citizen) {
         for (int i = 0; i < citizens.length; i++) {
             if(citizen != null) {
                 if (citizens[i].equals(citizen)) {
@@ -47,7 +47,7 @@ public class VoterRegister {
             }
         }
         return -1;
-    }
+    }*/
 
     public Citizen getCitizenById(String id) {
         for (int i = 0; i < citizens.length; i++) {

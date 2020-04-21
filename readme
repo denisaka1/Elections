@@ -1,6 +1,6 @@
 Exercise 1 (2020 B)
-Barak Moskovich - 315836916
-Denis Karabitski -
+Barak Moskovich
+Denis Karabitski
 
 TODO: Unit 2:
       Array to ArrayList
@@ -8,52 +8,3 @@ TODO: Unit 2:
       ID check
       VoterRegister Citizen above age 18
       Interface to user
-
-
-v1.4
-added:
-       BallotBox -> getPartiesNumber
-                 -> getCitizensNumber
-
-       Elections -> setters in the constructor
-
-       VoterRegister -> setter
-
-fixed:
-       BallotBox -> equals
-
-       Regular   -> equals
-
-       Army      -> equals
-
-       Corona    -> equals
-
-       Citizen   -> equals
-
-       Party     -> equals
-                 -> setCandidates
-                 -> erased counterCandidates from base constructor
-
-       Elections -> equals
-
-       VoterRegister -> equals
-
-v1.5
-added:
-       Elections -> addParties
-                 -> AddBallotBoxes
-
-       VoterRegister -> addCitizens
-
-fixed:
-       ServiceManager -> addParties
-                      -> addBallotBoxes
-
-
-v1.6
-fixed :
-        Elections   -> Change returnBallotBox to assignBallotBox
-        BallotBox   -> addParties
-                    -> private id
-
-

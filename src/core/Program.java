@@ -173,7 +173,7 @@ public class Program {
     }
 
     public static boolean CoronaQuiz(Scanner s) {
-        System.out.print("Are you wearing a protective suit ? ");
+        System.out.print("Are you wearing a protective suit ?  [Y/N] ");
         char ansChar = s.next().toCharArray()[0];
         if (ansChar == 'y' || ansChar == 'Y')
             return true;

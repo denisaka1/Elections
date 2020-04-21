@@ -107,8 +107,8 @@ public abstract class BallotBox {
         return address;
     }
 
-    public int getTotalVotePercentage() {
-        calculateTotalVotePercentage();
+    public int getVotePercentage() {
+        calculateVotePercentage();
         return votePercentage;
     }
 
@@ -124,11 +124,11 @@ public abstract class BallotBox {
         return votesForParty;
     }
 
-    public int getNumberOfCitizens(){
+    public int getNumberOfCitizens() {
         return citizenCounter;
     }
 
-    public int getNumberOfParties(){
+    public int getNumberOfParties() {
         return partiesCounter;
     }
 
@@ -140,7 +140,7 @@ public abstract class BallotBox {
         }
     }
 
-    private void calculateTotalVotePercentage() {
+    private void calculateVotePercentage() {
         int votesSum = 0;
         for(int i = 0; i < votesForParty.length; i++) {
             votesSum += votesForParty[i];
