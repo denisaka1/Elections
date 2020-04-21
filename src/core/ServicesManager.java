@@ -116,7 +116,8 @@ public class ServicesManager {
             } else {
                 System.out.println("An error has occurred\n");
             }
-        }
+        } else
+            System.out.println("An error has occurred\n");
     }
 
     public static String showAllCitizens() {
