@@ -75,6 +75,8 @@ public class Program {
         else
             isolation = false;
 
+        System.out.println(ServicesManager.getLegalBallotBoxes(birthYear, isolation));
+
         System.out.println("Enter Ballot Box Number : ");
         ballotBox = ServicesManager.getBallotBoxByNumber(s.nextInt());
 
@@ -164,8 +166,17 @@ public class Program {
             s.nextLine();
             System.out.print("You want to vote to : ");
             return s.nextLine();
-        }
-        else
-            return null;
+        } else if (ansChar == 'n' || ansChar == 'N') {
+            return "false";
+        } else
+            return " ";
+    }
+
+    public static boolean CoronaQuiz(Scanner s) {
+        System.out.print("Are you wearing a protective suit ? ");
+        char ansChar = s.next().toCharArray()[0];
+        if (ansChar == 'y' || ansChar == 'Y')
+            return true;
+        return false;
     }
 }

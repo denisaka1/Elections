@@ -271,7 +271,7 @@ public class Elections {
             else{
                 if(newParties[i - this.parties.length] != null && !existParty(newParties[i - this.parties.length])){
                     temp[i] = new Party(newParties[i - this.parties.length]);
-                    updateBallotBoxes(temp[i]); //
+                    updateBallotBoxes(temp[i]);
                     partiesCounter++;
                 }
             }

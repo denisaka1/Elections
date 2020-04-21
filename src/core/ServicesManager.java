@@ -27,7 +27,7 @@ public class ServicesManager {
 
         // Citizens
         Citizen[] citizens = new Citizen[6];
-        citizens[0] = new Citizen("Barak", "000000001", 2002, false, refBallotBoxes[0], null, false); // Regular
+        citizens[0] = new Citizen("Barak", "000000001", 1996, false, refBallotBoxes[0], null, false); // Regular
         citizens[1] = new Citizen("Denis", "000000002", 1990, false, refBallotBoxes[0], null, false); // Regular
         citizens[2] = new Citizen("Dana", "000000003", 2002, false, refBallotBoxes[1], null, false); // Army
         citizens[3] = new Citizen("Alon", "000000004", 2001, false, refBallotBoxes[1], null, false); // Army
@@ -51,7 +51,7 @@ public class ServicesManager {
         addCandidate(refCitizen[1].getID(), parties[0].getName(), 2);
         addCandidate(refCitizen[2].getID(), parties[1].getName(), 2);
         addCandidate(refCitizen[3].getID(), parties[1].getName(), 1);
-        addCandidate(refCitizen[4].getID(), parties[2].getName(), 5); // check
+        addCandidate(refCitizen[4].getID(), parties[2].getName(), 5);
         addCandidate(refCitizen[5].getID(), parties[2].getName(), 1);
     }
 
@@ -80,9 +80,15 @@ public class ServicesManager {
 
     public static void addCitizen(Citizen citizen) {
         if (!citizen.getID().equals("-1")) {
-            vr.addCitizen(citizen);
-            Citizen refToCitizen = vr.getCitizenById(citizen.getID());
-            election.addCitizenToBallotBoxes(refToCitizen);
+
+            if (citizen.isIsolation() && !(citizen.getBallotBox() instanceof Corona) ||
+                    (election.getYear() - citizen.getBirthYear()) <= 21 &&  !(citizen.getBallotBox() instanceof Army))
+                System.out.println("You are prohibited to enter as a citizen to this ballot box!");
+            else {
+                vr.addCitizen(citizen);
+                Citizen refToCitizen = vr.getCitizenById(citizen.getID());
+                election.addCitizenToBallotBoxes(refToCitizen);
+            }
         } else
             System.out.println("You are prohibited to enter as a citizen!");
     }
@@ -121,15 +127,27 @@ public class ServicesManager {
     public static void beginElections(Scanner s) {
         Citizen[] citizens = vr.getCitizens(); // Reference
         Party partyVote;
+        String getVote;
         System.out.println(election.getAllPartiesLine());
         for (int i = 0; i < citizens.length; i++) {
             if (citizens[i] != null) {
                 if (!citizens[i].getVoted()) {
-                    partyVote = election.getPartiesByName(Program.getVoteParty(s, citizens[i].getName()));
-                    if (partyVote != null) {
-                        citizens[i].getBallotBox().vote(citizens[i], partyVote);
+                    getVote = Program.getVoteParty(s, citizens[i].getName());
+                    if (getVote.equals("false")) {
+                        System.out.println("Don't worry, See you in three months");
                     } else {
-                        System.out.println("Ooops... Something went wrong with your vote...\n");
+                        partyVote = election.getPartiesByName(getVote);
+                        if (partyVote != null) {
+                            if (citizens[i].getBallotBox() instanceof Corona) {
+                                if (Program.CoronaQuiz(s))
+                                    citizens[i].getBallotBox().vote(citizens[i], partyVote);
+                                else
+                                    System.out.println("You have been violated Ministers of health rules against Corona pandemic !!! You have to pay a 15,000 Shekels fee !!!");
+                            } else
+                                citizens[i].getBallotBox().vote(citizens[i], partyVote);
+                        } else {
+                            System.out.println("Ooops... Something went wrong with your vote...\n");
+                        }
                     }
                 }
             }
@@ -167,5 +185,24 @@ public class ServicesManager {
                 System.out.println(parties[i].getName() + " : " + results[i]);
             }
         }
+    }
+
+    public static String getLegalBallotBoxes(int birthYear, boolean isolation) {
+        String str = "";
+        BallotBox[] refBallotBoxes = election.getBallotBoxes();
+        for (int i = 0; i <refBallotBoxes.length; i++) {
+            if (isolation) {
+                if (refBallotBoxes[i] instanceof Corona)
+                    str += refBallotBoxes[i].getId() + "-" + refBallotBoxes[i].getAddress() + " ";
+
+            } else if (election.getYear() - birthYear <= 21) { // 18+
+                if (refBallotBoxes[i] instanceof Army)
+                    str += refBallotBoxes[i].getId() + "-" + refBallotBoxes[i].getAddress() + " ";
+            } else {
+                if (refBallotBoxes[i] instanceof Regular)
+                    str += refBallotBoxes[i].getId() + "-" + refBallotBoxes[i].getAddress() + " ";
+            }
+        }
+        return str;
     }
 }

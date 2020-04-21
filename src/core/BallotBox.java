@@ -8,7 +8,7 @@ public abstract class BallotBox {
        parties.length: 0
        votesForParty.length: 0
    */
-    public static int numGen; // auto generated // TODO: private
+    private static int numGen; // auto generated
     private int id;
     private String address;
     private int votePercentage; // total of legal citizens that can vote to a specific ballot box
@@ -34,7 +34,6 @@ public abstract class BallotBox {
     }
 
     public BallotBox(BallotBox ballotBox){
-//        this(ballotBox.address, ballotBox.votePercentage, ballotBox.citizens, ballotBox.parties, ballotBox.votesForParty);
         setAddress(ballotBox.address);
         setVotePercentage(ballotBox.votePercentage);
         setCitizens(ballotBox.citizens);
@@ -102,10 +101,6 @@ public abstract class BallotBox {
     /************ Get Functions ************/
     public int getId() {
         return id;
-    }
-
-    public int getVotePercentage() {
-        return votePercentage;
     }
 
     public String getAddress() {
@@ -236,7 +231,8 @@ public abstract class BallotBox {
         for (int i = 0; i < parties.length; i++) {
             if (party.equals(parties[i])) {
                 votesForParty[i]++;
-                System.out.println("Vote has been added!\n#added to party number:" + i + "\n#added to votesForParty number " + i ); // To test
+                System.out.println("Thanks you for voted!\n");
+//                System.out.println("Vote has been added!\n#added to party number:" + i + "\n#added to votesForParty number " + i ); // To test
             }
         }
     }

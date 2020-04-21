@@ -212,7 +212,7 @@ public class Party {
             candidates[counterCandidates] = candidate;
             candidatesPlaces[counterCandidates] = place;
             counterCandidates++;
-            candidate.setInParty(this); // todo : not this, from election
+            candidate.setInParty(this);
             candidatesSort();
             return true;
         }
