@@ -1,41 +1,41 @@
 package core;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class VoterRegister {
     /* Defaults:
        citizens.length: 0
        citizensCounter: 0
    */
-    private Citizen[] citizens;
+    private ArrayList<Citizen> citizenList;
     private int citizensCounter;
 
     /************ Constructor ************/
-    public VoterRegister(Citizen[] citizens) {
+    public VoterRegister(ArrayList<Citizen> citizens){
         setCitizens(citizens);
     }
 
     public VoterRegister() {
-        this(new Citizen[0]);
+        this(null);
     }
 
     /************ Set Functions ************/
-    private boolean setCitizens(Citizen[] citizens){
-        if(citizens != null && citizens.length != 0){
-            for(int i = 0; i < citizens.length; i++){
-                this.citizens[i] = new Citizen(citizens[i]);
+    private boolean setCitizens(ArrayList<Citizen> citizens){
+        if (citizens != null) {
+            for (int i = 0; i < citizens.size(); i++) {
+                citizenList.add(new Citizen(citizens.get(i)));
             }
-            citizensCounter = citizens.length;
             return true;
+        }else {
+            citizenList = new ArrayList<Citizen>(0);
+            return false;
         }
-        this.citizens = new Citizen[0];
-        citizensCounter = 0;
-        return false;
     }
 
     /************ Get Functions ************/
-    public Citizen[] getCitizens() {
-        return citizens;
+    public ArrayList<Citizen> getCitizens() {
+        return citizenList;
     }
 
 /*    public int getIndexByCitizen(Citizen citizen) {
@@ -50,66 +50,34 @@ public class VoterRegister {
     }*/
 
     public Citizen getCitizenById(String id) {
-        for (int i = 0; i < citizens.length; i++) {
-            if (citizens[i] != null && id != null) {
-                if (citizens[i].getID().equals(id))
-                    return citizens[i];
+        if (id != null) {
+            for(Citizen citizen: citizenList){
+                if (citizen.getID() == id)
+                    return citizen;
             }
+
         }
         return null;
     }
 
     /************** Functions **************/
-    private void expandCitizens() {
-        Citizen[] temp = new Citizen[citizens.length * 2];
-        for (int i = 0; i < citizens.length; i++) {
-            temp[i] = citizens[i];
-        }
-        this.citizens = temp;
-    }
 
     public boolean addCitizen(Citizen citizen) {
-        if (citizens.length == 0) {
-            this.citizens = new Citizen[1];
-        }
-
-        if (existCitizen(citizen)) {
-            return false;
-        } else if (citizensCounter >= citizens.length) {
-            expandCitizens();
-            addCitizen(citizen);
-        } else {
-            citizens[citizensCounter] = new Citizen(citizen);
-            citizensCounter++;
+        if (citizen != null && !citizenList.contains(citizen)){
+            citizenList.add(new Citizen(citizen));
             return true;
         }
         return false;
     }
 
-    public void addCitizens(Citizen... newCitizens){
-        int k = newCitizens.length + this.citizens.length;
-        Citizen[] temp = new Citizen[k * 2];
+    // TODO: if not used maybe delete... ?
+    public boolean addCitizens(Citizen... citizens) {
+        if (citizens != null) {
+            for(Citizen citizen: citizens){
+                addCitizen(citizen);
 
-        for(int i = 0; i < k; i++){
-            if(this.citizens.length > i)
-                temp[i] = this.citizens[i];
-            else{
-                if(newCitizens[i - this.citizens.length] != null && !existCitizen(newCitizens[i - this.citizens.length])){
-                    temp[i] = new Citizen(newCitizens[i - this.citizens.length]);
-                    citizensCounter++;
-                }
             }
-        }
-        this.citizens = temp;
-    }
-
-    private boolean existCitizen(Citizen citizen) {
-        for (int i = 0; i < citizens.length; i++) {
-            if (citizens[i] != null && citizen != null) {
-                if (citizens[i].equals(citizen)) {
-                    return true;
-                }
-            }
+            return true;
         }
         return false;
     }
@@ -119,15 +87,29 @@ public class VoterRegister {
             return true;
         else if  (voterRegister == null || this == null)
             return false;
-        return citizensCounter == voterRegister.citizensCounter &&
-                Arrays.equals(citizens, voterRegister.citizens);
+        return citizensCounter == voterRegister.citizensCounter;
+//                Arrays.equals(citizenList, voterRegister.citizenList);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VoterRegister)) return false;
+        VoterRegister that = (VoterRegister) o;
+        return Objects.equals(citizenList, that.citizenList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(citizenList);
     }
 
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < citizensCounter; i++)
-            sb.append(citizens[i] + "\n");
+        for (int i = 0; i < citizensCounter; i++){
+//            sb.append(citizens[i] + "\n");
+        }
         return sb.toString();
     }
 }

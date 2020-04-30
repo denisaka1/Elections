@@ -17,6 +17,8 @@ public class Citizen {
     private BallotBox ballotBox; // kalpi eleha hu meshuyah
     private Party party;
     private boolean voted;
+    private boolean isInParty;
+    private boolean isInBallotBox;
 
     /************ Constructor ************/
     public Citizen(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox, Party party, boolean voted) {
@@ -31,6 +33,8 @@ public class Citizen {
 
     public Citizen(Citizen citizen) {
         this(citizen.name, citizen.id, citizen.birthYear, citizen.isolation, citizen.ballotBox, citizen.party, citizen.voted);
+        this.isInParty = citizen.isInParty;
+        this.isInBallotBox = citizen.isInBallotBox;
     }
 
     public Citizen(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox) {
@@ -68,6 +72,10 @@ public class Citizen {
 
     public boolean getVoted() {
         return voted;
+    }
+
+    public boolean isInParty(){
+        return isInParty;
     }
 
     /************ Set Functions ************/
@@ -124,23 +132,24 @@ public class Citizen {
         return isolation;
     }
 
-    public boolean setBallotBox(BallotBox ballotBox) {
-        if (ballotBox != null)
+    private boolean setBallotBox(BallotBox ballotBox) {
+        if (ballotBox != null){
             this.ballotBox = ballotBox;
-        else {
+            isInBallotBox = true;
+        }else {
             this.ballotBox = null;
             return false;
         }
         return true;
     }
 
-    public boolean setInParty(Party party) {
+    private boolean setInParty(Party party) {
         if(party != null){
             this.party = party;
+            isInParty = true;
             return true;
         }else
             this.party = null;
-
         return false;
     }
 
@@ -150,11 +159,24 @@ public class Citizen {
     }
 
     /************** Functions **************/
+    public void assignToParty(Party party) {
+        if (party != null && !isInParty) {
+            this.party = party;
+            isInParty = true;
+        }
+    }
+
+    public void assignToBallotBox(BallotBox ballotBox) {
+        if (ballotBox != null && !isInBallotBox) {
+            this.ballotBox = ballotBox;
+            isInBallotBox = true;
+        }
+    }
+
     public void vote(){
         if(!voted)
             setVoted(true);
     }
-
 
     public boolean equals(Citizen citizen) {
         if(citizen == null && this == null)

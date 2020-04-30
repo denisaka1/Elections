@@ -1,5 +1,7 @@
 package core;
 
+import java.util.Hashtable;
+
 public class Party {
     /* Defaults:
         name: Default
@@ -7,9 +9,7 @@ public class Party {
         day: 1
         month: 1
         year: 2020
-        candidates: new Citizen[0]
-        candidatesPlaces.length: 0
-        counterCandidates: 0
+        candidates.length: 0
     */
 
     public static final String LEFT_SECTION = "left";
@@ -20,29 +20,22 @@ public class Party {
     private int year;
     private int month;
     private int day;
-    private Citizen[] candidates;
-    private int[] candidatesPlaces;
-    private int counterCandidates;
+    private Hashtable<Citizen, Integer> candidates;
 
-    public Party(String name, String section, int year, int month, int day, Citizen[] candidates, int[] candidatesPlaces) {
+    public Party(String name, String section, int year, int month, int day, Hashtable<Citizen, Integer> candidates) {
         setName(name);
         setSection(section);
         setCreationDate(year, month, day);
         setCandidates(candidates);
-        setCandidatesPlaces(candidatesPlaces);
-//        this.counterCandidates = counterCandidates;
     }
 
     public Party(String name, String section, int year, int month, int day) {
 //        this(name, section, year, month, day, new Citizen[0], 0);
-        this(name, section, year, month, day, new Citizen[0], new int[0]);
+        this(name, section, year, month, day, null);
     }
 
     public Party(Party party){
-//        this(party.name, party.section, party.year, party.month, party.day, party.candidates, 0);
-        this(party.name, party.section, party.year, party.month, party.day, party.candidates, party.candidatesPlaces);
-        this.counterCandidates = party.counterCandidates;
-        this.candidatesPlaces = new int[0];
+        this(party.name, party.section, party.year, party.month, party.day, party.candidates);
     }
 
     /************ Get Functions ************/
@@ -66,23 +59,22 @@ public class Party {
         return this.day;
     }
 
-    public Citizen[] getCandidates() {
+    public Hashtable<Citizen, Integer> getCandidates() {
         return candidates;
     }
 
     public int getCandidatesCounter() {
-        return candidates.length;
+        return candidates.size();
     }
 
     /************ Set Functions ************/
-    private void setCandidatesPlaces(int[] candidatesPlaces) {
-        if (candidates.length != candidatesPlaces.length) {
-            int[] tempPlaces = candidatesPlaces;
-            this.candidatesPlaces = new int[candidates.length];
-            this.candidatesPlaces = tempPlaces;
-        } else {
-            this.candidatesPlaces = candidatesPlaces;
+    private boolean setCandidates(Hashtable<Citizen, Integer> candidates){
+        if(candidates != null && !candidates.isEmpty()){
+            this.candidates = candidates;
+            return true;
         }
+        this.candidates = new Hashtable<Citizen, Integer>(0);
+        return false;
     }
 
     private boolean setName(String name) {
@@ -169,30 +161,29 @@ public class Party {
         return done;
     }
 
-    private boolean setCandidates(Citizen[] candidates) {
-        if(candidates != null) {
-            this.candidates = new Citizen[candidates.length];
-            for(int i = 0; i < candidates.length; i++){
-                this.candidates[i] = candidates[i];
-            }
-            counterCandidates = candidates.length;
-            this.candidatesPlaces = new int[candidates.length];
-            return true;
-        }
-        this.candidates = new Citizen[0];
-        counterCandidates = 0;
-        this.candidatesPlaces = new int[0];
-        return false;
-    }
-/*
-    private boolean setCandidatesPlaces() {
-        this.candidatesPlaces = new int[candidates.length];
-        return true;
-    }
- */
-
     /************** Functions **************/
     public boolean addCandidate(Citizen candidate, int place) {
+        if (candidate != null && !candidate.isInParty() && place > 0 && !candidates.containsValue(place)) {
+            candidates.put(candidate, place);
+            candidate.assignToParty(this);
+            return true;
+        }
+        return false;
+    }
+
+    private int minValue() {
+        int min = 0;
+        for (int value: candidates.values()) {
+            if(min > value)
+                min = value;
+        }
+        return min;
+    }
+
+    private void sortCandidates(){
+        // TODO: if needed ?
+    }
+/*    public boolean addCandidate(Citizen candidate, int place) {
         if (candidates == null || candidates.length == 0) {
             this.candidates = new Citizen[1];
             this.candidatesPlaces = new int[1];
@@ -248,18 +239,8 @@ public class Party {
         }
         this.candidates = tempCitizen;
         this.candidatesPlaces = tempPlaces;
-    }
+    }*/
 
-    private void expandCandidates() {
-        Citizen[] tempCitizen = new Citizen[candidates.length * 2];
-        int[] tempPlaces = new int[candidates.length * 2];
-        for (int i = 0; i < candidates.length; i++) {
-            tempCitizen[i] = candidates[i];
-            tempPlaces[i] = candidatesPlaces[i];
-        }
-        this.candidates = tempCitizen;
-        this.candidatesPlaces = tempPlaces;
-    }
 
 
     public boolean equals(Party party) {
@@ -276,7 +257,7 @@ public class Party {
         sb.append("Party name : " + name + "\n");
         sb.append("Section : " + section + "\n");
         sb.append("Creation Date : " + day + "/" + month + "/" + year + "\n");
-        sb.append("Candidates : " + candidates.length + "\n");
+        sb.append("Candidates : " + candidates.size() + "\n");
         return sb.toString();
     }
 }

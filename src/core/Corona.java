@@ -1,16 +1,19 @@
 package core;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class Corona extends BallotBox {
     /* Defaults:
        extends from BallotBox
      */
 
-    public Corona(String address, int legalCitizens, Citizen[] citizens, Party[] parties, int[] votesForParty) {
-        super(address, legalCitizens, citizens, parties, votesForParty);
+    public Corona(String address, List<Citizen> citizens, HashMap<Party, Integer> parties) {
+        super(address, citizens, parties);
     }
 
     public Corona(String address) {
-        this(address, 0, new Citizen[0], new Party[0],new int[0]);
+        this(address, null, null);
     }
 
     public Corona(Corona corona){
@@ -19,12 +22,7 @@ public class Corona extends BallotBox {
 
     @Override
     public boolean canVote(Citizen citizen) {
-        boolean canVote = false;
-        boolean isCitizenExists = isCitizenExists(citizen);
-        if(citizen.isIsolation() && !citizen.getVoted() && isCitizenExists)
-            canVote = true;
-
-        return canVote;
+        return super.canVote(citizen) && citizen.isIsolation();
     }
 
     public boolean equals(Corona corona){

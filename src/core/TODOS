@@ -1,0 +1,63 @@
+Here are all the TODO's
+                !!! IF THE KEY IN HASH MAPS DOESN"T WORK CHECK THE EQUALS OF KEY VALUES !!!
+Phase 1
+__________________________________________________________
+1)    BallotBox         ->
+► Add list and HashMap
+    ► Update Constructors
+    ► Update Setters
+    ► Update Getters
+    ► Update functions
+
+__________________________________________________________
+2)    Army              ->
+► Update Constructors
+► Update canVote
+__________________________________________________________
+3)    Corona            ->
+► Update Constructors
+► Update canVote
+__________________________________________________________
+4)    Normal            ->
+► Update Constructors
+__________________________________________________________
+5)    Party             ->
+► Add HashMap
+    ► Update Constructors
+    ► Update Setters
+    ► Update Getters
+    ► Update Functions
+__________________________________________________________
+6)    VoterRegister    ->
+► Add list
+    ► Update Constructors
+    ► Update Getters
+    ► Update Setters
+    ► Update Functions
+__________________________________________________________
+7)    Elections        ->
+► Add 2 lists
+    ► Update Constructors
+    ► Update Getters
+    ► Update Setters
+    ► Update Functions
+__________________________________________________________
+8)    ServiceManager   ->
+► Update hardCodeToTest
+
+__________________________________________________________
+9)    Citizen          ->
+► Add variable infectionDaysCount
+► Add variable carryWeapon
+►
+__________________________________________________________
+9)    Global Changes   ->
+Δ Check for new added changes by the assignment
+
+10)   All Classes      ->
+    ► Update equals functions
+    ► Update toString functions (and all that connects to it)
+
+Phase 2
+__________________________________________________________
+► Add Try-Catch

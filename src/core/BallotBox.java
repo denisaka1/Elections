@@ -1,44 +1,44 @@
 package core;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public abstract class BallotBox {
     /* Defaults:
        address: Afeka
        votePercentage: 0
        citizens.length: 0
        parties.length: 0
-       votesForParty.length: 0
    */
+
+//    TODO: do we really need to check for null in subclasses ???
+
     private static int numGen; // auto generated
     private int id;
     private String address;
-    private int votePercentage; // total of legal citizens that can vote to a specific ballot box
-    private Citizen[] citizens; // list of all citizens that can vote to this specific ballotBox
-    private Party[] parties;
-    private int[] votesForParty;
-    protected int citizenCounter;
-    protected int partiesCounter;
+    private double votePercentage; // total of legal citizens that can vote to a specific ballot box
+    private HashMap<Party, Integer> parties;
+    protected List<Citizen> citizens;
 
     /************ Constructor ************/
-    public BallotBox(String address, int votePercentage, Citizen[] citizens, Party[] parties, int[] votesForParty) {
+    public BallotBox(String address, List<Citizen> citizens, HashMap<Party, Integer> parties){
         setAddress(address);
-        setVotePercentage(votePercentage);
         setCitizens(citizens);
         setParties(parties);
-        setVotesForParty(votesForParty);
+        this.votePercentage = 0;
         this.id = numGen;
         numGen++;
     }
 
     public BallotBox(String address) {
-        this(address, 0, new Citizen[0], new Party[0],new int[0]);
+        this(address, null, null);
+        this.votePercentage = 0;
     }
 
-    public BallotBox(BallotBox ballotBox){
-        setAddress(ballotBox.address);
-        setVotePercentage(ballotBox.votePercentage);
-        setCitizens(ballotBox.citizens);
-        setParties(ballotBox.parties);
-        setVotesForParty(ballotBox.votesForParty);
+    public BallotBox(BallotBox ballotBox) {
+        this(ballotBox.address, ballotBox.citizens, ballotBox.parties);
+        this.votePercentage = ballotBox.votePercentage;
         this.id = ballotBox.id;
     }
 
@@ -54,48 +54,22 @@ public abstract class BallotBox {
         return isSet;
     }
 
-    private boolean setVotePercentage(int votePercentage) {
-        boolean isSet = false;
-        if(votePercentage >= 0) {
-            this.votePercentage = votePercentage;
-            isSet = true;
-        }else
-            this.votePercentage = -1;
-        return isSet;
-    }
-
-    private boolean setCitizens(Citizen[] citizens) {
-        if (citizens != null) {
+    private boolean setCitizens(List<Citizen> citizens){
+        if (citizens != null && !citizens.isEmpty()){
             this.citizens = citizens;
-            citizenCounter = this.citizens.length;
             return true;
         }
-        this.citizens = new Citizen[0];
+        this.citizens = new ArrayList<Citizen>(0);
         return false;
     }
 
-    private boolean setParties(Party[] parties) {
-        if (parties != null) {
+    private boolean setParties(HashMap<Party, Integer> parties){
+        if (parties != null && !parties.isEmpty()) {
             this.parties = parties;
-            partiesCounter = this.parties.length;
             return true;
         }
-        this.parties = new Party[0];
+        this.parties = new HashMap<Party, Integer>(0);
         return false;
-    }
-
-    private boolean setVotesForParty(int[] votesForParty) {
-        boolean isSet = true;
-        if(votesForParty == null || parties.length == 0 || votesForParty.length == 0) {
-            this.votesForParty = new int[0];
-            isSet = false;
-        }else{
-            this.votesForParty = new int[parties.length];
-            for (int i = 0; i < parties.length; i++) {
-                this.votesForParty[i] = votesForParty[i];
-            }
-        }
-        return isSet;
     }
 
     /************ Get Functions ************/
@@ -107,137 +81,87 @@ public abstract class BallotBox {
         return address;
     }
 
-    public int getVotePercentage() {
-        calculateVotePercentage();
+    public double getVotePercentage() {
+        double newPercentage = calculateVotePercentage();
+        if (votePercentage != newPercentage)
+            votePercentage = newPercentage;
         return votePercentage;
     }
 
-    public Citizen[] getCitizens() {
+    public List<Citizen> getCitizens() {
         return citizens;
     }
 
-    public Party[] getParties() {
+    public HashMap<Party, Integer> getParties() {
         return parties;
     }
 
-    public int[] getVotesForParty() {
-        return votesForParty;
-    }
-
     public int getNumberOfCitizens() {
-        return citizenCounter;
+        return citizens.size();
     }
 
     public int getNumberOfParties() {
-        return partiesCounter;
+        return parties.size();
     }
 
     /************** Functions **************/
-    public void vote(Citizen citizen, Party party) {
-        if(party != null && isPartyExists(party) && canVote(citizen)) {
-            citizen.vote();
-            addVote(party);
-        }
-    }
+//    public abstract boolean canVote(Citizen citizen);
 
-    private void calculateVotePercentage() {
-        int votesSum = 0;
-        for(int i = 0; i < votesForParty.length; i++) {
-            votesSum += votesForParty[i];
-        }
-        if (citizens.length > 0)
-            votePercentage = (votesSum / citizens.length) * 100;
-    }
-
-    public void addCitizens(Citizen... newCitizens) {
-        int k = newCitizens.length + this.citizens.length;
-        Citizen[] tempBallotBoxes = new Citizen[k * 2];
-
-        int newCitizensCounter = 0;
-        for (int i = 0; i < k; i++) {
-            if (this.citizens.length > i) {
-                if (this.citizens[i] != null) {
-                    tempBallotBoxes[i] = this.citizens[i];
-                } else {
-                    if (newCitizensCounter < newCitizens.length) {
-                        tempBallotBoxes[i] = newCitizens[newCitizensCounter];
-                        citizenCounter++;
-                        newCitizensCounter++;
-                    }
-                }
-            } else {
-                if (newCitizensCounter < newCitizens.length) {
-                    tempBallotBoxes[i] = newCitizens[newCitizensCounter];
-                    citizenCounter++;
-                    newCitizensCounter++;
-                }
-            }
-        }
-
-        this.citizens = tempBallotBoxes;
-    }
-
-    public void addParties(Party... newParties) {
-        int k = newParties.length + this.parties.length;
-        Party[] tempParty = new Party[k * 2];
-        int[] tempVoteForParty = new int[k * 2];
-
-        int newPartiesCounter = 0;
-        for (int i = 0; i < k; i++) {
-            if (this.parties.length > i) {
-                if (this.parties[i] != null) {
-                    tempParty[i] = this.parties[i];
-                    tempVoteForParty[i] = this.votesForParty[i];
-                } else {
-                    if (newPartiesCounter < newParties.length) {
-                        tempParty[i] = newParties[newPartiesCounter];
-                        partiesCounter++;
-                        newPartiesCounter++;
-                    }
-                }
-            } else {
-                if (newPartiesCounter < newParties.length) {
-                    tempParty[i] = newParties[newPartiesCounter];
-                    partiesCounter++;
-                    newPartiesCounter++;
-                }
-            }
-        }
-
-        this.parties = tempParty;
-        this.votesForParty = tempVoteForParty;
-    }
-
-    protected boolean isCitizenExists(Citizen newCitizen) {
-        boolean exists = false;
-        for (Citizen citizen: citizens) {
-            if (citizen != null && newCitizen != null)
-                if (citizen.equals(newCitizen))
-                    exists = true;
-        }
-        return exists;
-    }
-
-    private boolean isPartyExists(Party newParty) {
-        for (Party party: parties) {
-            if (party != null && newParty != null)
-                if (party.equals(newParty))
-                    return true;
-        }
+    protected boolean canVote(Citizen citizen){
+        if(citizen != null && citizens.contains(citizen) && !citizen.getVoted())
+            return true;
         return false;
     }
 
-    protected void addVote(Party party) {
-        for (int i = 0; i < parties.length; i++) {
-            if (party.equals(parties[i])) {
-                votesForParty[i]++;
-                System.out.println("Thanks you for voted!\n");
-//                System.out.println("Vote has been added!\n#added to party number:" + i + "\n#added to votesForParty number " + i ); // To test
+    public void vote(Citizen citizen, Party party) {  // TODO: add try catch to avoid null checks?
+        if (party != null && citizen != null && parties.containsKey(party) &&
+                            citizens.contains(citizen) && !citizen.getVoted()) {
+            citizen.vote();
+            parties.put(party, parties.get(party) + 1);
+            System.out.println(citizen.getName() + " ID " + citizen.getID() + " voted for" + party.getName());
+        }
+        System.out.println("Vote failed");
+    }
+
+    private double calculateVotePercentage(){
+        int voteSum = 0;
+        for (int value: parties.values())
+            voteSum += value;
+        if (!parties.isEmpty())
+            voteSum = (voteSum / parties.size()) * 100;
+        return voteSum;
+    }
+
+    public void addCitizen(Citizen citizen){
+        if (citizen != null && !citizens.contains(citizen))
+            citizens.add(citizen);
+
+        /*try{
+            citizens.add(citizen);
+        }catch(NullPointerException npe){
+            System.out.println("Well done, you added nothing to an existing list.");
+        }*/
+    }
+
+    public void addCitizens(Citizen... citizens){
+        if(citizens != null && citizens.length != 0){
+            for (Citizen citizen: citizens){
+                addCitizen(citizen);
             }
         }
     }
 
-    abstract public boolean canVote(Citizen citizen);
+    public void addParty(Party party){
+        if (party != null && !parties.containsKey(party))
+            this.parties.put(party, 0);
+    }
+
+    public void addParties(Party... parties){
+        if (parties != null && parties.length != 0){
+            for (Party party: parties)
+                addParty(party);
+        }
+    }
 
     public boolean equals(BallotBox ballotBox) {
         if (ballotBox == null && this == null)

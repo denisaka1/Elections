@@ -1,16 +1,19 @@
 package core;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class Regular extends BallotBox {
     /* Defaults:
        extends from BallotBox
      */
 
-    public Regular(String address, int legalCitizens, Citizen[] citizens, Party[] parties, int[] votesForParty) {
-        super(address, legalCitizens, citizens, parties, votesForParty);
+    public Regular(String address, List<Citizen> citizens, HashMap<Party, Integer> parties) {
+        super(address, citizens, parties);
     }
 
     public Regular(String address) {
-        this(address, 0, new Citizen[0], new Party[0],new int[0]);
+        this(address, null, null);
     }
 
     public Regular(Regular regular){
@@ -19,12 +22,7 @@ public class Regular extends BallotBox {
 
     @Override
     public boolean canVote(Citizen citizen) {
-        boolean canVote = false;
-
-        if(!citizen.getVoted() && !citizen.isIsolation())
-            canVote = true;
-
-        return canVote;
+        return super.canVote(citizen);
     }
 
     public boolean equals(Regular regular){

@@ -1,5 +1,8 @@
 package core;
 
+import java.util.HashMap;
+import java.util.List;
+
 public class Army extends BallotBox {
     /* Defaults:
        same as for BallotBox
@@ -8,13 +11,13 @@ public class Army extends BallotBox {
     private int year;
 
     /************ Constructor ************/
-    public Army(String address, int votePercentage, Citizen[] citizens, Party[] parties, int[] votesForParty, int year) {
-        super(address, votePercentage, citizens, parties, votesForParty);
+    public Army(String address, List<Citizen> citizens, HashMap<Party, Integer> parties, int year) {
+        super(address, citizens, parties);
         setYear(year);
     }
 
     public Army(String address) {
-        this(address, 0, new Citizen[0], new Party[0], new int[0], 2020);
+        this(address, null, null, 2020);
     }
 
     public Army(Army army){
@@ -36,18 +39,12 @@ public class Army extends BallotBox {
     /************** Functions **************/
     @Override
     public boolean canVote(Citizen citizen) {
-        boolean isCitizenExists = isCitizenExists(citizen);
-        boolean canVote = false;
         boolean isLegalAge = year - citizen.getBirthYear() >= 18 && year - citizen.getBirthYear() <= 21;
-
-        if(isCitizenExists && !citizen.getVoted() && !citizen.isIsolation() && isLegalAge)
-            canVote = true;
-
-        return canVote;
+        return super.canVote(citizen) && isLegalAge;
     }
 
     public boolean equals(Army army){
-        return super.equals(army);
+        return super.equals(army) && this.year == army.year;
     }
 
     @Override
