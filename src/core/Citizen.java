@@ -160,15 +160,15 @@ public class Citizen {
 
     /************** Functions **************/
     public void assignToParty(Party party) {
-        if (party != null && !isInParty) {
-            this.party = party;
+        if (!isInParty) {
+            setInParty(party);
             isInParty = true;
         }
     }
 
     public void assignToBallotBox(BallotBox ballotBox) {
-        if (ballotBox != null && !isInBallotBox) {
-            this.ballotBox = ballotBox;
+        if (!isInBallotBox) {
+            setBallotBox(ballotBox);
             isInBallotBox = true;
         }
     }
