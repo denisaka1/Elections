@@ -17,7 +17,7 @@ public abstract class BallotBox {
     private static int numGen; // auto generated
     private int id;
     private String address;
-    private double votePercentage; // total of legal citizens that can vote to a specific ballot box
+    private double votePercentage;
     private HashMap<Party, Integer> parties;
     protected List<Citizen> citizens;
 
