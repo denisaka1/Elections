@@ -1,8 +1,9 @@
-package core;
+/*
+package view;
 
 import java.util.Scanner;
 
-public class ServicesManager {
+public class ServiceManager {
     public static Elections election = new Elections();
     public static VoterRegister vr = new VoterRegister();
 
@@ -214,3 +215,4 @@ public class ServicesManager {
         return str;
     }
 }
+*/

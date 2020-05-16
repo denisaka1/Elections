@@ -1,6 +1,9 @@
-package core;
+package model.citizens;
 
-public class Citizen {
+import model.*;
+import java.util.Calendar;
+
+public abstract class Citizen {
     /* Defaults:
       name: citizen
       id: 123456789
@@ -10,39 +13,37 @@ public class Citizen {
       party: null           maybe empty object of party?
       voted: false
   */
-    private String name;
-    private String id;
-    private int birthYear;
-    private boolean isolation; // bidud
-    private BallotBox ballotBox; // kalpi eleha hu meshuyah
-    private Party party;
-    private boolean voted;
-    private boolean isInParty;
-    private boolean isInBallotBox;
+    protected String name;
+    protected String id;
+    protected int birthYear;
+    protected BallotBox ballotBox;
+    protected Party party;
+    protected boolean voted;
+    protected boolean isInParty;
+    protected boolean isInBallotBox;
 
-    /************ Constructor ************/
-    public Citizen(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox, Party party, boolean voted) {
+    /************ Constructor *************/
+    public Citizen(String name, String id, int birthYear, BallotBox ballotBox, Party party, boolean voted) {
         setName(name);
         setId(id);
         setBirthYear(birthYear);
-        setIsolation(isolation);
         setBallotBox(ballotBox);
         setInParty(party);
         setVoted(voted);
     }
 
     public Citizen(Citizen citizen) {
-        this(citizen.name, citizen.id, citizen.birthYear, citizen.isolation, citizen.ballotBox, citizen.party, citizen.voted);
+        this(citizen.name, citizen.id, citizen.birthYear, citizen.ballotBox, citizen.party, citizen.voted);
         this.isInParty = citizen.isInParty;
         this.isInBallotBox = citizen.isInBallotBox;
     }
 
-    public Citizen(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox) {
-        this (name, id, birthYear, isolation, ballotBox, null, false);
+    public Citizen(String name, String id, int birthYear, BallotBox ballotBox) {
+        this (name, id, birthYear, ballotBox, null, false);
     }
 
     public Citizen(String name, String id, int birthYear) {
-        this(name, id, birthYear, false, null, null, false);
+        this(name, id, birthYear, null, null, false);
     }
 
     /************ Get Functions ************/
@@ -56,10 +57,6 @@ public class Citizen {
 
     public int getBirthYear() {
         return birthYear;
-    }
-
-    public boolean isIsolation() {
-        return isolation;
     }
 
     public BallotBox getBallotBox() {
@@ -127,11 +124,6 @@ public class Citizen {
         return false;
     }
 
-    private boolean setIsolation(boolean isolation) {
-        this.isolation = isolation;
-        return isolation;
-    }
-
     private boolean setBallotBox(BallotBox ballotBox) {
         if (ballotBox != null){
             this.ballotBox = ballotBox;
@@ -159,6 +151,12 @@ public class Citizen {
     }
 
     /************** Functions **************/
+    public boolean canVote(){
+        if (voted == false)
+            return true;
+        return false;
+    }
+
     public void assignToParty(Party party) {
         if (!isInParty) {
             setInParty(party);
@@ -174,7 +172,7 @@ public class Citizen {
     }
 
     public void vote(){
-        if(!voted)
+        if(canVote())
             setVoted(true);
     }
 
@@ -191,10 +189,6 @@ public class Citizen {
         StringBuffer sb = new StringBuffer();
         sb.append("----------------\n");
         sb.append("Name : " + name + ", ID : " + id + ", Birth Year :" + birthYear + "\n");
-        if (isolation)
-            sb.append("In isolation \n");
-        else
-            sb.append("Not in isolation\n");
 
         if (voted)
             sb.append("Voted in " + ballotBox + "\n");
@@ -203,8 +197,6 @@ public class Citizen {
 
         if (party != null)
             sb.append("Party : " + party.getName() + "\n");
-
-        sb.append("----------------\n");
 
         return sb.toString();
     }

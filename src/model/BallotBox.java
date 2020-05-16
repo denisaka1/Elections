@@ -1,10 +1,11 @@
-package core;
+package model;
 
+import model.citizens.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class BallotBox {
+public class BallotBox<T extends Citizen> {
     /* Defaults:
        address: Afeka
        votePercentage: 0
@@ -12,33 +13,31 @@ public abstract class BallotBox {
        parties.length: 0
    */
 
-//    TODO: do we really need to check for null in subclasses ???
-
-    private static int numGen; // auto generated
+    private static int numGen; // Auto generated
     private int id;
     private String address;
-    private double votePercentage;
+    //    private double votePercentage; // need ?
     private HashMap<Party, Integer> parties;
     protected List<Citizen> citizens;
 
-    /************ Constructor ************/
+    /************* Constructor *************/
     public BallotBox(String address, List<Citizen> citizens, HashMap<Party, Integer> parties){
         setAddress(address);
         setCitizens(citizens);
         setParties(parties);
-        this.votePercentage = 0;
+//        this.votePercentage = 0;
         this.id = numGen;
         numGen++;
     }
 
     public BallotBox(String address) {
         this(address, null, null);
-        this.votePercentage = 0;
+//        this.votePercentage = 0;
     }
 
     public BallotBox(BallotBox ballotBox) {
         this(ballotBox.address, ballotBox.citizens, ballotBox.parties);
-        this.votePercentage = ballotBox.votePercentage;
+//        this.votePercentage = ballotBox.votePercentage;
         this.id = ballotBox.id;
     }
 
@@ -81,12 +80,12 @@ public abstract class BallotBox {
         return address;
     }
 
-    public double getVotePercentage() {
+/*    public double getVotePercentage() {
         double newPercentage = calculateVotePercentage();
         if (votePercentage != newPercentage)
             votePercentage = newPercentage;
         return votePercentage;
-    }
+    }*/
 
     public List<Citizen> getCitizens() {
         return citizens;
@@ -104,63 +103,26 @@ public abstract class BallotBox {
         return parties.size();
     }
 
-    /************** Functions **************/
-//    public abstract boolean canVote(Citizen citizen);
-
-    protected boolean canVote(Citizen citizen){
-        if(citizen != null && citizens.contains(citizen) && !citizen.getVoted())
-            return true;
-        return false;
-    }
-
-    public void vote(Citizen citizen, Party party) {  // TODO: add try catch to avoid null checks?
+    /************** Functions *************/
+    public void vote(Citizen citizen, Party party) {
         if (party != null && citizen != null && parties.containsKey(party) &&
-                            citizens.contains(citizen) && !citizen.getVoted()) {
+                citizens.contains(citizen) && !citizen.getVoted()) {
             citizen.vote();
             parties.put(party, parties.get(party) + 1);
             System.out.println(citizen.getName() + " ID " + citizen.getID() + " voted for" + party.getName());
+        } else {
+            System.out.println("Vote failed");
         }
-        System.out.println("Vote failed");
     }
 
-    private double calculateVotePercentage(){
-        int voteSum = 0;
-        for (int value: parties.values())
-            voteSum += value;
-        if (!parties.isEmpty())
-            voteSum = (voteSum / parties.size()) * 100;
-        return voteSum;
-    }
-
-    public void addCitizen(Citizen citizen){
+    public void addCitizen(Citizen citizen) {
         if (citizen != null && !citizens.contains(citizen))
             citizens.add(citizen);
-
-        /*try{
-            citizens.add(citizen);
-        }catch(NullPointerException npe){
-            System.out.println("Well done, you added nothing to an existing list.");
-        }*/
     }
 
-    public void addCitizens(Citizen... citizens){
-        if(citizens != null && citizens.length != 0){
-            for (Citizen citizen: citizens){
-                addCitizen(citizen);
-            }
-        }
-    }
-
-    public void addParty(Party party){
+    public void addParty(Party party) {
         if (party != null && !parties.containsKey(party))
             this.parties.put(party, 0);
-    }
-
-    public void addParties(Party... parties){
-        if (parties != null && parties.length != 0){
-            for (Party party: parties)
-                addParty(party);
-        }
     }
 
     public boolean equals(BallotBox ballotBox) {
@@ -178,5 +140,4 @@ public abstract class BallotBox {
         sb.append("Address : " + address + "\n");
         return sb.toString();
     }
-
 }

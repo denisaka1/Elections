@@ -1,10 +1,13 @@
-package core;
+package main;
+
+import model.Set;
+import model.citizens.Citizen;
 
 import java.util.Scanner;
 
 public class Program {
     public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
+/*        Scanner s = new Scanner(System.in);
         ServicesManager.hardCodeToTest(); // HARD CODE
 
         boolean exit = false;
@@ -45,10 +48,10 @@ public class Program {
                     exit = true;
                     break;
             }
-        }
+        }*/
     }
 
-    public static Citizen getCitizen(Scanner s, boolean inParty) {
+/*    public static Citizen getCitizen(Scanner s, boolean inParty) {
         String name;
         String id;
         int birthYear;
@@ -102,8 +105,8 @@ public class Program {
                 section = Party.CENTER_SECTION;
                 break;
             case 3:
-                 section = Party.LEFT_SECTION;
-                 break;
+                section = Party.LEFT_SECTION;
+                break;
             case 1:
             default:
                 section = Party.RIGHT_SECTION;
@@ -178,5 +181,5 @@ public class Program {
         if (ansChar == 'y' || ansChar == 'Y')
             return true;
         return false;
-    }
+    }*/
 }
