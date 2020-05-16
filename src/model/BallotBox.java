@@ -16,28 +16,30 @@ public class BallotBox<T extends Citizen> {
     private static int numGen; // Auto generated
     private int id;
     private String address;
-    //    private double votePercentage; // need ?
+    private double votePercentage; // need ? Yes - Doesn't need to be showed up :D
     private HashMap<Party, Integer> parties;
     protected List<Citizen> citizens;
+
+    private T t;
 
     /************* Constructor *************/
     public BallotBox(String address, List<Citizen> citizens, HashMap<Party, Integer> parties){
         setAddress(address);
         setCitizens(citizens);
         setParties(parties);
-//        this.votePercentage = 0;
+        this.votePercentage = 0;
         this.id = numGen;
         numGen++;
     }
 
     public BallotBox(String address) {
         this(address, null, null);
-//        this.votePercentage = 0;
+        this.votePercentage = 0;
     }
 
     public BallotBox(BallotBox ballotBox) {
         this(ballotBox.address, ballotBox.citizens, ballotBox.parties);
-//        this.votePercentage = ballotBox.votePercentage;
+        this.votePercentage = ballotBox.votePercentage;
         this.id = ballotBox.id;
     }
 
@@ -56,6 +58,7 @@ public class BallotBox<T extends Citizen> {
     private boolean setCitizens(List<Citizen> citizens){
         if (citizens != null && !citizens.isEmpty()){
             this.citizens = citizens;
+
             return true;
         }
         this.citizens = new ArrayList<Citizen>(0);
@@ -80,12 +83,12 @@ public class BallotBox<T extends Citizen> {
         return address;
     }
 
-/*    public double getVotePercentage() {
+    public double getVotePercentage() {
         double newPercentage = calculateVotePercentage();
         if (votePercentage != newPercentage)
             votePercentage = newPercentage;
         return votePercentage;
-    }*/
+    }
 
     public List<Citizen> getCitizens() {
         return citizens;
@@ -103,8 +106,15 @@ public class BallotBox<T extends Citizen> {
         return parties.size();
     }
 
+    public T getCitizenType() {
+         return t;
+    }
+
     /************** Functions *************/
     public void vote(Citizen citizen, Party party) {
+        // todo: try/catch 1 - null
+        //                 2 - contains
+        //                 3 - getVote
         if (party != null && citizen != null && parties.containsKey(party) &&
                 citizens.contains(citizen) && !citizen.getVoted()) {
             citizen.vote();
@@ -113,6 +123,16 @@ public class BallotBox<T extends Citizen> {
         } else {
             System.out.println("Vote failed");
         }
+    }
+
+    private double calculateVotePercentage(){
+        int voteSum = 0;
+        if (!parties.isEmpty()){
+            for (int value: parties.values())
+                voteSum += value;
+            voteSum = (voteSum / parties.size()) * 100;
+        }
+        return voteSum;
     }
 
     public void addCitizen(Citizen citizen) {

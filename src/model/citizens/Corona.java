@@ -29,6 +29,7 @@ public class Corona extends Citizen {
 //        ?this(name, id, birthYear, false, null, null, false, 0);
         super(name, id, birthYear);
         isolation = false;
+        daysInIsolation = 0;
     }
 
     /************ Set Functions ***********/

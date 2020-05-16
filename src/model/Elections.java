@@ -130,7 +130,27 @@ public class Elections {
 
     /************** Functions **************/
     // addBallotBox
+    public void addBallotBox(BallotBox<Citizen> ballotBox) {
+
+    }
     // addCitizenToBallotBoxes
+    public void addCitizen (Citizen citizen) {
+
+    }
+
+    private void returnCitizen(Citizen citizen) {
+        // finish
+//        if (citizen instanceof Regular)
+//            regular.
+//        else if (citizen instanceof Corona)
+//            return new Corona((Corona)citizen);
+//        else if (citizen instanceof Soldier)
+//            return new Soldier((Soldier)citizen);
+//        else if (citizen instanceof SoldierCorona)
+//            return new SoldierCorona((SoldierCorona)citizen);
+//        else
+//            return null;
+    }
 
     public boolean addParty(Party party) {
         if (party != null && !parties.containsKey(party)) {
@@ -138,6 +158,11 @@ public class Elections {
             return true;
         }
         return false;
+    }
+
+    private boolean isLegalBallotBox(BallotBox<Citizen> ballotBox) {
+//        if (ballotBox)
+        return true;
     }
 
     // updateBallotBoxes - update parties

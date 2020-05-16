@@ -1,10 +1,5 @@
 package main;
 
-import model.Set;
-import model.citizens.Citizen;
-
-import java.util.Scanner;
-
 public class Program {
     public static void main(String[] args) {
 /*        Scanner s = new Scanner(System.in);

@@ -4,27 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Set<T> {
-    private final Class<T> typeParameterClass;
+//    private final Class<T> typeParameterClass;
     private List<T> set;
+    private T t; // contains T type
 
     /************* Constructor *************/
-    public Set(T object, Class<T> typeParameterClass) {
-        setObject(object);
-        this.typeParameterClass = typeParameterClass;
+    public Set(T... objects) {
+        setObjects(objects);
+//        this.typeParameterClass = typeParameterClass;
+
     }
 
-    public Set(Class<T> typeParameterClass) {
-        this(null, typeParameterClass);
+    public Set() {
+        set = new ArrayList<T>();
+//        t = T;
     }
+
+ /*   public Set(Class<T> typeParameterClass) {
+        this(null, typeParameterClass);
+    }*/
 
 
     /************ Set Functions ************/
     private boolean setObject(T object) {
-        this.set = new ArrayList<T>();
+//        set = new ArrayList<T>();
+        if (object != null)
+            return set.add(object);
+        return false;
+    }
 
-        if (object != null) {
-            this.set.add(object);
+    private boolean setObjects(T... objects) {
+        set = new ArrayList<T>();
+        try {
+            for (T object: objects) {
+                add(object);
+            }
             return true;
+        } catch (NullPointerException npe) {
+            System.out.println("Can't add null to list!");
         }
         return false;
     }
@@ -42,16 +59,18 @@ public class Set<T> {
         return set.get(index);
     }
 
-    public Class<T> getType() {
-        return typeParameterClass;
+    public T getType() {
+        return (T)t.getClass();
     }
 
     /************** Functions **************/
     public boolean add(T object) {
-        if (set.contains(object))
-            return false;
-        set.add(object);
-        return true;
+        if (t == null) {
+            t = object;
+        }
+        if (!set.contains(object))
+            return set.add(object);
+        return false;
     }
 
     public boolean remove(T object) {

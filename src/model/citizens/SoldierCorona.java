@@ -47,6 +47,7 @@ public class SoldierCorona extends Citizen{
     }
 
     private boolean setDaysInIsolation(int days){
+        // todo: try/catch
         if (days >= 0){
             this.daysInIsolation = days;
             return true;

@@ -19,18 +19,17 @@ public class VoterRegister {
 
     /************ Set Functions ************/
     private boolean setCitizens(Set<Citizen> citizens) {
-        if (this.citizens == null) {
-            this.citizens = citizens;
-        } else {
-            try {
-                this.citizens = new Set<Citizen>(Citizen.class);
-            } catch (GenericSignatureFormatError e) {
-                System.out.println("The generic signature not match");
-            } catch (Exception e) {
-                System.out.println("Something went wrong.");
-            }
+        this.citizens = new Set<Citizen>();
+        try {
+            addCitizens(citizens);
+            return true;
+        } catch (GenericSignatureFormatError e) {
+            System.out.println("The generic signature not match");
+        } catch (Exception e) {
+            System.out.println("Something went wrong.");
         }
-        return true;
+
+        return false;
     }
 
     /************ Get Functions ************/
@@ -41,9 +40,41 @@ public class VoterRegister {
     // getCitizenById
 
     /************** Functions **************/
-    // addCitizen / addCitizens
-    // validID 9 digit
-    // validAge 18+ by birth year
+    // addCitizen / addCitizens - Done
+
+    public void addCitizens(Set<Citizen> citizens) {
+        try {
+            for(Citizen citizen: citizens.getSet()) {
+                addCitizen(citizen);
+            }
+        } catch (NullPointerException npe) {
+            System.out.println("The array is null!");
+        }
+    }
+
+    public void addCitizen(Citizen citizen) {
+        try {
+            citizens.add(returnCitizen(citizen));
+        } catch (NullPointerException npe) {
+            System.out.println("Can't operate with null");
+        }
+    }
+
+    private Citizen returnCitizen(Citizen citizen) {
+        if (citizen instanceof Regular)
+            return new Regular((Regular)citizen);
+        else if (citizen instanceof Corona)
+            return new Corona((Corona)citizen);
+        else if (citizen instanceof Soldier)
+            return new Soldier((Soldier)citizen);
+        else if (citizen instanceof SoldierCorona)
+            return new SoldierCorona((SoldierCorona)citizen);
+        else
+            return null;
+
+    }
+    // validID 9 digit -> !should be in ServiceManager!
+    // validAge 18+ by birth year -> !should be in ServiceManager!
 
     @Override
     public boolean equals(Object o) {
