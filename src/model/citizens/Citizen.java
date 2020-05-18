@@ -75,8 +75,17 @@ public abstract class Citizen {
         return isInParty;
     }
 
-    public Citizen getType (){
-        return this;
+    public String getType () {
+        if (this instanceof Corona)
+            return "Corona";
+        else if (this instanceof Regular)
+            return "Regular";
+        else if (this instanceof Soldier)
+            return "Soldier";
+        else if (this instanceof SoldierCorona)
+            return "SoldierCorona";
+        else
+            return "Citizen";
     }
 
     /************ Set Functions ************/
@@ -88,18 +97,18 @@ public abstract class Citizen {
         boolean done = false;
         String result = "";
 
-        if(name != null){
+        if (name != null) {
             String[] temp = name.split(" ");
-            for(int i = 0; i < temp.length && !done; i++){
-                if(!temp[i].matches("^[a-zA-Z]*$")){
+            for (int i = 0; i < temp.length && !done; i++) {
+                if (!temp[i].matches("^[a-zA-Z]*$")) {
                     done = true;
-                }else{
+                } else {
                     result += temp[i] +" ";
                 }
             }
         }
 
-        if(done)
+        if (done)
             this.name = "citizen";
         else
             this.name = result.substring(0, result.length() - 1);
@@ -107,11 +116,11 @@ public abstract class Citizen {
         return done;
     }
 
-    private boolean setId(String id){
+    private boolean setId(String id) {
         // todo: try/catch
         boolean legalIdLength = id.length() >= 8 && id.length() <= 9;
 
-        if (id != null && legalIdLength){
+        if (id != null && legalIdLength) {
             this.id = id;
             return true;
         } else
@@ -120,12 +129,12 @@ public abstract class Citizen {
         return false;
     }
 
-    private boolean setBirthYear(int birthYear){
+    private boolean setBirthYear(int birthYear) {
         // todo: try/catch
-        if(birthYear >= 0){
+        if (birthYear >= 0){
             this.birthYear = birthYear;
             return true;
-        }else
+        } else
             this.birthYear = 1990;
 
         return false;
@@ -133,10 +142,10 @@ public abstract class Citizen {
 
     private boolean setBallotBox(BallotBox ballotBox) {
         // todo: try/catch
-        if (ballotBox != null){
+        if (ballotBox != null) {
             this.ballotBox = ballotBox;
             isInBallotBox = true;
-        }else {
+        } else {
             this.ballotBox = null;
             return false;
         }
@@ -145,11 +154,11 @@ public abstract class Citizen {
 
     private boolean setInParty(Party party) {
         // todo: try/catch
-        if(party != null){
+        if (party != null) {
             this.party = party;
             isInParty = true;
             return true;
-        }else
+        } else
             this.party = null;
         return false;
     }
@@ -160,7 +169,7 @@ public abstract class Citizen {
     }
 
     /************** Functions **************/
-    public boolean canVote(){
+    public boolean canVote() {
         if (voted == false)
             return true;
         return false;

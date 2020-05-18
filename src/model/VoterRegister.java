@@ -14,21 +14,26 @@ public class VoterRegister {
     }
 
     public VoterRegister() {
-        this(null);
+        this((Set<Citizen>) null);
+//        this(null);
+    }
+
+
+    public VoterRegister(VoterRegister voterRegister) {
+        this(voterRegister.getCitizens());
     }
 
     /************ Set Functions ************/
     private boolean setCitizens(Set<Citizen> citizens) {
-        this.citizens = new Set<Citizen>();
         try {
-            addCitizens(citizens);
+            this.citizens = new Set<Citizen>(citizens);
             return true;
         } catch (GenericSignatureFormatError e) {
             System.out.println("The generic signature not match");
         } catch (Exception e) {
             System.out.println("Something went wrong.");
         }
-
+        this.citizens = new Set<Citizen>();
         return false;
     }
 
@@ -37,20 +42,24 @@ public class VoterRegister {
         return citizens;
     }
 
-    // getCitizenById
+    public Citizen getCitizenById(String id) {
+        for (int i = 0; i < citizens.size(); i++) {
+            if (citizens.get(i).getID().equals(id))
+                return citizens.get(i);
+        }
+        return null;
+    }
 
     /************** Functions **************/
-    // addCitizen / addCitizens - Done
-
-    public void addCitizens(Set<Citizen> citizens) {
-        try {
-            for(Citizen citizen: citizens.getSet()) {
-                addCitizen(citizen);
-            }
-        } catch (NullPointerException npe) {
-            System.out.println("The array is null!");
-        }
-    }
+//    public void addCitizens(Set<Citizen> citizens) {
+//        try {
+//            for(Citizen citizen: citizens.getSet()) {
+//                addCitizen(citizen);
+//            }
+//        } catch (NullPointerException npe) {
+//            System.out.println("The array is null!");
+//        }
+//    }
 
     public void addCitizen(Citizen citizen) {
         try {
@@ -73,8 +82,6 @@ public class VoterRegister {
             return null;
 
     }
-    // validID 9 digit -> !should be in ServiceManager!
-    // validAge 18+ by birth year -> !should be in ServiceManager!
 
     @Override
     public boolean equals(Object o) {

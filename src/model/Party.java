@@ -42,9 +42,12 @@ public class Party {
 
     /************ Get Functions ************/
     public String getName() {
-        return "";
+        return name;
     }
 
+    public String getSection() {
+        return section;
+    }
     /************ Set Functions ************/
     private boolean setCandidates(Hashtable<Citizen, Integer> candidates) {
         if (candidates != null && !candidates.isEmpty()){
@@ -76,7 +79,7 @@ public class Party {
     }
 
     private boolean setCreationDate(int year, int month, int day) {
-        if (month <= 12 && month >= 1) {
+        if (month <= 12 && month >= 1 && year > 0) {
             Calendar cal = new GregorianCalendar(year, month, 1);
             int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 

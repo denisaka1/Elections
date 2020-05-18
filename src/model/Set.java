@@ -1,33 +1,29 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Set<T> {
-//    private final Class<T> typeParameterClass;
     private List<T> set;
-    private T t; // contains T type
+    private T t; // contains T type // need ?
 
     /************* Constructor *************/
-    public Set(T... objects) {
-        setObjects(objects);
-//        this.typeParameterClass = typeParameterClass;
+    public Set(T object) {
+        setObject(object);
+    }
 
+    public Set(Set<T> objects) {
+        Collections.copy(this.set, objects.getSet());
     }
 
     public Set() {
         set = new ArrayList<T>();
-//        t = T;
     }
-
- /*   public Set(Class<T> typeParameterClass) {
-        this(null, typeParameterClass);
-    }*/
-
 
     /************ Set Functions ************/
     private boolean setObject(T object) {
-//        set = new ArrayList<T>();
         if (object != null)
             return set.add(object);
         return false;

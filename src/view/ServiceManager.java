@@ -1,6 +1,7 @@
-/*
 package view;
 
+import model.*;
+import model.citizens.*;
 import java.util.Scanner;
 
 public class ServiceManager {
@@ -54,9 +55,6 @@ public class ServiceManager {
         addCandidate(refCitizen[3].getID(), parties[1].getName(), 1);
         addCandidate(refCitizen[4].getID(), parties[2].getName(), 5);
         addCandidate(refCitizen[5].getID(), parties[2].getName(), 1);
-
-//        System.out.println(election.toString());
-//        System.out.println(vr.toString());
     }
 
     public static void showMenu() {
@@ -215,4 +213,6 @@ public class ServiceManager {
         return str;
     }
 }
-*/
+
+// validID 9 digit -> !should be in ServiceManager!
+// validAge 18+ by birth year -> !should be in ServiceManager!

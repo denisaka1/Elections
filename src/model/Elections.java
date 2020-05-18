@@ -4,14 +4,15 @@ import model.citizens.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Elections {
     /* Defaults:
-   partiesList.length: 0
-   ballotBoxesList.length: 0
+
    month: 1
    year: 2021
-*/
+    */
     private ArrayList<BallotBox<Regular>> regular;
     private ArrayList<BallotBox<Soldier>> soldier;
     private ArrayList<BallotBox<SoldierCorona>> soldierCorona;
@@ -25,10 +26,10 @@ public class Elections {
     /************* Constructor *************/
     public Elections(ArrayList<BallotBox<Regular>> regular, ArrayList<BallotBox<Soldier>> soldier, ArrayList<BallotBox<SoldierCorona>> soldierCorona,
                      ArrayList<BallotBox<Corona>> corona, HashMap<Party, Integer> parties, int month, int year) {
-        this.regular = regular;
-        this.soldier = soldier;
-        this.soldierCorona = soldierCorona;
-        this.corona = corona;
+        setRegular(regular);
+        setSoldier(soldier);
+        setSoldierCorona(soldierCorona);
+        setCorona(corona);
         setParties(parties);
         setMonth(month);
         setYear(year);
@@ -52,9 +53,56 @@ public class Elections {
         return false;
     }
 
-    private boolean setBallotBoxes(ArrayList<BallotBox<Citizen>> ballotBoxes, Citizen type) {
-        // one for everyone and everyone for one !!
-        return false;
+    private boolean setRegular(ArrayList<BallotBox<Regular>> ballotBoxes) {
+        try {
+            if (ballotBoxes != null)
+                this.regular = new ArrayList<>(ballotBoxes);
+            else
+                this.regular = new ArrayList<>();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+            return false;
+        }
+    }
+
+    private boolean setCorona(ArrayList<BallotBox<Corona>> ballotBoxes) {
+        try {
+            if (ballotBoxes != null)
+                this.corona = new ArrayList<>(ballotBoxes);
+            else
+                this.corona = new ArrayList<>();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+            return false;
+        }
+    }
+
+    private boolean setSoldier(ArrayList<BallotBox<Soldier>> ballotBoxes) {
+        try {
+            if (ballotBoxes != null)
+                this.soldier = new ArrayList<>(ballotBoxes);
+            else
+                this.soldier = new ArrayList<>();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+            return false;
+        }
+    }
+
+    private boolean setSoldierCorona(ArrayList<BallotBox<SoldierCorona>> ballotBoxes) {
+        try {
+            if (ballotBoxes != null)
+                this.soldierCorona = new ArrayList<>(ballotBoxes);
+            else
+                this.soldierCorona = new ArrayList<>();
+            return true;
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+            return false;
+        }
     }
 
     private boolean setYear(int year) {
@@ -108,37 +156,71 @@ public class Elections {
 
     public String getAllPartiesLine() {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < parties.size(); i++) {
-            if (parties.get(i) != null) {
-//                sb.append(parties.get(i).getName() + "(" + parties.get(i).getSection() + ") ");
-            }
+        for (Map.Entry<Party, Integer> party: parties.entrySet()) {
+            sb.append(party.getKey().getName() + "(" + party.getKey().getSection() + ") ");
         }
         return sb.toString();
     }
 
-//    public String getAllBallotBoxes() {
-//        StringBuffer sb = new StringBuffer();
-//        for (int i = 0; i < ballotBoxes.size(); i++) {
-//            if (ballotBoxes[i] != null) {
-//                sb.append("----------------\n");
-//                sb.append(ballotBoxes[i].toString() + "\n");
-//                sb.append("----------------\n");
-//            }
-//        }
-//        return sb.toString();
-//    }
-
     /************** Functions **************/
-    // addBallotBox
-    public void addBallotBox(BallotBox<Citizen> ballotBox) {
+    public boolean addBallotBoxes(ArrayList<BallotBox<Citizen>> ballotBoxes, String type) {
+        try {
+            if (type.equals("Regular"))
+                for (BallotBox<Citizen> ballotBox : ballotBoxes)
+                    regular.add(new BallotBox<Regular>(ballotBox));
+            else if (type.equals("Corona"))
+                for (BallotBox<Citizen> ballotBox : ballotBoxes)
+                    corona.add(new BallotBox<Corona>(ballotBox));
+            else if (type.equals("Soldier"))
+                for (BallotBox<Citizen> ballotBox : ballotBoxes)
+                    soldier.add(new BallotBox<Soldier>(ballotBox));
+            else if (type.equals("SoldierCorona"))
+                for (BallotBox<Citizen> ballotBox : ballotBoxes)
+                    soldierCorona.add(new BallotBox<SoldierCorona>(ballotBox));
+            return true;
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+            return false;
+        } //catch(TypeMissMatch )
+    }
+
+    public void addBallotBox(BallotBox<Citizen> ballotBox, String type) {
+        try {
+            if (type.equals("Regular"))
+                regular.add(new BallotBox<Regular>(ballotBox));
+            else if (type.equals("Corona"))
+                corona.add(new BallotBox<Corona>(ballotBox));
+            else if (type.equals("Soldier"))
+                soldier.add(new BallotBox<Soldier>(ballotBox));
+            else if (type.equals("SoldierCorona"))
+                soldierCorona.add(new BallotBox<SoldierCorona>(ballotBox));
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        } //catch(TypeMissMatch )
+    }
+
+    public void addCitizenToBallotBoxes(Citizen citizen, BallotBox<Citizen> ballotBox) {
+        try {
+            if (citizen instanceof Corona) {
+                if (corona.contains(ballotBox))
+                    corona.get(corona.indexOf(ballotBox)).addCitizen(citizen);
+            } else if (citizen instanceof Regular) {
+                if (corona.contains(ballotBox))
+                    corona.get(corona.indexOf(ballotBox)).addCitizen(citizen);
+            } else if (citizen instanceof Soldier) {
+                if (corona.contains(ballotBox))
+                    corona.get(corona.indexOf(ballotBox)).addCitizen(citizen);
+            } else if (citizen instanceof SoldierCorona) {
+                if (corona.contains(ballotBox))
+                    corona.get(corona.indexOf(ballotBox)).addCitizen(citizen);
+            }
+        } catch (Exception e){
+            System.out.println();
+        }
 
     }
-    // addCitizenToBallotBoxes
-    public void addCitizen (Citizen citizen) {
 
-    }
-
-    private void returnCitizen(Citizen citizen) {
+/*    private void returnCitizen(Citizen citizen) {
         // finish
 //        if (citizen instanceof Regular)
 //            regular.
@@ -150,7 +232,7 @@ public class Elections {
 //            return new SoldierCorona((SoldierCorona)citizen);
 //        else
 //            return null;
-    }
+    }*/
 
     public boolean addParty(Party party) {
         if (party != null && !parties.containsKey(party)) {
@@ -160,13 +242,42 @@ public class Elections {
         return false;
     }
 
-    private boolean isLegalBallotBox(BallotBox<Citizen> ballotBox) {
-//        if (ballotBox)
-        return true;
+    public void updateBallotBoxes(Party party) {
+        for (BallotBox<Corona> ballotBox : corona)
+            ballotBox.addParty(party);
+        for (BallotBox<Corona> ballotBox : corona)
+            ballotBox.addParty(party);
+        for (BallotBox<Soldier> ballotBox : soldier)
+            ballotBox.addParty(party);
+        for (BallotBox<SoldierCorona> ballotBox : soldierCorona)
+            ballotBox.addParty(party);
     }
 
-    // updateBallotBoxes - update parties
-    // equals
-    // toString
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Elections elections = (Elections) o;
+        return month == elections.month &&
+                year == elections.year &&
+                Objects.equals(regular, elections.regular) &&
+                Objects.equals(soldier, elections.soldier) &&
+                Objects.equals(soldierCorona, elections.soldierCorona) &&
+                Objects.equals(corona, elections.corona) &&
+                Objects.equals(parties, elections.parties);
+    }
 
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        for (BallotBox<Corona> ballotBox : corona)
+            sb.append(ballotBox.toString() + "\n");
+        for (BallotBox<Corona> ballotBox : corona)
+            sb.append(ballotBox.toString() + "\n");
+        for (BallotBox<Soldier> ballotBox : soldier)
+            sb.append(ballotBox.toString() + "\n");
+        for (BallotBox<SoldierCorona> ballotBox : soldierCorona)
+            sb.append(ballotBox.toString() + "\n");
+        return sb.toString();
+    }
 }

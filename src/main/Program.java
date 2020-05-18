@@ -1,7 +1,14 @@
 package main;
 
+import model.citizens.Citizen;
+import model.citizens.Corona;
+
 public class Program {
     public static void main(String[] args) {
+        Citizen c = new Corona("dasdsa", "123123123", 2000);
+        System.out.println(c.getType());
+
+
 /*        Scanner s = new Scanner(System.in);
         ServicesManager.hardCodeToTest(); // HARD CODE
 
