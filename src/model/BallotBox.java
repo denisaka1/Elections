@@ -20,27 +20,28 @@ public class BallotBox<T extends Citizen> {
     private HashMap<Party, Integer> parties;
     protected List<Citizen> citizens;
 
-    private T t;
+    private final Class<T> type;
 
     /************* Constructor *************/
-    public BallotBox(String address, List<Citizen> citizens, HashMap<Party, Integer> parties){
+    public BallotBox(String address, List<Citizen> citizens, HashMap<Party, Integer> parties, Class<T> type){
         setAddress(address);
         setCitizens(citizens);
         setParties(parties);
         this.votePercentage = 0;
         this.id = numGen;
         numGen++;
+        this.type = type;
     }
 
-    public BallotBox(String address) {
-        this(address, null, null);
-        this.votePercentage = 0;
+    public BallotBox(String address, Class<T> type) {
+        this(address, null, null, type);
     }
 
     public BallotBox(BallotBox ballotBox) {
-        this(ballotBox.address, ballotBox.citizens, ballotBox.parties);
+        this(ballotBox.address, ballotBox.citizens, ballotBox.parties, ballotBox.type);
         this.votePercentage = ballotBox.votePercentage;
         this.id = ballotBox.id;
+        // Copy id ? numGen-- ?
     }
 
     /************ Set Functions ************/
@@ -106,8 +107,12 @@ public class BallotBox<T extends Citizen> {
         return parties.size();
     }
 
-    public T getCitizenType() {
-         return t;
+    public Class<T> getClassType() {
+        return type;
+    }
+
+    public String getType() {
+        return type.toString().substring(21);
     }
 
     /************** Functions *************/
@@ -144,6 +149,8 @@ public class BallotBox<T extends Citizen> {
         if (party != null && !parties.containsKey(party))
             this.parties.put(party, 0);
     }
+
+//    public boolean existBallotBox(BallotBox<C>)
 
     public boolean equals(BallotBox ballotBox) {
         if (ballotBox == null && this == null)

@@ -28,7 +28,7 @@ public class Corona extends Citizen {
     public Corona(String name, String id, int birthYear) {
 //        ?this(name, id, birthYear, false, null, null, false, 0);
         super(name, id, birthYear);
-        isolation = false;
+        isolation = true;
         daysInIsolation = 0;
     }
 
@@ -67,12 +67,13 @@ public class Corona extends Citizen {
         return super.equals(corona);
     }
 
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append(super.toString());
 
         if (isolation)
-            sb.append("In isolation for " + daysInIsolation + "days\n");
+            sb.append("In isolation for " + daysInIsolation + " days\n");
         else
             sb.append("Not in isolation\n");
 

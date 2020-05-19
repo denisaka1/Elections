@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Set<T> {
     private List<T> set;
-    private T t; // contains T type // need ?
 
     /************* Constructor *************/
     public Set(T object) {
@@ -55,15 +54,8 @@ public class Set<T> {
         return set.get(index);
     }
 
-    public T getType() {
-        return (T)t.getClass();
-    }
-
     /************** Functions **************/
     public boolean add(T object) {
-        if (t == null) {
-            t = object;
-        }
         if (!set.contains(object))
             return set.add(object);
         return false;

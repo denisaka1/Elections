@@ -1,19 +1,22 @@
 package view;
 
+import exceptions.StringLengthException;
+import exceptions.UnderAgeException;
 import model.*;
 import model.citizens.*;
 import java.util.Scanner;
 
-public class ServiceManager {
-    public static Elections election = new Elections();
-    public static VoterRegister vr = new VoterRegister();
+import static controller.Controller.election;
+import static controller.Controller.vr;
 
-    public static void hardCodeToTest() {
+public class ServiceManager {
+
+/*    public static void hardCodeToTest() {
         // Ballot Boxes
-        BallotBox[] ballotBoxes = new BallotBox[3];
-        ballotBoxes[0] = new Regular("Balfour");
-        ballotBoxes[1] = new Army("Jenin");
-        ballotBoxes[2] = new Corona("Tel Aviv");
+        BallotBox<Regular>       b1 = new BallotBox<Regular>("Balfour", Regular.class);
+        BallotBox<Soldier>       b2 = new BallotBox<Soldier>("Jenin", Soldier.class);
+        BallotBox<Corona>        b3 = new BallotBox<Corona>("Tel Aviv", Corona.class);
+        BallotBox<SoldierCorona> b4 = new BallotBox<SoldierCorona>("Bet-el", SoldierCorona.class);
 
         // Parties
         Party[] parties = new Party[3];
@@ -21,9 +24,10 @@ public class ServiceManager {
         parties[1] = new Party("Kahol Lavan", "center", 2019, 1, 1);
         parties[2] = new Party("Meretz", "left", 1992, 1, 1);
 
-        addBallotBox(ballotBoxes[0]);
-        addBallotBox(ballotBoxes[1]);
-        addBallotBox(ballotBoxes[2]);
+        addBallotBox(b1);
+        addBallotBox(b2);
+        addBallotBox(b3);
+        addBallotBox(b4);
 
         BallotBox[] refBallotBoxes = election.getBallotBoxes();
 
@@ -54,7 +58,7 @@ public class ServiceManager {
         addCandidate(refCitizen[2].getID(), parties[1].getName(), 2);
         addCandidate(refCitizen[3].getID(), parties[1].getName(), 1);
         addCandidate(refCitizen[4].getID(), parties[2].getName(), 5);
-        addCandidate(refCitizen[5].getID(), parties[2].getName(), 1);
+        addCandidate(refCitizen[5].getID(), parties[2].getName(), 1);*/
     }
 
     public static void showMenu() {
@@ -72,16 +76,35 @@ public class ServiceManager {
         System.out.println(sb.toString());
     }
 
-    public static void addBallotBox(BallotBox ballotBox) {
-        if (ballotBox.getAddress().length() != 0 && !election.existBallotBox(ballotBox))
-            election.addBallotBoxes(ballotBox);
+    public static void addBallotBox(BallotBox<? extends Citizen> ballotBox) {
+        if (ballotBox.getAddress().length() != 0 && !election.existBallotBox((BallotBox<Citizen>) ballotBox))
+            election.addBallotBox(ballotBox);
         else
             System.out.println("This BallotBox has already been created!!!\n");
 
     }
 
-    public static void addCitizen(Citizen citizen) {
-        if (!citizen.getID().equals("-1") && citizen.getName().length() != 0) {
+    public static void addParty(Party party) {
+        if (party.getName().length() != 0 && !election.existParty(party))
+            election.addParty(party);
+        else
+            System.out.println("You are not allowed to add this party");
+    }
+
+    public static String showAllCitizens() {
+        return vr.toString();
+    }
+
+    public static String showAllBallotBox() {
+        return election.getAllBallotBoxes();
+    }
+
+    public static String showAllParties() {
+        return election.getAllParties();
+    }
+
+    public static void addCitizen(Citizen citizen) throws UnderAgeException, StringLengthException {
+/*        if (!citizen.getID().equals("-1") && citizen.getName().length() != 0) {
             if (citizen.isIsolation() && !(citizen.getBallotBox() instanceof Corona) ||
                     (election.getYear() - citizen.getBirthYear()) <= 21 &&  !(citizen.getBallotBox() instanceof Army))
                 System.out.println("You are prohibited to enter as a citizen to this ballot box!");
@@ -91,18 +114,22 @@ public class ServiceManager {
                 election.addCitizenToBallotBoxes(refToCitizen);
             }
         } else
-            System.out.println("You are prohibited to enter as a citizen!");
+            System.out.println("You are prohibited to enter as a citizen!");*/
+        if (citizen.getID().length() == 9) {
+            if ((election.getYear() - citizen.getBirthYear()) >= 18)
+                vr.addCitizen(citizen);
+            else
+                throw new UnderAgeException("You are a minor. Can't enter to Voter Register");
+        } else {
+            throw new StringLengthException("Error in ID. ID must be with 9 numbers");
+        }
+
+
+
     }
 
     public static BallotBox getBallotBoxByNumber(int number) {
         return election.getBallotBoxByNumber(number);
-    }
-
-    public static void addParty(Party party) {
-        if (party.getName().length() != 0 && !election.existParty(party))
-            election.addParty(party);
-        else
-            System.out.println("You are not allowed to add this party");
     }
 
     public static void addCandidate(String citizenID, String partyName, int place) {
@@ -117,18 +144,6 @@ public class ServiceManager {
             }
         } else
             System.out.println("An error has occurred\n");
-    }
-
-    public static String showAllCitizens() {
-        return vr.toString();
-    }
-
-    public static String showAllBallotBox() {
-        return election.getAllBallotBoxes();
-    }
-
-    public static String showAllParties() {
-        return election.getAllParties();
     }
 
     public static void beginElections(Scanner s) {

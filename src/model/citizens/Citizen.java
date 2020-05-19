@@ -118,14 +118,12 @@ public abstract class Citizen {
 
     private boolean setId(String id) {
         // todo: try/catch
-        boolean legalIdLength = id.length() >= 8 && id.length() <= 9;
-
-        if (id != null && legalIdLength) {
+//        boolean legalIdLength = id.length() >= 8 && id.length() <= 9;
+        if (id != null) {
             this.id = id;
             return true;
-        } else
-            this.id = "-1";
-
+        }
+        this.id = "-1";
         return false;
     }
 

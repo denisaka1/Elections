@@ -1,49 +1,67 @@
 package main;
 
-import model.citizens.Citizen;
-import model.citizens.Corona;
+import controller.Controller;
+import exceptions.StringLengthException;
+import exceptions.UnderAgeException;
+import model.BallotBox;
+import model.Elections;
+import model.Party;
+import model.VoterRegister;
+import model.citizens.*;
+
+import java.util.Scanner;
+
+import view.ServiceManager;
+
+import static controller.Controller.election;
 
 public class Program {
+
     public static void main(String[] args) {
-        Citizen c = new Corona("dasdsa", "123123123", 2000);
-        System.out.println(c.getType());
+//        Controller controller = new Controller();
 
+        /*Elections e = new Elections();
+        BallotBox<Corona> bc = new BallotBox<Corona>("ASDsadas", Corona.class);
+        Corona c1 = new Corona("dsad","12312123", 2000);
+        bc.addCitizen(c1);
+        e.addBallotBox(bc);
+        System.out.println(e.getCorona().get*/
 
-/*        Scanner s = new Scanner(System.in);
-        ServicesManager.hardCodeToTest(); // HARD CODE
+        /*Scanner s = new Scanner(System.in);
+        ServiceManager.hardCodeToTest(); // HARD CODE
 
         boolean exit = false;
         while (!exit) {
-            ServicesManager.showMenu();
+            ServiceManager.showMenu();
             int choose = s.nextInt();
             switch (choose) {
                 case 1:
-                    ServicesManager.addBallotBox(getBallotBox(s));
+//                    ServiceManager.addBallotBox(getBallotBox(s));
                     break;
                 case 2:
-                    ServicesManager.addCitizen(getCitizen(s, false));
+//                    ServiceManager.addCitizen(getCitizen(s, false));
                     break;
                 case 3:
-                    ServicesManager.addParty(getParty(s));
+//                    ServiceManager.addParty(getParty(s));
                     break;
                 case 4:
-                    String[] candidate = getCandidate(s);
-                    ServicesManager.addCandidate(candidate[0], candidate[1], Integer.parseInt(candidate[2]));
+//                    String[] candidate = getCandidate(s);
+//                    ServiceManager.addCandidate(candidate[0], candidate[1], Integer.parseInt(candidate[2]));
                     break;
                 case 5:
-                    System.out.println(ServicesManager.showAllBallotBox());
+                    System.out.println(ServiceManager.showAllBallotBox());
                     break;
                 case 6:
-                    System.out.println(ServicesManager.showAllCitizens());
+                    System.out.println(ServiceManager.showAllCitizens());
                     break;
                 case 7:
-                    System.out.println(ServicesManager.showAllParties());
+                    System.out.println(ServiceManager.showAllParties());
                     break;
                 case 8:
-                    ServicesManager.beginElections(s);
+                    ServiceManager.beginElections(s);
                     break;
                 case 9:
-                    ServicesManager.showResults();
+                    ServiceManager.showResults();
                     break;
                 case 10:
                 default:
@@ -53,7 +71,7 @@ public class Program {
         }*/
     }
 
-/*    public static Citizen getCitizen(Scanner s, boolean inParty) {
+    public static Citizen getCitizen(Scanner s, boolean inParty) throws StringLengthException, UnderAgeException {
         String name;
         String id;
         int birthYear;
@@ -61,14 +79,36 @@ public class Program {
         boolean isolation;
         BallotBox ballotBox;
 
+
         s.nextLine();
         System.out.print("Enter name : ");
         name = s.nextLine();
 
-        System.out.print("Enter ID :");
-        id = s.next();
+        boolean hasLegalID = false;
+        String temp;
+        do {
+            System.out.println("Enter ID: ");
+            temp = s.next();
+            if (temp.length() == 9){
+                id = temp;
+                hasLegalID = true;
+            }
+            else
+                throw new StringLengthException("Error in ID. ID must be with 9 numbers");
+        } while (!hasLegalID);
 
-        System.out.print("Enter Birth Year : ");
+        boolean isMinor = true;
+        int tempInt;
+        do {
+            System.out.print("Enter Birth Year : ");
+            tempInt = s.nextInt();
+            if (election.getYear() - tempInt >= 18) {
+                birthYear = tempInt;
+                isMinor = false;
+            } else
+                throw new UnderAgeException("You are a minor. Can't enter to Voter Register");
+        } while(isMinor);
+
         birthYear = s.nextInt();
 
         System.out.print("You in isolation [Y/N] : ");
@@ -80,12 +120,20 @@ public class Program {
         else
             isolation = false;
 
-        System.out.println(ServicesManager.getLegalBallotBoxes(birthYear, isolation));
+        System.out.println(ServiceManager.getLegalBallotBoxes(birthYear, isolation));
 
         System.out.println("Enter Ballot Box Number : ");
-        ballotBox = ServicesManager.getBallotBoxByNumber(s.nextInt());
+        ballotBox = ServiceManager.getBallotBoxByNumber(s.nextInt());
 
-        return new Citizen(name, id, birthYear, isolation, ballotBox);
+        boolean soldierAge = (election.getYear() - birthYear <= 21);
+        if (isolation && soldierAge)
+            return new SoldierCorona(name, id, birthYear, isolation, ballotBox);
+        else if (isolation)
+            return new Corona(name, id, birthYear, isolation, ballotBox);
+        else if (soldierAge)
+            return new Soldier(name, id, birthYear, ballotBox);
+        else
+            return new Regular(name, id, birthYear, ballotBox);
     }
 
     public static Party getParty(Scanner s) {
@@ -183,5 +231,5 @@ public class Program {
         if (ansChar == 'y' || ansChar == 'Y')
             return true;
         return false;
-    }*/
+    }
 }
