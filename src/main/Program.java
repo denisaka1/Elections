@@ -1,25 +1,22 @@
 package main;
 
-import controller.Controller;
-import exceptions.StringLengthException;
-import exceptions.UnderAgeException;
-import model.BallotBox;
-import model.Elections;
-import model.Party;
 import model.VoterRegister;
-import model.citizens.*;
-
-import java.util.Scanner;
-
-import view.ServiceManager;
-
-import static controller.Controller.election;
+import model.citizens.SoldierCorona;
 
 public class Program {
 
     public static void main(String[] args) {
 //        Controller controller = new Controller();
 
+        SoldierCorona soldierCorona = new SoldierCorona("Denis", "123456789", 1998);
+        VoterRegister vr = new VoterRegister();
+
+        vr.addCitizen(soldierCorona);
+
+
+        System.out.println(vr);
+        System.out.println(vr.getCitizens().get(0).getClass().getSimpleName());
+        System.out.println(vr.getCitizens().get(0));
         /*Elections e = new Elections();
         BallotBox<Corona> bc = new BallotBox<Corona>("ASDsadas", Corona.class);
         Corona c1 = new Corona("dsad","12312123", 2000);
@@ -71,10 +68,10 @@ public class Program {
         }*/
     }
 
-    public static Citizen getCitizen(Scanner s, boolean inParty) throws StringLengthException, UnderAgeException {
+/*    public static Citizen getCitizen(Scanner s, boolean inParty) throws StringLengthException, UnderAgeException {
         String name;
         String id;
-        int birthYear;
+        int birthYear, daysInIsolation = 0;
         char ansChar;
         boolean isolation;
         BallotBox ballotBox;
@@ -113,8 +110,11 @@ public class Program {
 
         System.out.print("You in isolation [Y/N] : ");
         ansChar = s.next().toCharArray()[0];
-        if (ansChar == 'y' || ansChar == 'Y')
+        if (ansChar == 'y' || ansChar == 'Y') {
             isolation = true;
+            System.out.println("How many days are you in isolation?");
+            daysInIsolation = Integer.parseInt(s.nextLine());
+        }
         else if (ansChar == 'n' || ansChar == 'N')
             isolation = false;
         else
@@ -127,9 +127,9 @@ public class Program {
 
         boolean soldierAge = (election.getYear() - birthYear <= 21);
         if (isolation && soldierAge)
-            return new SoldierCorona(name, id, birthYear, isolation, ballotBox);
+            return new SoldierCorona(name, id, birthYear, isolation, ballotBox, daysInIsolation);
         else if (isolation)
-            return new Corona(name, id, birthYear, isolation, ballotBox);
+            return new Corona(name, id, birthYear, isolation, ballotBox, daysInIsolation);
         else if (soldierAge)
             return new Soldier(name, id, birthYear, ballotBox);
         else
@@ -231,5 +231,5 @@ public class Program {
         if (ansChar == 'y' || ansChar == 'Y')
             return true;
         return false;
-    }
+    }*/
 }

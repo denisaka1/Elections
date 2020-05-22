@@ -3,10 +3,12 @@ package model;
 import model.citizens.*;
 
 import java.lang.reflect.GenericSignatureFormatError;
+import java.util.Map;
 import java.util.Objects;
 
 public class VoterRegister {
     private Set<Citizen> citizens;
+    private Map<? extends Citizen, Set<Citizen>> citizensMap;
 
     /************* Constructor *************/
     public VoterRegister(Set<Citizen> citizens) {

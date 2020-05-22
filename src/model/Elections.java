@@ -208,10 +208,10 @@ public class Elections {
         } catch (Exception e) {
             System.out.println("Something went wrong");
             return false;
-        } //catch(TypeMissMatch )
+        }
     }
 
-    public void addCitizenToBallotBoxes(Citizen citizen, BallotBox<? extends Citizen> ballotBox) {
+    public void addCitizenToBallotBox(Citizen citizen, BallotBox<? extends Citizen> ballotBox) {
         try {
             if (citizen instanceof Corona) {
                 if (corona.contains(ballotBox))
@@ -246,6 +246,39 @@ public class Elections {
 //            return null;
     }*/
 
+    public BallotBox<? extends Citizen> getBallotBoxByNumber(int number) {
+
+        for (BallotBox<Regular> regular: this.regular) {
+            if (regular.getId() == number)
+                return regular;
+        }
+
+        for (BallotBox<Corona> corona: this.corona) {
+            if (corona.getId() == number)
+                return corona;
+        }
+
+        for (BallotBox<Soldier> soldier: this.soldier) {
+            if (soldier.getId() == number)
+                return soldier;
+        }
+
+        for (BallotBox<SoldierCorona> soldierCorona: this.soldierCorona) {
+            if (soldierCorona.getId() == number)
+                return soldierCorona;
+        }
+
+        return null;
+    }
+
+    public Party getPartiesByName(String partyName) {
+        for (Party party: parties.keySet()) {
+            if (party.getName().toUpperCase().equals(partyName.toUpperCase()))
+                return party;
+        }
+        return null;
+    }
+
     public boolean addParty(Party party) {
         if (party != null && !parties.containsKey(party)) {
             this.parties.put(party, 0);
@@ -267,30 +300,16 @@ public class Elections {
     }
 
     public boolean existBallotBox(BallotBox<? extends Citizen> ballotBox) {
- /*       if (ballotBox.getType().equals("Regular"))
-            if (regular.contains(ballotBox))
-                return true;
-        else if (ballotBox.getType().equals("Corona"))
-            if (corona.contains(ballotBox))
-                return true;
-        else if (ballotBox.getType().equals("Soldier"))
-            if (soldier.contains(ballotBox))
-               return true;
-        else if (ballotBox.getType().equals("SoldierCorona"))
-            if (soldierCorona.contains(ballotBox))
-                return true;*/
         Class<? extends Citizen> classType = ballotBox.getClassType();
 
-        if (Regular.class.equals(classType) && regular.contains(ballotBox))
+        boolean existInRegular = Regular.class.equals(classType) && regular.contains(ballotBox);
+        boolean existInCorona = Corona.class.equals(classType) && corona.contains(ballotBox);
+        boolean existInSoldier = Soldier.class.equals(classType) && corona.contains(ballotBox);
+        boolean existInSoldierCorona = SoldierCorona.class.equals(classType) && corona.contains(ballotBox);
+
+        if (existInRegular || existInCorona || existInSoldier || existInSoldierCorona)
             return true;
-        else if (Corona.class.equals(classType) && corona.contains(ballotBox))
-            return true;
-        else if (Soldier.class.equals(classType) && corona.contains(ballotBox))
-            return true;
-        else if (SoldierCorona.class.equals(classType) && corona.contains(ballotBox))
-            return true;
-        else
-            return false;
+        return false;
     }
 
     public boolean existParty(Party party) {
@@ -319,4 +338,6 @@ public class Elections {
         sb.append(getAllBallotBoxes());
         return sb.toString();
     }
+
+
 }

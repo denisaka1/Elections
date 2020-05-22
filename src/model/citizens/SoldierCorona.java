@@ -19,10 +19,10 @@ public class SoldierCorona extends Citizen{
                 soldierCorona.voted, soldierCorona.daysInIsolation);
     }
 
-    public SoldierCorona(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox) {
+    public SoldierCorona(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox, int daysInIsolation) {
         super(name, id, birthYear, ballotBox);
         this.isolation = isolation;
-        this.daysInIsolation = 0;
+        this.daysInIsolation = daysInIsolation;
     }
 
     public SoldierCorona(String name, String id, int birthYear) {

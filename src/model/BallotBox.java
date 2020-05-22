@@ -148,8 +148,10 @@ public class BallotBox<T extends Citizen> {
     }
 
     public void addCitizen(T citizen) {
-        if (citizen != null && !citizens.contains(citizen))
+        if (citizen != null && !citizens.contains(citizen)){
             citizens.add(citizen);
+            citizen.assignToBallotBox(this);
+        }
     }
 
     public void addParty(Party party) {

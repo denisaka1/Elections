@@ -1,14 +1,5 @@
 package view;
 
-import exceptions.StringLengthException;
-import exceptions.UnderAgeException;
-import model.*;
-import model.citizens.*;
-import java.util.Scanner;
-
-import static controller.Controller.election;
-import static controller.Controller.vr;
-
 public class ServiceManager {
 
 /*    public static void hardCodeToTest() {
@@ -58,10 +49,10 @@ public class ServiceManager {
         addCandidate(refCitizen[2].getID(), parties[1].getName(), 2);
         addCandidate(refCitizen[3].getID(), parties[1].getName(), 1);
         addCandidate(refCitizen[4].getID(), parties[2].getName(), 5);
-        addCandidate(refCitizen[5].getID(), parties[2].getName(), 1);*/
-    }
+        addCandidate(refCitizen[5].getID(), parties[2].getName(), 1);
+    }*/
 
-    public static void showMenu() {
+/*    public static void showMenu() {
         StringBuffer sb = new StringBuffer();
         sb.append("1 - Add Ballot Box \n");
         sb.append("2 - Add Citizen \n");
@@ -104,7 +95,7 @@ public class ServiceManager {
     }
 
     public static void addCitizen(Citizen citizen) throws UnderAgeException, StringLengthException {
-/*        if (!citizen.getID().equals("-1") && citizen.getName().length() != 0) {
+*//*        if (!citizen.getID().equals("-1") && citizen.getName().length() != 0) {
             if (citizen.isIsolation() && !(citizen.getBallotBox() instanceof Corona) ||
                     (election.getYear() - citizen.getBirthYear()) <= 21 &&  !(citizen.getBallotBox() instanceof Army))
                 System.out.println("You are prohibited to enter as a citizen to this ballot box!");
@@ -114,7 +105,7 @@ public class ServiceManager {
                 election.addCitizenToBallotBoxes(refToCitizen);
             }
         } else
-            System.out.println("You are prohibited to enter as a citizen!");*/
+            System.out.println("You are prohibited to enter as a citizen!");*//*
         if (citizen.getID().length() == 9) {
             if ((election.getYear() - citizen.getBirthYear()) >= 18)
                 vr.addCitizen(citizen);
@@ -226,7 +217,7 @@ public class ServiceManager {
             }
         }
         return str;
-    }
+    }*/
 }
 
 // validID 9 digit -> !should be in ServiceManager!

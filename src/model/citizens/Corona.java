@@ -19,14 +19,13 @@ public class Corona extends Citizen {
         this.daysInIsolation = corona.daysInIsolation;
     }
 
-    public Corona(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox) {
+    public Corona(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox, int daysInIsolation) {
         super(name, id, birthYear, ballotBox);
         this.isolation = isolation;
-        daysInIsolation = 0;
+        this.daysInIsolation = daysInIsolation;
     }
 
     public Corona(String name, String id, int birthYear) {
-//        ?this(name, id, birthYear, false, null, null, false, 0);
         super(name, id, birthYear);
         isolation = true;
         daysInIsolation = 0;
