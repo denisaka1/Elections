@@ -2,7 +2,6 @@ package model;
 
 import model.citizens.*;
 
-import javax.swing.plaf.PanelUI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +17,8 @@ public class Elections {
     private ArrayList<BallotBox<Soldier>> soldier;
     private ArrayList<BallotBox<SoldierCorona>> soldierCorona;
     private ArrayList<BallotBox<Corona>> corona;
+
+    private Map<? extends Citizen, BallotBox<Citizen>> ballotBoxes; // maybe add?
 
     private HashMap<Party, Integer> parties;
 
@@ -178,28 +179,31 @@ public class Elections {
 
 
     /************** Functions **************/
-    public boolean addBallotBoxes(ArrayList<BallotBox<Citizen>> ballotBoxes) {
+    public boolean addBallotBoxes(ArrayList<BallotBox<? extends Citizen>> ballotBoxes) {
         try {
-            for(BallotBox<Citizen> ballotBox: ballotBoxes) {
+            for(BallotBox<? extends Citizen> ballotBox: ballotBoxes) {
                 addBallotBox(ballotBox);
             }
             return true;
         } catch (Exception e) {
             System.out.println("Something went wrong");
             return false;
-        } //catch(TypeMissMatch )
+        }
     }
 
     public boolean addBallotBox(BallotBox<? extends Citizen> ballotBox) {
+        // we know all the types
         try {
-            if (ballotBox.getType().equals("Regular"))
-                regular.add(new BallotBox<Regular>(ballotBox));
-            else if (ballotBox.getType().equals("Corona"))
-                corona.add(new BallotBox<Corona>(ballotBox));
-            else if (ballotBox.getType().equals("Soldier"))
-                soldier.add(new BallotBox<Soldier>(ballotBox));
-            else if (ballotBox.getType().equals("SoldierCorona"))
-                soldierCorona.add(new BallotBox<SoldierCorona>(ballotBox));
+            Class<? extends Citizen> classType = ballotBox.getClassType();
+
+            if (Regular.class.equals(classType))
+                regular.add(new BallotBox<>((BallotBox<Regular>) ballotBox));
+            else if (Corona.class.equals(classType))
+                corona.add(new BallotBox<>((BallotBox<Corona>) ballotBox));
+            else if (Soldier.class.equals(classType))
+                soldier.add(new BallotBox<>((BallotBox<Soldier>) ballotBox));
+            else if (SoldierCorona.class.equals(classType))
+                soldierCorona.add(new BallotBox<>((BallotBox<SoldierCorona>) ballotBox));
             return true;
         } catch (Exception e) {
             System.out.println("Something went wrong");
@@ -207,23 +211,23 @@ public class Elections {
         } //catch(TypeMissMatch )
     }
 
-    public void addCitizenToBallotBoxes(Citizen citizen, BallotBox<Citizen> ballotBox) {
+    public void addCitizenToBallotBoxes(Citizen citizen, BallotBox<? extends Citizen> ballotBox) {
         try {
             if (citizen instanceof Corona) {
                 if (corona.contains(ballotBox))
-                    corona.get(corona.indexOf(ballotBox)).addCitizen(citizen);
+                    corona.get(corona.indexOf(ballotBox)).addCitizen((Corona)citizen);
             } else if (citizen instanceof Regular) {
                 if (regular.contains(ballotBox))
-                    regular.get(regular.indexOf(ballotBox)).addCitizen(citizen);
+                    regular.get(regular.indexOf(ballotBox)).addCitizen((Regular)citizen);
             } else if (citizen instanceof Soldier) {
                 if (soldier.contains(ballotBox))
-                    soldier.get(soldier.indexOf(ballotBox)).addCitizen(citizen);
+                    soldier.get(soldier.indexOf(ballotBox)).addCitizen((Soldier)citizen);
             } else if (citizen instanceof SoldierCorona) {
                 if (soldierCorona.contains(ballotBox))
-                    soldierCorona.get(soldierCorona.indexOf(ballotBox)).addCitizen(citizen);
+                    soldierCorona.get(soldierCorona.indexOf(ballotBox)).addCitizen((SoldierCorona)citizen);
             }
         } catch (Exception e){
-            System.out.println();
+            System.out.println("Something went wrong");
         }
 
     }
@@ -262,8 +266,8 @@ public class Elections {
             ballotBox.addParty(party);
     }
 
-    public boolean existBallotBox(BallotBox<Citizen> ballotBox) {
-        if (ballotBox.getType().equals("Regular"))
+    public boolean existBallotBox(BallotBox<? extends Citizen> ballotBox) {
+ /*       if (ballotBox.getType().equals("Regular"))
             if (regular.contains(ballotBox))
                 return true;
         else if (ballotBox.getType().equals("Corona"))
@@ -274,8 +278,19 @@ public class Elections {
                return true;
         else if (ballotBox.getType().equals("SoldierCorona"))
             if (soldierCorona.contains(ballotBox))
-                return true;
-        return false;
+                return true;*/
+        Class<? extends Citizen> classType = ballotBox.getClassType();
+
+        if (Regular.class.equals(classType) && regular.contains(ballotBox))
+            return true;
+        else if (Corona.class.equals(classType) && corona.contains(ballotBox))
+            return true;
+        else if (Soldier.class.equals(classType) && corona.contains(ballotBox))
+            return true;
+        else if (SoldierCorona.class.equals(classType) && corona.contains(ballotBox))
+            return true;
+        else
+            return false;
     }
 
     public boolean existParty(Party party) {

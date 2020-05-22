@@ -90,7 +90,6 @@ public abstract class Citizen {
 
     /************ Set Functions ************/
     private boolean setName(String name){
-        // todo: try/catch
         // checks if the citizen got multiple names
         // checks if there is a character that is not alphabetic in his name
 
@@ -117,7 +116,6 @@ public abstract class Citizen {
     }
 
     private boolean setId(String id) {
-        // todo: try/catch
 //        boolean legalIdLength = id.length() >= 8 && id.length() <= 9;
         if (id != null) {
             this.id = id;
@@ -128,7 +126,6 @@ public abstract class Citizen {
     }
 
     private boolean setBirthYear(int birthYear) {
-        // todo: try/catch
         if (birthYear >= 0){
             this.birthYear = birthYear;
             return true;
@@ -139,7 +136,6 @@ public abstract class Citizen {
     }
 
     private boolean setBallotBox(BallotBox ballotBox) {
-        // todo: try/catch
         if (ballotBox != null) {
             this.ballotBox = ballotBox;
             isInBallotBox = true;
@@ -151,7 +147,6 @@ public abstract class Citizen {
     }
 
     private boolean setInParty(Party party) {
-        // todo: try/catch
         if (party != null) {
             this.party = party;
             isInParty = true;

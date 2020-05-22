@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,6 +14,10 @@ public class Set<T> {
 
     public Set(Set<T> objects) {
         Collections.copy(this.set, objects.getSet());
+    }
+
+    public Set(int size) {
+        set = new ArrayList<>(size);
     }
 
     public Set() {
@@ -61,6 +64,15 @@ public class Set<T> {
         return false;
     }
 
+    public boolean isEmpty() {
+        return set.isEmpty();
+    }
+
+    public boolean contains(T citizen) {
+        return set.contains(citizen);
+    }
+
+
     public boolean remove(T object) {
         return set.remove(object);
     }
@@ -78,4 +90,7 @@ public class Set<T> {
 
         return sb.toString();
     }
+
+
+
 }

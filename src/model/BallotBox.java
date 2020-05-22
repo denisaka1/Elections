@@ -1,9 +1,9 @@
 package model;
 
-import model.citizens.*;
-import java.util.ArrayList;
+import model.citizens.Citizen;
+
 import java.util.HashMap;
-import java.util.List;
+import java.util.Objects;
 
 public class BallotBox<T extends Citizen> {
     /* Defaults:
@@ -18,12 +18,12 @@ public class BallotBox<T extends Citizen> {
     private String address;
     private double votePercentage; // need ? Yes - Doesn't need to be showed up :D
     private HashMap<Party, Integer> parties;
-    protected List<Citizen> citizens;
+    protected Set<T> citizens;
 
     private final Class<T> type;
 
     /************* Constructor *************/
-    public BallotBox(String address, List<Citizen> citizens, HashMap<Party, Integer> parties, Class<T> type){
+    public BallotBox(String address, Set<T> citizens, HashMap<Party, Integer> parties, Class<T> type){
         setAddress(address);
         setCitizens(citizens);
         setParties(parties);
@@ -37,11 +37,14 @@ public class BallotBox<T extends Citizen> {
         this(address, null, null, type);
     }
 
-    public BallotBox(BallotBox ballotBox) {
-        this(ballotBox.address, ballotBox.citizens, ballotBox.parties, ballotBox.type);
-        this.votePercentage = ballotBox.votePercentage;
-        this.id = ballotBox.id;
-        // Copy id ? numGen-- ?
+    public BallotBox(BallotBox<T> ballotBox) {
+        setAddress(ballotBox.address);
+        setCitizens(ballotBox.citizens);
+        setParties(ballotBox.parties);
+        votePercentage = ballotBox.votePercentage;
+        numGen = ballotBox.getNumGen();
+        id = ballotBox.id;
+        type = ballotBox.type;
     }
 
     /************ Set Functions ************/
@@ -56,13 +59,13 @@ public class BallotBox<T extends Citizen> {
         return isSet;
     }
 
-    private boolean setCitizens(List<Citizen> citizens){
+    private boolean setCitizens(Set<T> citizens){
         if (citizens != null && !citizens.isEmpty()){
             this.citizens = citizens;
 
             return true;
         }
-        this.citizens = new ArrayList<Citizen>(0);
+        this.citizens = new Set<T>();
         return false;
     }
 
@@ -91,7 +94,7 @@ public class BallotBox<T extends Citizen> {
         return votePercentage;
     }
 
-    public List<Citizen> getCitizens() {
+    public Set<T> getCitizens() {
         return citizens;
     }
 
@@ -111,12 +114,16 @@ public class BallotBox<T extends Citizen> {
         return type;
     }
 
-    public String getType() {
+/*    public String getType() {
         return type.toString().substring(21);
+    }*/
+
+    private int getNumGen() {
+        return numGen;
     }
 
     /************** Functions *************/
-    public void vote(Citizen citizen, Party party) {
+    public void vote(T citizen, Party party) {
         // todo: try/catch 1 - null
         //                 2 - contains
         //                 3 - getVote
@@ -140,7 +147,7 @@ public class BallotBox<T extends Citizen> {
         return voteSum;
     }
 
-    public void addCitizen(Citizen citizen) {
+    public void addCitizen(T citizen) {
         if (citizen != null && !citizens.contains(citizen))
             citizens.add(citizen);
     }
@@ -152,12 +159,18 @@ public class BallotBox<T extends Citizen> {
 
 //    public boolean existBallotBox(BallotBox<C>)
 
-    public boolean equals(BallotBox ballotBox) {
-        if (ballotBox == null && this == null)
-            return true;
-        else if (ballotBox == null || this == null)
-            return false;
-        return address.equals(ballotBox.address); // enough to check only address
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof BallotBox)) return false;
+        BallotBox<?> ballotBox = (BallotBox<?>) other;
+        return id == ballotBox.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
