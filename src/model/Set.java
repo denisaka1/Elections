@@ -13,7 +13,8 @@ public class Set<T> {
     }
 
     public Set(Set<T> objects) {
-        Collections.copy(this.set, objects.getSet());
+//        Collections.copy(this.set, objects.getSet());
+        set = (List<T>) objects;
     }
 
     public Set(int size) {

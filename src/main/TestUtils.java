@@ -41,12 +41,12 @@ public class TestUtils {
         Citizen[] citizens = new Citizen[8];
         citizens[0] = new Citizen("Barak", "000000001", 1996, refCitizenBallotBoxes.get(0), null, false); // Regular
         citizens[1] = new Citizen("Denis", "000000002", 1990, refCitizenBallotBoxes.get(0), null, false); // Regular
-        citizens[2] = new Corona("Dana", "000000003", 2002, true, refCoronaBallotBoxes.get(0), 5); // Corona
-        citizens[3] = new Corona("Alon", "000000004", 2001, true, refCoronaBallotBoxes.get(0), 15); // Corona
-        citizens[4] = new Soldier("Tal", "000000005", 1986, refSoldierBallotBoxes.get(0), null, false); // Soldier
-        citizens[5] = new Soldier("Bar", "000000006", 1994, refSoldierBallotBoxes.get(0), null, false); // Soldier
-        citizens[6] = new SoldierCorona("Tal", "000000007", 1986, true, refSoldierCoronaBallotBoxes.get(0), 3); // SoldierCorona
-        citizens[7] = new SoldierCorona("Bar", "000000008", 1994, true, refSoldierCoronaBallotBoxes.get(0), 21); // SoldierCorona
+        citizens[2] = new Corona("Dana", "000000003", 1994, true, refCoronaBallotBoxes.get(0), 5); // Corona
+        citizens[3] = new Corona("Alon", "000000004", 1998, true, refCoronaBallotBoxes.get(0), 15); // Corona
+        citizens[4] = new Soldier("Tal", "000000005", 2002, refSoldierBallotBoxes.get(0), null, false); // Soldier
+        citizens[5] = new Soldier("Bar", "000000006", 2001, refSoldierBallotBoxes.get(0), null, false); // Soldier
+        citizens[6] = new SoldierCorona("Tom", "000000007", 2000, true, refSoldierCoronaBallotBoxes.get(0), 3); // SoldierCorona
+        citizens[7] = new SoldierCorona("Shani", "000000008", 2001, true, refSoldierCoronaBallotBoxes.get(0), 21); // SoldierCorona
 
         // Add Citizen to VoterRegister
         c.addCitizen(citizens[0]);

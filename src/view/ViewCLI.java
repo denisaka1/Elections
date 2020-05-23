@@ -49,7 +49,7 @@ public class ViewCLI {
                     controller.startVoteCLI(s);
                     break;
                 case 9:
-                    controller.getResults();
+                    System.out.println(controller.getResults());
                     break;
                 case 10:
                 default:

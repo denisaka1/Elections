@@ -69,7 +69,7 @@ public class BallotBox<T extends Citizen> {
         return false;
     }
 
-    private boolean setParties(HashMap<Party, Integer> parties){
+    public boolean setParties(HashMap<Party, Integer> parties){
         if (parties != null && !parties.isEmpty()) {
             this.parties = parties;
             return true;
@@ -154,10 +154,10 @@ public class BallotBox<T extends Citizen> {
         }
     }
 
-    public void addParty(Party party) {
-        if (party != null && !parties.containsKey(party))
-            this.parties.put(party, 0);
-    }
+//    public void addParty(Party party) {
+//        if (party != null && !parties.containsKey(party))
+//            this.parties.put(party, 2);
+//    }
 
     @Override
     public boolean equals(Object other) {

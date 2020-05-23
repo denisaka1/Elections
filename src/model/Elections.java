@@ -321,21 +321,32 @@ public class Elections {
     public boolean addParty(Party party) {
         if (party != null && !parties.containsKey(party)) {
             this.parties.put(party, 0);
-            updateBallotBoxes(party);
+//            updateBallotBoxes(party);
+            updateBallotBoxes();
             return true;
         }
         return false;
     }
 
-    private void updateBallotBoxes(Party party) {
+//    private void updateBallotBoxes(Party party) {
+    private void updateBallotBoxes() {
         for (BallotBox<Citizen> ballotBox : citizen)
+            ballotBox.setParties(parties);
+        for (BallotBox<Corona> ballotBox : corona)
+            ballotBox.setParties(parties);
+        for (BallotBox<Soldier> ballotBox : soldier)
+            ballotBox.setParties(parties);
+        for (BallotBox<SoldierCorona> ballotBox : soldierCorona)
+            ballotBox.setParties(parties);
+
+/*        for (BallotBox<Citizen> ballotBox : citizen)
             ballotBox.addParty(party);
         for (BallotBox<Corona> ballotBox : corona)
             ballotBox.addParty(party);
         for (BallotBox<Soldier> ballotBox : soldier)
             ballotBox.addParty(party);
         for (BallotBox<SoldierCorona> ballotBox : soldierCorona)
-            ballotBox.addParty(party);
+            ballotBox.addParty(party);*/
     }
 
     public boolean existBallotBox(BallotBox<? extends Citizen> ballotBox) {
