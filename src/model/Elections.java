@@ -2,10 +2,7 @@ package model;
 
 import model.citizens.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Elections {
     /* Defaults:
@@ -17,8 +14,6 @@ public class Elections {
     private ArrayList<BallotBox<Soldier>> soldier;
     private ArrayList<BallotBox<SoldierCorona>> soldierCorona;
     private ArrayList<BallotBox<Corona>> corona;
-
-    private Map<? extends Citizen, BallotBox<Citizen>> ballotBoxes; // maybe add?
 
     private HashMap<Party, Integer> parties;
 
@@ -164,7 +159,33 @@ public class Elections {
         return sb.toString();
     }
 
+    public List<? extends BallotBox<? extends Citizen>> getBallotBoxes(int type) {
+        /** 1 - Citizen / Regular
+         ** 2 - Corona
+         ** 3 - Solider
+         ** 4 - SoliderCorona **/
+        try {
+            switch (type) {
+                case 1:
+                    return citizen;
+                case 2:
+                    return corona;
+                case 3:
+                    return soldier;
+                case 4:
+                    return soldierCorona;
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        }
+        return null;
+    }
+
     public String getAllBallotBoxes() {
+        /** 1 - Citizen / Regular
+         ** 2 - Corona
+         ** 3 - Solider
+         ** 4 - SoliderCorona **/
         StringBuffer sb = new StringBuffer();
         for (BallotBox<Citizen> ballotBox : citizen)
             sb.append(ballotBox.toString() + "\n");
@@ -177,6 +198,23 @@ public class Elections {
         return sb.toString();
     }
 
+    public String getBallotBoxesByType(int type) {
+        try {
+            switch (type) {
+                case 1:
+                    return citizen.toString();
+                case 2:
+                    return corona.toString();
+                case 3:
+                    return soldier.toString();
+                case 4:
+                    return soldierCorona.toString();
+            }
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
+        }
+        return null;
+    }
 
     /************** Functions **************/
     public boolean addBallotBoxes(ArrayList<BallotBox<? extends Citizen>> ballotBoxes) {
@@ -214,17 +252,17 @@ public class Elections {
     public void addCitizenToBallotBox(Citizen citizen, BallotBox<? extends Citizen> ballotBox) {
         try {
             if (citizen instanceof Corona) {
-                if (!corona.contains(ballotBox))
+                if (corona.contains(ballotBox))
                     corona.get(corona.indexOf(ballotBox)).addCitizen((Corona)citizen);
-            } else if (citizen instanceof Citizen) {
-                if (!this.citizen.contains(ballotBox))
-                    this.citizen.get(this.citizen.indexOf(ballotBox)).addCitizen((Citizen)citizen);
             } else if (citizen instanceof Soldier) {
-                if (!soldier.contains(ballotBox))
+                if (soldier.contains(ballotBox))
                     soldier.get(soldier.indexOf(ballotBox)).addCitizen((Soldier)citizen);
             } else if (citizen instanceof SoldierCorona) {
-                if (!soldierCorona.contains(ballotBox))
+                if (soldierCorona.contains(ballotBox))
                     soldierCorona.get(soldierCorona.indexOf(ballotBox)).addCitizen((SoldierCorona)citizen);
+            } else if (citizen instanceof Citizen) {
+                if (this.citizen.contains(ballotBox))
+                    this.citizen.get(this.citizen.indexOf(ballotBox)).addCitizen((Citizen) citizen);
             }
         } catch (Exception e){
             System.out.println(e.toString());
@@ -355,4 +393,6 @@ public class Elections {
     }
 
 
+    private class inteager {
+    }
 }

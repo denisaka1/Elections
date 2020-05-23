@@ -1,7 +1,6 @@
 package exceptions;
 
 public class StringLengthException extends Exception{
-
     private String message;
 
     public StringLengthException(String message) {
@@ -11,5 +10,4 @@ public class StringLengthException extends Exception{
     public String getMessage() {
         return message;
     }
-
 }

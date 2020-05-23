@@ -3,6 +3,8 @@ package model.citizens;
 import model.BallotBox;
 import model.Party;
 
+import java.util.Objects;
+
 public class Citizen {
     /* Defaults:
       name: citizen
@@ -187,12 +189,18 @@ public class Citizen {
             setVoted(true);
     }
 
-    public boolean equals(Citizen citizen) {
-        if(citizen == null && this == null)
-            return true;
-        else if (citizen == null || this == null)
-            return false;
-        return id.equals(citizen.id); // enough to check only id
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null) return false;
+        Citizen citizen = (Citizen) o;
+        return Objects.equals(name, citizen.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, id, birthYear, ballotBox, party, voted, isInParty, isInBallotBox);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class Set<T> {
         return false;
     }
 
-    private boolean setObjects(T... objects) {
+/*    private boolean setObjects(T... objects) {
         set = new ArrayList<T>();
         try {
             for (T object: objects) {
@@ -42,7 +42,7 @@ public class Set<T> {
             System.out.println("Can't add null to list!");
         }
         return false;
-    }
+    }*/
 
     /************ Get Functions ************/
     public int size() {
@@ -68,15 +68,6 @@ public class Set<T> {
         return set.isEmpty();
     }
 
-//    public boolean contains(T object) {
-//        if (set.size() > 0)
-//            if (object != null && object.getClass().equals(set.get(0).getClass()))
-//                for (T obj : set)
-//                    if (obj.equals(object))
-//                        return true;
-//        return false;
-//    }
-
     public boolean remove(T object) {
         return set.remove(object);
     }
@@ -85,9 +76,8 @@ public class Set<T> {
         return set.equals(object);
     }
 
-    @Override
-    public int compareTo(T obj) {
-        return 0;
+    public boolean contains(T object) {
+        return set.contains(object);
     }
 
     @Override
@@ -96,7 +86,7 @@ public class Set<T> {
         for (int i = 0; i < set.size(); i++) {
             sb.append(set.get(i) + ",");
         }
-//        sb.replace(set.size(), set.size(), "}");
+        sb.append("}");
 
         return sb.toString();
     }

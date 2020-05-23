@@ -8,7 +8,6 @@ import java.util.Objects;
 
 public class VoterRegister {
     private Set<Citizen> citizens;
-//    private Map<? extends Citizen, Set<Citizen>> citizensMap;
 
     /************* Constructor *************/
     public VoterRegister(Set<Citizen> citizens) {
@@ -55,16 +54,6 @@ public class VoterRegister {
     }
 
     /************** Functions **************/
-//    public void addCitizens(Set<Citizen> citizens) {
-//        try {
-//            for(Citizen citizen: citizens.getSet()) {
-//                addCitizen(citizen);
-//            }
-//        } catch (NullPointerException npe) {
-//            System.out.println("The array is null!");
-//        }
-//    }
-
     public boolean addCitizen(Citizen citizen) {
         try {
             if (!citizens.contains(citizen))

@@ -115,7 +115,7 @@ public class BallotBox<T extends Citizen> {
     }
 
     public String getType() {
-        return type.toString().substring(21);
+        return type.getSimpleName();
     }
 
     private int getNumGen() {
@@ -131,7 +131,7 @@ public class BallotBox<T extends Citizen> {
                 citizens.contains(citizen) && !citizen.getVoted()) {
             citizen.vote();
             parties.put(party, parties.get(party) + 1);
-            System.out.println(citizen.getName() + " ID " + citizen.getID() + " voted for" + party.getName());
+            System.out.println(citizen.getName() + " ID " + citizen.getID() + " voted for " + party.getName());
         } else {
             System.out.println("Vote failed");
         }
@@ -159,9 +159,6 @@ public class BallotBox<T extends Citizen> {
             this.parties.put(party, 0);
     }
 
-//    public boolean existBallotBox(BallotBox<C>)
-
-
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
@@ -180,6 +177,7 @@ public class BallotBox<T extends Citizen> {
         StringBuffer sb = new StringBuffer();
         sb.append("BallotBox #" + id + "\n");
         sb.append("Address : " + address + "\n");
+        sb.append("Type : " + getType());
         return sb.toString();
     }
 }
