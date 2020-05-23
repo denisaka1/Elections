@@ -16,7 +16,7 @@ public class BallotBox<T extends Citizen> {
     private static int numGen; // Auto generated
     private int id;
     private String address;
-    private double votePercentage; // need ? Yes - Doesn't need to be showed up :D
+    private double votePercentage;
     private HashMap<Party, Integer> parties;
     protected Set<T> citizens;
 
@@ -114,9 +114,9 @@ public class BallotBox<T extends Citizen> {
         return type;
     }
 
-/*    public String getType() {
+    public String getType() {
         return type.toString().substring(21);
-    }*/
+    }
 
     private int getNumGen() {
         return numGen;

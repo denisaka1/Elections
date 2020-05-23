@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class VoterRegister {
     private Set<Citizen> citizens;
-    private Map<? extends Citizen, Set<Citizen>> citizensMap;
+//    private Map<? extends Citizen, Set<Citizen>> citizensMap;
 
     /************* Constructor *************/
     public VoterRegister(Set<Citizen> citizens) {
@@ -17,7 +17,6 @@ public class VoterRegister {
 
     public VoterRegister() {
         this((Set<Citizen>) null);
-//        this(null);
     }
 
 
@@ -28,7 +27,10 @@ public class VoterRegister {
     /************ Set Functions ************/
     private boolean setCitizens(Set<Citizen> citizens) {
         try {
-            this.citizens = new Set<Citizen>(citizens);
+            if (citizens != null)
+                this.citizens = new Set<Citizen>(citizens);
+            else
+                this.citizens = new Set<Citizen>();
             return true;
         } catch (GenericSignatureFormatError e) {
             System.out.println("The generic signature not match");
@@ -63,17 +65,20 @@ public class VoterRegister {
 //        }
 //    }
 
-    public void addCitizen(Citizen citizen) {
+    public boolean addCitizen(Citizen citizen) {
         try {
-            citizens.add(returnCitizen(citizen));
+            if (!citizens.contains(citizen))
+                if (citizens.add(returnCitizen(citizen)))
+                    return true;
         } catch (NullPointerException npe) {
             System.out.println("Can't operate with null");
         }
+        return false;
     }
 
     private Citizen returnCitizen(Citizen citizen) {
-        if (citizen instanceof Regular)
-            return new Regular((Regular)citizen);
+        if (citizen instanceof Citizen)
+            return new Citizen((Citizen) citizen);
         else if (citizen instanceof Corona)
             return new Corona((Corona)citizen);
         else if (citizen instanceof Soldier)
@@ -82,7 +87,6 @@ public class VoterRegister {
             return new SoldierCorona((SoldierCorona)citizen);
         else
             return null;
-
     }
 
     @Override

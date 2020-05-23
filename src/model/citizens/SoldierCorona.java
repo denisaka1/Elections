@@ -2,7 +2,7 @@ package model.citizens;
 
 import model.*;
 
-public class SoldierCorona extends Citizen{
+public class SoldierCorona extends Citizen implements Soldierable {
     private boolean isolation;
     private int daysInIsolation;
 
@@ -56,6 +56,7 @@ public class SoldierCorona extends Citizen{
     }
 
     /************** Functions *************/
+    @Override
     public void carryWeapon() {
         System.out.println("Achievement unlocked: Rifleman");
     }

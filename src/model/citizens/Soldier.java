@@ -2,7 +2,7 @@ package model.citizens;
 
 import model.*;
 
-public class Soldier extends Citizen {
+public class Soldier extends Citizen implements Soldierable {
     /************ Constructor *************/
     public Soldier(String name, String id, int birthYear, BallotBox ballotBox, Party party, boolean voted) {
         super(name, id, birthYear, ballotBox, party, voted);
@@ -21,6 +21,7 @@ public class Soldier extends Citizen {
     }
 
     /************** Functions *************/
+    @Override
     public void carryWeapon() {
         System.out.println("Achievement unlocked: Rifleman");
     }

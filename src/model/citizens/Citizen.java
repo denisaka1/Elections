@@ -3,7 +3,7 @@ package model.citizens;
 import model.BallotBox;
 import model.Party;
 
-public abstract class Citizen {
+public class Citizen {
     /* Defaults:
       name: citizen
       id: 123456789
@@ -75,7 +75,7 @@ public abstract class Citizen {
         return isInParty;
     }
 
-    public String getType () {
+/*    public String getType () {
         if (this instanceof Corona)
             return "Corona";
         else if (this instanceof Regular)
@@ -86,7 +86,7 @@ public abstract class Citizen {
             return "SoldierCorona";
         else
             return "Citizen";
-    }
+    }*/
 
     /************ Set Functions ************/
     private boolean setName(String name){

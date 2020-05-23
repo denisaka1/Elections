@@ -1,22 +1,41 @@
 package main;
 
+import controller.Controller;
+import model.BallotBox;
+import model.Party;
 import model.VoterRegister;
+import model.citizens.Citizen;
+import model.citizens.Corona;
+import model.citizens.Soldier;
 import model.citizens.SoldierCorona;
 
 public class Program {
-
     public static void main(String[] args) {
 //        Controller controller = new Controller();
+//        VoterRegister vr = new VoterRegister();
 
-        SoldierCorona soldierCorona = new SoldierCorona("Denis", "123456789", 1998);
-        VoterRegister vr = new VoterRegister();
+        BallotBox<Soldier> b1 = new BallotBox<Soldier>("asdasdas", Soldier.class);
+        BallotBox<SoldierCorona> b2 = new BallotBox<SoldierCorona>("asdasdas", SoldierCorona.class);
+        BallotBox<Citizen> b3 = new BallotBox<Citizen>("asdasdas", Citizen.class);
+        BallotBox<Corona> b4 = new BallotBox<Corona>("asdasdas", Corona.class);
 
-        vr.addCitizen(soldierCorona);
+        SoldierCorona c1 = new SoldierCorona("Denis", "123456789", 1998);
+        Corona c4 = new Corona("Denis", "123456789", 1998);
+        Soldier c3 = new Soldier("Denis", "123456789", 1998);
+        Citizen c2 = new Citizen("Denis", "123456789", 1998, b3);
+
+        Controller c = new Controller();
+        c.addBallotBox(b3);
+        c.addCitizen(c2);
+        c.addCitizen(c2);
+        c.addCitizen(c2);
 
 
-        System.out.println(vr);
-        System.out.println(vr.getCitizens().get(0).getClass().getSimpleName());
-        System.out.println(vr.getCitizens().get(0));
+//        System.out.println(vr);
+//        System.out.println(vr.getCitizens().get(0).getClass().getSimpleName());
+//        System.out.println(vr.getCitizens().get(0));
+
+
         /*Elections e = new Elections();
         BallotBox<Corona> bc = new BallotBox<Corona>("ASDsadas", Corona.class);
         Corona c1 = new Corona("dsad","12312123", 2000);

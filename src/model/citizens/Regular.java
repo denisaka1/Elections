@@ -1,9 +1,12 @@
+/*
 package model.citizens;
 
 import model.*;
 
 public class Regular extends Citizen {
-    /************ Constructor *************/
+    */
+/************ Constructor *************//*
+
     public Regular(String name, String id, int birthYear, BallotBox ballotBox, Party party, boolean voted) {
         super(name, id, birthYear, ballotBox, party, voted);
     }
@@ -19,4 +22,4 @@ public class Regular extends Citizen {
     public Regular(String name, String id, int birthYear) {
         super(name, id, birthYear);
     }
-}
+}*/

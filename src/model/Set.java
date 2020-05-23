@@ -68,10 +68,14 @@ public class Set<T> {
         return set.isEmpty();
     }
 
-    public boolean contains(T citizen) {
-        return set.contains(citizen);
-    }
-
+//    public boolean contains(T object) {
+//        if (set.size() > 0)
+//            if (object != null && object.getClass().equals(set.get(0).getClass()))
+//                for (T obj : set)
+//                    if (obj.equals(object))
+//                        return true;
+//        return false;
+//    }
 
     public boolean remove(T object) {
         return set.remove(object);
@@ -81,16 +85,19 @@ public class Set<T> {
         return set.equals(object);
     }
 
+    @Override
+    public int compareTo(T obj) {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer("The Set Contains: {");
         for (int i = 0; i < set.size(); i++) {
             sb.append(set.get(i) + ",");
         }
-        sb.replace(set.size(), set.size(), "}");
+//        sb.replace(set.size(), set.size(), "}");
 
         return sb.toString();
     }
-
-
-
 }
