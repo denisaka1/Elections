@@ -1,4 +1,6 @@
-package core;
+package model.citizens;
+
+import model.*;
 
 public class Citizen {
     /* Defaults:
@@ -6,43 +8,46 @@ public class Citizen {
       id: 123456789
       birthYear: 1990
       isolation: false
-      ballotBox: null       maybe empty object of ballotBox?
-      party: null           maybe empty object of party?
+      ballotBox: null
+      party: null
       voted: false
   */
-    private String name;
-    private String id;
-    private int birthYear;
-    private boolean isolation; // bidud
-    private BallotBox ballotBox; // kalpi eleha hu meshuyah
-    private Party party;
-    private boolean voted;
-    private boolean isInParty;
-    private boolean isInBallotBox;
+    protected String name;
+    protected String id;
+    protected int birthYear;
+    protected BallotBox ballotBox;
+    protected Party party;
+    protected boolean voted;
+    protected boolean isInParty;
+    protected boolean isInBallotBox;
 
-    /************ Constructor ************/
-    public Citizen(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox, Party party, boolean voted) {
+    /************ Constructor *************/
+    public Citizen(String name, String id, int birthYear, BallotBox ballotBox, Party party, boolean voted) {
         setName(name);
         setId(id);
         setBirthYear(birthYear);
-        setIsolation(isolation);
         setBallotBox(ballotBox);
         setInParty(party);
         setVoted(voted);
     }
 
     public Citizen(Citizen citizen) {
-        this(citizen.name, citizen.id, citizen.birthYear, citizen.isolation, citizen.ballotBox, citizen.party, citizen.voted);
+        name = citizen.name;
+        id = citizen.id;
+        birthYear = citizen.birthYear;
+        ballotBox = citizen.ballotBox;
+        party = citizen.party;
+        voted = citizen.voted;
         this.isInParty = citizen.isInParty;
         this.isInBallotBox = citizen.isInBallotBox;
     }
 
-    public Citizen(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox) {
-        this (name, id, birthYear, isolation, ballotBox, null, false);
+    public Citizen(String name, String id, int birthYear, BallotBox ballotBox) {
+        this (name, id, birthYear, ballotBox, null, false);
     }
 
     public Citizen(String name, String id, int birthYear) {
-        this(name, id, birthYear, false, null, null, false);
+        this(name, id, birthYear, null, null, false);
     }
 
     /************ Get Functions ************/
@@ -56,10 +61,6 @@ public class Citizen {
 
     public int getBirthYear() {
         return birthYear;
-    }
-
-    public boolean isIsolation() {
-        return isolation;
     }
 
     public BallotBox getBallotBox() {
@@ -80,24 +81,21 @@ public class Citizen {
 
     /************ Set Functions ************/
     private boolean setName(String name){
-        // checks if the citizen got multiple names
-        // checks if there is a character that is not alphabetic in his name
-
         boolean done = false;
         String result = "";
 
-        if(name != null){
+        if (name != null) {
             String[] temp = name.split(" ");
-            for(int i = 0; i < temp.length && !done; i++){
-                if(!temp[i].matches("^[a-zA-Z]*$")){
+            for (int i = 0; i < temp.length && !done; i++) {
+                if (!temp[i].matches("^[a-zA-Z]*$")) {
                     done = true;
-                }else{
+                } else {
                     result += temp[i] +" ";
                 }
             }
         }
 
-        if(done)
+        if (done)
             this.name = "citizen";
         else
             this.name = result.substring(0, result.length() - 1);
@@ -105,50 +103,36 @@ public class Citizen {
         return done;
     }
 
-    private boolean setId(String id){
-        boolean legalIdLength = id.length() >= 8 && id.length() <= 9;
-
-        if (id != null && legalIdLength){
+    private boolean setId(String id) {
+        if (id != null) {
             this.id = id;
             return true;
-        } else
-            this.id = "-1";
-
+        }
+        this.id = "-1";
         return false;
     }
 
-    private boolean setBirthYear(int birthYear){
-        if(birthYear >= 0){
+    private boolean setBirthYear(int birthYear) {
+        if (birthYear >= 0){
             this.birthYear = birthYear;
             return true;
-        }else
+        } else
             this.birthYear = 1990;
 
         return false;
     }
 
-    private boolean setIsolation(boolean isolation) {
-        this.isolation = isolation;
-        return isolation;
-    }
-
     private boolean setBallotBox(BallotBox ballotBox) {
-        if (ballotBox != null){
-            this.ballotBox = ballotBox;
-            isInBallotBox = true;
-        }else {
-            this.ballotBox = null;
-            return false;
-        }
+        this.ballotBox = ballotBox;
         return true;
     }
 
     private boolean setInParty(Party party) {
-        if(party != null){
+        if (party != null) {
             this.party = party;
             isInParty = true;
             return true;
-        }else
+        } else
             this.party = null;
         return false;
     }
@@ -159,6 +143,12 @@ public class Citizen {
     }
 
     /************** Functions **************/
+    public boolean canVote() {
+        if (voted == false)
+            return true;
+        return false;
+    }
+
     public void assignToParty(Party party) {
         if (!isInParty) {
             setInParty(party);
@@ -174,16 +164,17 @@ public class Citizen {
     }
 
     public void vote(){
-        if(!voted)
+        if(canVote())
             setVoted(true);
     }
 
-    public boolean equals(Citizen citizen) {
-        if(citizen == null && this == null)
-            return true;
-        else if (citizen == null || this == null)
-            return false;
-        return id.equals(citizen.id); // enough to check only id
+    @Override
+    public boolean equals(Object obj) {
+        if(Citizen.class.equals(obj.getClass()) || Corona.class.equals(obj.getClass()) ||
+            SoldierCorona.class.equals(obj.getClass()) || Soldier.class.equals(obj.getClass())) {
+            return id.equals(Citizen.class.cast(obj).getID());
+        }
+        return false;
     }
 
     @Override
@@ -191,21 +182,14 @@ public class Citizen {
         StringBuffer sb = new StringBuffer();
         sb.append("----------------\n");
         sb.append("Name : " + name + ", ID : " + id + ", Birth Year :" + birthYear + "\n");
-        if (isolation)
-            sb.append("In isolation \n");
-        else
-            sb.append("Not in isolation\n");
 
         if (voted)
-            sb.append("Voted in " + ballotBox + "\n");
+            sb.append("Voted in " + ballotBox.getAddress() + "\n");
         else
-            sb.append("Can vote in " + ballotBox + "\n");
+            sb.append("Can vote in " + ballotBox.getAddress() + "\n");
 
         if (party != null)
             sb.append("Party : " + party.getName() + "\n");
-
-        sb.append("----------------\n");
-
         return sb.toString();
     }
 }
