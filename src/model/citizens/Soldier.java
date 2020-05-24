@@ -9,7 +9,6 @@ public class Soldier extends Citizen implements Soldierable {
     }
 
     public Soldier(Soldier soldier) {
-//        this(soldier.name, soldier.id, soldier.birthYear, citizen.ballotBox, citizen.party, citizen.voted);
         super(soldier);
     }
 
@@ -35,9 +34,7 @@ public class Soldier extends Citizen implements Soldierable {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append(super.toString());
-
         sb.append("----------------\n");
-
         return sb.toString();
     }
 }

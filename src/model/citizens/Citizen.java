@@ -1,7 +1,6 @@
 package model.citizens;
 
-import model.BallotBox;
-import model.Party;
+import model.*;
 
 public class Citizen {
     /* Defaults:
@@ -9,8 +8,8 @@ public class Citizen {
       id: 123456789
       birthYear: 1990
       isolation: false
-      ballotBox: null       maybe empty object of ballotBox? you hate to deal with nulls huh?
-      party: null           maybe empty object of party?     you hate to deal with nulls huh?
+      ballotBox: null
+      party: null
       voted: false
   */
     protected String name;
@@ -33,7 +32,6 @@ public class Citizen {
     }
 
     public Citizen(Citizen citizen) {
-//        this(citizen.name, citizen.id, citizen.birthYear, citizen.ballotBox, citizen.party, citizen.voted);
         name = citizen.name;
         id = citizen.id;
         birthYear = citizen.birthYear;
@@ -81,24 +79,8 @@ public class Citizen {
         return isInParty;
     }
 
-/*    public String getType () {
-        if (this instanceof Corona)
-            return "Corona";
-        else if (this instanceof Regular)
-            return "Regular";
-        else if (this instanceof Soldier)
-            return "Soldier";
-        else if (this instanceof SoldierCorona)
-            return "SoldierCorona";
-        else
-            return "Citizen";
-    }*/
-
     /************ Set Functions ************/
     private boolean setName(String name){
-        // checks if the citizen got multiple names
-        // checks if there is a character that is not alphabetic in his name
-
         boolean done = false;
         String result = "";
 
@@ -122,7 +104,6 @@ public class Citizen {
     }
 
     private boolean setId(String id) {
-//        boolean legalIdLength = id.length() >= 8 && id.length() <= 9;
         if (id != null) {
             this.id = id;
             return true;
@@ -142,15 +123,6 @@ public class Citizen {
     }
 
     private boolean setBallotBox(BallotBox ballotBox) {
-/*        if (ballotBox != null) {
-            this.ballotBox = ballotBox;
-            isInBallotBox = true;
-        } else {
-            this.ballotBox = null;
-            return false;
-        }
-        return true;*/
-
         this.ballotBox = ballotBox;
         return true;
     }
@@ -212,9 +184,9 @@ public class Citizen {
         sb.append("Name : " + name + ", ID : " + id + ", Birth Year :" + birthYear + "\n");
 
         if (voted)
-            sb.append("Voted in " + ballotBox + "\n");
+            sb.append("Voted in " + ballotBox.getAddress() + "\n");
         else
-            sb.append("Can vote in " + ballotBox + "\n");
+            sb.append("Can vote in " + ballotBox.getAddress() + "\n");
 
         if (party != null)
             sb.append("Party : " + party.getName() + "\n");

@@ -11,7 +11,6 @@ public class Set<T> {
     }
 
     public Set(Set<T> objects) {
-//        Collections.copy(this.set, objects.getSet());
         set = objects.getSet();
     }
 
@@ -29,19 +28,6 @@ public class Set<T> {
             return set.add(object);
         return false;
     }
-
-/*    private boolean setObjects(T... objects) {
-        set = new ArrayList<T>();
-        try {
-            for (T object: objects) {
-                add(object);
-            }
-            return true;
-        } catch (NullPointerException npe) {
-            System.out.println("Can't add null to list!");
-        }
-        return false;
-    }*/
 
     /************ Get Functions ************/
     public int size() {

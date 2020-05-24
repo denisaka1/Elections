@@ -13,7 +13,6 @@ public class Party {
         year: 2020
         candidates.length: 0
     */
-
     public static final String LEFT_SECTION = "left";
     public static final String RIGHT_SECTION = "right";
     public static final String CENTER_SECTION = "center";
@@ -48,6 +47,7 @@ public class Party {
     public String getSection() {
         return section;
     }
+
     /************ Set Functions ************/
     private boolean setCandidates(Hashtable<Citizen, Integer> candidates) {
         if (candidates != null && !candidates.isEmpty()){
@@ -119,10 +119,12 @@ public class Party {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
+        sb.append("----------------\n");
         sb.append("Party name : " + name + "\n");
         sb.append("Section : " + section + "\n");
         sb.append("Creation Date : " + day + "/" + month + "/" + year + "\n");
         sb.append("Candidates : " + candidates.size() + "\n");
+        sb.append("----------------\n");
         return sb.toString();
     }
 }

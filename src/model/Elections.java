@@ -1,12 +1,10 @@
 package model;
 
 import model.citizens.*;
-
 import java.util.*;
 
 public class Elections {
     /* Defaults:
-
    month: 1
    year: 2021
     */
@@ -187,8 +185,10 @@ public class Elections {
          ** 3 - Solider
          ** 4 - SoliderCorona **/
         StringBuffer sb = new StringBuffer();
-        for (BallotBox<Citizen> ballotBox : citizen)
+        for (BallotBox<Citizen> ballotBox : citizen) {
             sb.append(ballotBox.toString() + "\n");
+            sb.append("----------------\n");
+        }
         for (BallotBox<Corona> ballotBox : corona)
             sb.append(ballotBox.toString() + "\n");
         for (BallotBox<Soldier> ballotBox : soldier)
@@ -231,7 +231,6 @@ public class Elections {
     }
 
     public boolean addBallotBox(BallotBox<? extends Citizen> ballotBox) {
-        // we know all the types
         try {
             Class<? extends Citizen> classType = ballotBox.getClassType();
 
@@ -273,20 +272,6 @@ public class Elections {
 
     }
 
-/*    private void returnCitizen(Citizen citizen) {
-        // finish
-//        if (citizen instanceof Regular)
-//            regular.
-//        else if (citizen instanceof Corona)
-//            return new Corona((Corona)citizen);
-//        else if (citizen instanceof Soldier)
-//            return new Soldier((Soldier)citizen);
-//        else if (citizen instanceof SoldierCorona)
-//            return new SoldierCorona((SoldierCorona)citizen);
-//        else
-//            return null;
-    }*/
-
     public BallotBox<? extends Citizen> getBallotBoxByNumber(int number) {
 
         for (BallotBox<Citizen> regular: this.citizen) {
@@ -323,14 +308,12 @@ public class Elections {
     public boolean addParty(Party party) {
         if (party != null && !parties.containsKey(party)) {
             this.parties.put(party, 0);
-//            updateBallotBoxes(party);
             updateBallotBoxes();
             return true;
         }
         return false;
     }
 
-//    private void updateBallotBoxes(Party party) {
     private void updateBallotBoxes() {
         for (BallotBox<Citizen> ballotBox : citizen)
             ballotBox.setParties(parties);
@@ -340,15 +323,6 @@ public class Elections {
             ballotBox.setParties(parties);
         for (BallotBox<SoldierCorona> ballotBox : soldierCorona)
             ballotBox.setParties(parties);
-
-/*        for (BallotBox<Citizen> ballotBox : citizen)
-            ballotBox.addParty(party);
-        for (BallotBox<Corona> ballotBox : corona)
-            ballotBox.addParty(party);
-        for (BallotBox<Soldier> ballotBox : soldier)
-            ballotBox.addParty(party);
-        for (BallotBox<SoldierCorona> ballotBox : soldierCorona)
-            ballotBox.addParty(party);*/
     }
 
     public boolean existBallotBox(BallotBox<? extends Citizen> ballotBox) {
@@ -365,17 +339,6 @@ public class Elections {
             default:
                 return false;
         }
-
-/*        Class<? extends Citizen> classType = ballotBox.getClassType();
-
-        boolean existInRegular = Citizen.class.equals(classType) && citizen.contains(ballotBox);
-        boolean existInCorona = Corona.class.equals(classType) && corona.contains(ballotBox);
-        boolean existInSoldier = Soldier.class.equals(classType) && corona.contains(ballotBox);
-        boolean existInSoldierCorona = SoldierCorona.class.equals(classType) && corona.contains(ballotBox);
-
-        if (existInRegular || existInCorona || existInSoldier || existInSoldierCorona)
-            return true;
-        return false;*/
     }
 
     public boolean existParty(Party party) {
@@ -403,9 +366,5 @@ public class Elections {
         StringBuffer sb = new StringBuffer();
         sb.append(getAllBallotBoxes());
         return sb.toString();
-    }
-
-
-    private class inteager {
     }
 }

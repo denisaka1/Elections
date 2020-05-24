@@ -1,10 +1,6 @@
 package model;
 
-import model.citizens.Citizen;
-import model.citizens.Corona;
-import model.citizens.Soldier;
-import model.citizens.SoldierCorona;
-
+import model.citizens.*;
 import java.lang.reflect.GenericSignatureFormatError;
 import java.util.Objects;
 
@@ -63,23 +59,6 @@ public class VoterRegister {
             System.out.println("Can't operate with null");
         }
         return false;
-    }
-
-/*    private boolean isContains(Citizen citizen) {
-
-    }*/
-
-    private Citizen returnCitizen(Citizen citizen) {
-        if (citizen instanceof Citizen)
-            return new Citizen(citizen);
-        else if (citizen instanceof Corona)
-            return new Corona((Corona)citizen);
-        else if (citizen instanceof Soldier)
-            return new Soldier((Soldier)citizen);
-        else if (citizen instanceof SoldierCorona)
-            return new SoldierCorona((SoldierCorona)citizen);
-        else
-            return null;
     }
 
     @Override

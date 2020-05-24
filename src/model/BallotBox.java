@@ -1,7 +1,6 @@
 package model;
 
-import model.citizens.Citizen;
-
+import model.citizens.*;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -124,16 +123,13 @@ public class BallotBox<T extends Citizen> {
 
     /************** Functions *************/
     public void vote(T citizen, Party party) {
-        // todo: try/catch 1 - null
-        //                 2 - contains
-        //                 3 - getVote
         if (party != null && citizen != null && parties.containsKey(party) &&
                 citizens.contains(citizen) && !citizen.getVoted()) {
             citizen.vote();
             parties.put(party, parties.get(party) + 1);
-            System.out.println(citizen.getName() + " ID " + citizen.getID() + " voted for " + party.getName());
+            System.out.println(citizen.getName() + " ID " + citizen.getID() + " voted for " + party.getName()+ "\n");
         } else {
-            System.out.println("Vote failed");
+            System.out.println("Vote failed\n");
         }
     }
 
@@ -155,10 +151,10 @@ public class BallotBox<T extends Citizen> {
         return false;
     }
 
-/*    public void addParty(Party party) {
+    public void addParty(Party party) {
         if (party != null && !parties.containsKey(party))
             this.parties.put(party, 0);
-    }*/
+    }
 
     @Override
     public boolean equals(Object other) {
@@ -176,9 +172,11 @@ public class BallotBox<T extends Citizen> {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
+        sb.append("----------------\n");
         sb.append("BallotBox #" + id + "\n");
         sb.append("Address : " + address + "\n");
-        sb.append("Type : " + getType());
+        sb.append("Type : " + getType() + "\n");
+        sb.append("----------------\n");
         return sb.toString();
     }
 }

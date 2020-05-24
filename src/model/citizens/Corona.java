@@ -1,7 +1,6 @@
 package model.citizens;
 
-import model.BallotBox;
-import model.Party;
+import model.*;
 
 public class Corona extends Citizen {
     private boolean isolation;
@@ -24,8 +23,6 @@ public class Corona extends Citizen {
         super(name, id, birthYear, ballotBox);
         this.isolation = isolation;
         this.daysInIsolation = daysInIsolation;
-
-//        this(name, id, birthYear, isolation, ballotBox, null, false, daysInIsolation);
     }
 
     public Corona(String name, String id, int birthYear) {
@@ -74,14 +71,12 @@ public class Corona extends Citizen {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append(super.toString());
-
         if (isolation)
             sb.append("In isolation for " + daysInIsolation + " days\n");
         else
             sb.append("Not in isolation\n");
 
         sb.append("----------------\n");
-
         return sb.toString();
     }
 }

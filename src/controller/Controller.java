@@ -72,16 +72,13 @@ public class Controller {
     }
 
     public boolean addCitizen(Citizen citizen) {
-//        if (election.getYear() - citizen.getBirthYear() >= 18 && citizen.getID().length() == 9) { // Second check
-            if (vr.addCitizen(citizen)) {
-                election.addCitizenToBallotBox(citizen, citizen.getBallotBox());
-                return true;
-            }
-//        }sout
+        if (vr.addCitizen(citizen)) {
+            election.addCitizenToBallotBox(citizen, citizen.getBallotBox());
+            return true;
+        }
         System.out.println("The citizen shouldn't be added!");
         return false;
     }
-    // todo: duplicate id
 
     public void addCandidate(String citizenID, String partyName, int place) {
         if (citizenID.length() != 0 && citizenID != null && partyName != null && partyName.length() != 0) {

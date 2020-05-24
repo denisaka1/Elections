@@ -1,11 +1,11 @@
 package view;
 
-import controller.Controller;
+import controller.*;
 import exceptions.*;
-import model.BallotBox;
-import model.Party;
+import model.*;
 import model.citizens.*;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ViewCLI {
@@ -27,7 +27,7 @@ public class ViewCLI {
                     controller.addBallotBox(getBallotBox(s));
                     break;
                 case 2:
-                    controller.addCitizen(getCitizen(s, false));
+                    controller.addCitizen(getCitizen(s));
                     break;
                 case 3:
                     controller.addParty(getParty(s));
@@ -59,13 +59,13 @@ public class ViewCLI {
         }
     }
 
-    // TODO : Duplicate ID !
-    private Citizen getCitizen(Scanner s, boolean inParty) throws StringLengthException, UnderAgeException {
+    private Citizen getCitizen(Scanner s) throws StringLengthException, UnderAgeException {
         int birthYear, daysInIsolation = 0, tempInt;
         boolean isolation, soldierAge, hasLegalID = false, isMinor = true;
-        String name, id, temp;
+        String name, id, temp, ballotBoxes;
+        String[] splitBallotBoxes;
         char ansChar;
-        BallotBox ballotBox;
+        BallotBox ballotBox = null;
 
         s.nextLine();
         System.out.print("Enter name : ");
@@ -93,20 +93,20 @@ public class ViewCLI {
                 throw new UnderAgeException("You are a minor. Can't enter to Voter Register");
         } while(isMinor);
 
-//        birthYear = s.nextInt();
-
         System.out.print("You in isolation [Y/N] : ");
         ansChar = s.next().toCharArray()[0];
         if (ansChar == 'y' || ansChar == 'Y') {
             isolation = true;
-//            CoronaQuiz(s);
             System.out.print("How many days are you in isolation?");
             daysInIsolation = s.nextInt();
         }
         else
             isolation = false;
 
-        System.out.println(controller.getLegalBallotBoxes(birthYear, isolation));
+        ballotBoxes = controller.getLegalBallotBoxes(birthYear, isolation);
+        splitBallotBoxes = ballotBoxes.split(",");
+        for (String ballot : splitBallotBoxes)
+            System.out.println(ballot.substring(1, (ballot.length() - 1) ));
 
         System.out.println("Enter Ballot Box Number : ");
         ballotBox = controller.getElection().getBallotBoxByNumber(s.nextInt());
@@ -200,25 +200,4 @@ public class ViewCLI {
 
         return info;
     }
-
-    private String getVoteParty(Scanner s, String citizenName) {
-        System.out.print(citizenName + ", You want to vote ? [Y/N]");
-        char ansChar = s.next().toCharArray()[0];
-        if (ansChar == 'y' || ansChar == 'Y') {
-            s.nextLine();
-            System.out.print("You want to vote to : ");
-            return s.nextLine();
-        } else if (ansChar == 'n' || ansChar == 'N') {
-            return "false";
-        } else
-            return " ";
-    }
-
-/*    private boolean CoronaQuiz(Scanner s) {
-        System.out.print("Are you wearing a protective suit ?  [Y/N] ");
-        char ansChar = s.next().toCharArray()[0];
-        if (ansChar == 'y' || ansChar == 'Y')
-            return true;
-        return false;
-    }*/
 }
