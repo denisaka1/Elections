@@ -1,11 +1,15 @@
 package view;
 
-import controller.*;
-import exceptions.*;
-import model.*;
-import model.citizens.*;
+import controller.Controller;
+import exceptions.StringLengthException;
+import exceptions.UnderAgeException;
+import model.BallotBox;
+import model.Party;
+import model.citizens.Citizen;
+import model.citizens.Corona;
+import model.citizens.Soldier;
+import model.citizens.SoldierCorona;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ViewCLI {
@@ -59,10 +63,10 @@ public class ViewCLI {
         }
     }
 
-    private Citizen getCitizen(Scanner s) throws StringLengthException, UnderAgeException {
-        int birthYear, daysInIsolation = 0, tempInt;
-        boolean isolation, soldierAge, hasLegalID = false, isMinor = true;
-        String name, id, temp, ballotBoxes;
+    private Citizen getCitizen(Scanner s){
+        int birthYear = 0, daysInIsolation = 0, tempInt;
+        boolean isolation, soldierAge, hasLegalID = false, hasLegalAge = false;
+        String name, id = "", ballotBoxes;
         String[] splitBallotBoxes;
         char ansChar;
         BallotBox ballotBox = null;
@@ -73,25 +77,40 @@ public class ViewCLI {
 
         do {
             System.out.print("Enter ID : ");
-            temp = s.next();
-            if (temp.length() == 9){
-                id = temp;
-                hasLegalID = true;
+            try{
+                id = s.next();
+                boolean convert = Integer.valueOf(id).toString().length() == 9;
+                if (convert) {
+                    hasLegalID = true;
+                }
+                else
+                    throw new StringLengthException("Error in ID. ID must be with 9 numbers");
+            } catch (StringLengthException sle) {
+//                System.out.println("Error in ID. ID must be with 9 numbers");
+                System.out.println(sle.getMessage());
             }
-            else {
-                throw new StringLengthException("Error in ID. ID must be with 9 numbers");
+            catch (Exception e) {
+                System.out.println("It is not a number!");
             }
         } while (!hasLegalID);
 
+        String temp;
         do {
             System.out.print("Enter Birth Year : ");
-            tempInt = s.nextInt();
-            if (controller.getElection().getYear() - tempInt >= 18) {
-                birthYear = tempInt;
-                isMinor = false;
-            } else
-                throw new UnderAgeException("You are a minor. Can't enter to Voter Register");
-        } while(isMinor);
+            try {
+                temp = s.next();
+                birthYear = Integer.parseInt(temp);
+                boolean checkLegal = (controller.getElection().getYear() - birthYear) >= 18 ;
+                if (checkLegal)
+                    hasLegalAge = true;
+                else
+                    throw new UnderAgeException("You have not born yet, or your age is not over 18!");
+            } catch (UnderAgeException uae) {
+                System.out.println(uae.getMessage());
+            } catch (Exception e) {
+                System.out.println("It is not a number!");
+            }
+        } while(!hasLegalAge);
 
         System.out.print("You in isolation [Y/N] : ");
         ansChar = s.next().toCharArray()[0];
@@ -121,6 +140,8 @@ public class ViewCLI {
         else
             return new Citizen(name, id, birthYear, ballotBox);
     }
+
+
 
     private Party getParty(Scanner s) {
         String name;
