@@ -78,8 +78,9 @@ public class ViewCLI {
                 id = temp;
                 hasLegalID = true;
             }
-            else
+            else {
                 throw new StringLengthException("Error in ID. ID must be with 9 numbers");
+            }
         } while (!hasLegalID);
 
         do {
@@ -98,11 +99,10 @@ public class ViewCLI {
         ansChar = s.next().toCharArray()[0];
         if (ansChar == 'y' || ansChar == 'Y') {
             isolation = true;
+//            CoronaQuiz(s);
             System.out.print("How many days are you in isolation?");
             daysInIsolation = s.nextInt();
         }
-        else if (ansChar == 'n' || ansChar == 'N')
-            isolation = false;
         else
             isolation = false;
 
@@ -214,11 +214,11 @@ public class ViewCLI {
             return " ";
     }
 
-    private boolean CoronaQuiz(Scanner s) {
+/*    private boolean CoronaQuiz(Scanner s) {
         System.out.print("Are you wearing a protective suit ?  [Y/N] ");
         char ansChar = s.next().toCharArray()[0];
         if (ansChar == 'y' || ansChar == 'Y')
             return true;
         return false;
-    }
+    }*/
 }

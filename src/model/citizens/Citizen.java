@@ -3,8 +3,6 @@ package model.citizens;
 import model.BallotBox;
 import model.Party;
 
-import java.util.Objects;
-
 public class Citizen {
     /* Defaults:
       name: citizen
@@ -35,7 +33,13 @@ public class Citizen {
     }
 
     public Citizen(Citizen citizen) {
-        this(citizen.name, citizen.id, citizen.birthYear, citizen.ballotBox, citizen.party, citizen.voted);
+//        this(citizen.name, citizen.id, citizen.birthYear, citizen.ballotBox, citizen.party, citizen.voted);
+        name = citizen.name;
+        id = citizen.id;
+        birthYear = citizen.birthYear;
+        ballotBox = citizen.ballotBox;
+        party = citizen.party;
+        voted = citizen.voted;
         this.isInParty = citizen.isInParty;
         this.isInBallotBox = citizen.isInBallotBox;
     }
@@ -138,13 +142,16 @@ public class Citizen {
     }
 
     private boolean setBallotBox(BallotBox ballotBox) {
-        if (ballotBox != null) {
+/*        if (ballotBox != null) {
             this.ballotBox = ballotBox;
             isInBallotBox = true;
         } else {
             this.ballotBox = null;
             return false;
         }
+        return true;*/
+
+        this.ballotBox = ballotBox;
         return true;
     }
 
@@ -190,17 +197,12 @@ public class Citizen {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-        if (o == null) return false;
-        Citizen citizen = (Citizen) o;
-        return Objects.equals(name, citizen.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, id, birthYear, ballotBox, party, voted, isInParty, isInBallotBox);
+    public boolean equals(Object obj) {
+        if(Citizen.class.equals(obj.getClass()) || Corona.class.equals(obj.getClass()) ||
+            SoldierCorona.class.equals(obj.getClass()) || Soldier.class.equals(obj.getClass())) {
+            return id.equals(Citizen.class.cast(obj).getID());
+        }
+        return false;
     }
 
     @Override

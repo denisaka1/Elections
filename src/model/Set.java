@@ -1,11 +1,9 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class Set<T> {
-    private List<T> set;
+    private ArrayList<T> set;
 
     /************* Constructor *************/
     public Set(T object) {
@@ -14,7 +12,7 @@ public class Set<T> {
 
     public Set(Set<T> objects) {
 //        Collections.copy(this.set, objects.getSet());
-        set = (List<T>) objects;
+        set = objects.getSet();
     }
 
     public Set(int size) {
@@ -50,7 +48,7 @@ public class Set<T> {
         return set.size();
     }
 
-    public List<T> getSet() {
+    public ArrayList<T> getSet() {
         return set;
     }
 
@@ -78,7 +76,11 @@ public class Set<T> {
     }
 
     public boolean contains(T object) {
-        return set.contains(object);
+        for (T t: set) {
+            if (t.equals(object))
+                return true;
+        }
+        return false;
     }
 
     @Override

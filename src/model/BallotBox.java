@@ -147,17 +147,18 @@ public class BallotBox<T extends Citizen> {
         return voteSum;
     }
 
-    public void addCitizen(T citizen) {
-        if (citizen != null && !citizens.contains(citizen)){
-            citizens.add(citizen);
-            citizen.assignToBallotBox(this);
-        }
+    public boolean addCitizen(T citizen) {
+            if (citizens.add(citizen)) {
+                citizen.assignToBallotBox(this);
+                return true;
+            }
+        return false;
     }
 
-//    public void addParty(Party party) {
-//        if (party != null && !parties.containsKey(party))
-//            this.parties.put(party, 2);
-//    }
+/*    public void addParty(Party party) {
+        if (party != null && !parties.containsKey(party))
+            this.parties.put(party, 0);
+    }*/
 
     @Override
     public boolean equals(Object other) {

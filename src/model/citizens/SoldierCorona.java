@@ -14,9 +14,10 @@ public class SoldierCorona extends Citizen implements Soldierable {
     }
 
     public SoldierCorona(SoldierCorona soldierCorona) {
-        this(soldierCorona.name, soldierCorona.id, soldierCorona.birthYear,
+/*        this(soldierCorona.name, soldierCorona.id, soldierCorona.birthYear,
                 soldierCorona.isolation, soldierCorona.ballotBox, soldierCorona.party,
-                soldierCorona.voted, soldierCorona.daysInIsolation);
+                soldierCorona.voted, soldierCorona.daysInIsolation);*/
+        super(soldierCorona);
     }
 
     public SoldierCorona(String name, String id, int birthYear, boolean isolation, BallotBox ballotBox, int daysInIsolation) {
@@ -68,8 +69,9 @@ public class SoldierCorona extends Citizen implements Soldierable {
         return false;
     }
 
-    public boolean equals(SoldierCorona soldierCorona) {
-        return super.equals(soldierCorona);
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
     }
 
     public String toString() {
@@ -77,7 +79,7 @@ public class SoldierCorona extends Citizen implements Soldierable {
         sb.append(super.toString());
 
         if (isolation)
-            sb.append("In isolation for " + daysInIsolation + "days\n");
+            sb.append("In isolation for " + daysInIsolation + " days\n");
         else
             sb.append("Not in isolation\n");
 

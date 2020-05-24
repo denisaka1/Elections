@@ -262,9 +262,9 @@ public class Elections {
             } else if (citizen instanceof SoldierCorona) {
                 if (soldierCorona.contains(ballotBox))
                     soldierCorona.get(soldierCorona.indexOf(ballotBox)).addCitizen((SoldierCorona)citizen);
-            } else if (citizen instanceof Citizen) {
+            } else{
                 if (this.citizen.contains(ballotBox))
-                    this.citizen.get(this.citizen.indexOf(ballotBox)).addCitizen((Citizen) citizen);
+                    this.citizen.get(this.citizen.indexOf(ballotBox)).addCitizen(citizen);
             }
         } catch (Exception e){
             System.out.println(e.toString());

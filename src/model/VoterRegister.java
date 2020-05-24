@@ -1,9 +1,11 @@
 package model;
 
-import model.citizens.*;
+import model.citizens.Citizen;
+import model.citizens.Corona;
+import model.citizens.Soldier;
+import model.citizens.SoldierCorona;
 
 import java.lang.reflect.GenericSignatureFormatError;
-import java.util.Map;
 import java.util.Objects;
 
 public class VoterRegister {
@@ -56,18 +58,20 @@ public class VoterRegister {
     /************** Functions **************/
     public boolean addCitizen(Citizen citizen) {
         try {
-            if (!citizens.contains(citizen))
-                if (citizens.add(returnCitizen(citizen)))
-                    return true;
+            return citizens.add(citizen);
         } catch (NullPointerException npe) {
             System.out.println("Can't operate with null");
         }
         return false;
     }
 
+/*    private boolean isContains(Citizen citizen) {
+
+    }*/
+
     private Citizen returnCitizen(Citizen citizen) {
         if (citizen instanceof Citizen)
-            return new Citizen((Citizen) citizen);
+            return new Citizen(citizen);
         else if (citizen instanceof Corona)
             return new Corona((Corona)citizen);
         else if (citizen instanceof Soldier)

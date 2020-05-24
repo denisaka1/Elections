@@ -72,12 +72,13 @@ public class Controller {
     }
 
     public boolean addCitizen(Citizen citizen) {
-        if (election.getYear() - citizen.getBirthYear() >= 18 && citizen.getID().length() == 9) { // Second check
+//        if (election.getYear() - citizen.getBirthYear() >= 18 && citizen.getID().length() == 9) { // Second check
             if (vr.addCitizen(citizen)) {
                 election.addCitizenToBallotBox(citizen, citizen.getBallotBox());
                 return true;
             }
-        }
+//        }sout
+        System.out.println("The citizen shouldn't be added!");
         return false;
     }
     // todo: duplicate id

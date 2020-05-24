@@ -1,6 +1,7 @@
 package model.citizens;
 
-import model.*;
+import model.BallotBox;
+import model.Party;
 
 public class Corona extends Citizen {
     private boolean isolation;
@@ -23,6 +24,8 @@ public class Corona extends Citizen {
         super(name, id, birthYear, ballotBox);
         this.isolation = isolation;
         this.daysInIsolation = daysInIsolation;
+
+//        this(name, id, birthYear, isolation, ballotBox, null, false, daysInIsolation);
     }
 
     public Corona(String name, String id, int birthYear) {
@@ -62,8 +65,9 @@ public class Corona extends Citizen {
         return false;
     }
 
-    public boolean equals(Corona corona) {
-        return super.equals(corona);
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
     }
 
     @Override

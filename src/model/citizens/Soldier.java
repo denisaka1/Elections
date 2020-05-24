@@ -8,8 +8,9 @@ public class Soldier extends Citizen implements Soldierable {
         super(name, id, birthYear, ballotBox, party, voted);
     }
 
-    public Soldier(Soldier citizen) {
-        this(citizen.name, citizen.id, citizen.birthYear, citizen.ballotBox, citizen.party, citizen.voted);
+    public Soldier(Soldier soldier) {
+//        this(soldier.name, soldier.id, soldier.birthYear, citizen.ballotBox, citizen.party, citizen.voted);
+        super(soldier);
     }
 
     public Soldier(String name, String id, int birthYear, BallotBox ballotBox) {
@@ -26,8 +27,9 @@ public class Soldier extends Citizen implements Soldierable {
         System.out.println("Achievement unlocked: Rifleman");
     }
 
-    public boolean equals(Soldier soldier) {
-        return super.equals(soldier);
+    @Override
+    public boolean equals(Object other) {
+        return super.equals(other);
     }
 
     public String toString() {
