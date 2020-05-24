@@ -34,7 +34,6 @@ public class Soldier extends Citizen implements Soldierable {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append(super.toString());
-        sb.append("----------------\n");
         return sb.toString();
     }
 }

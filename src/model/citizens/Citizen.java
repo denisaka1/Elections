@@ -190,7 +190,6 @@ public class Citizen {
 
         if (party != null)
             sb.append("Party : " + party.getName() + "\n");
-
         return sb.toString();
     }
 }

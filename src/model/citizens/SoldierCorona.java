@@ -80,7 +80,6 @@ public class SoldierCorona extends Citizen implements Soldierable {
             sb.append("In isolation for " + daysInIsolation + " days\n");
         else
             sb.append("Not in isolation\n");
-        sb.append("----------------\n");
 
         return sb.toString();
     }

@@ -1,15 +1,9 @@
 package view;
 
 import controller.Controller;
-import exceptions.StringLengthException;
-import exceptions.UnderAgeException;
-import model.BallotBox;
-import model.Party;
-import model.citizens.Citizen;
-import model.citizens.Corona;
-import model.citizens.Soldier;
-import model.citizens.SoldierCorona;
-
+import exceptions.*;
+import model.*;
+import model.citizens.*;
 import java.util.Scanner;
 
 public class ViewCLI {
@@ -64,8 +58,8 @@ public class ViewCLI {
     }
 
     private Citizen getCitizen(Scanner s){
-        int birthYear = 0, daysInIsolation = 0, tempInt;
-        boolean isolation, soldierAge, hasLegalID = false, hasLegalAge = false;
+        int birthYear = 0, daysInIsolation = 0, tempInt, ballotBoxId;
+        boolean isolation, soldierAge, hasLegalID = false, hasLegalAge = false, legalBallotBoxID = false;
         String name, id = "", ballotBoxes;
         String[] splitBallotBoxes;
         char ansChar;
@@ -122,13 +116,28 @@ public class ViewCLI {
         else
             isolation = false;
 
-        ballotBoxes = controller.getLegalBallotBoxes(birthYear, isolation);
+        ballotBoxes = controller.getLegalBallotBoxes(birthYear, isolation, false);
         splitBallotBoxes = ballotBoxes.split(",");
         for (String ballot : splitBallotBoxes)
             System.out.println(ballot.substring(1, (ballot.length() - 1) ));
 
-        System.out.println("Enter Ballot Box Number : ");
-        ballotBox = controller.getElection().getBallotBoxByNumber(s.nextInt());
+        ballotBoxes = controller.getLegalBallotBoxes(birthYear, isolation, true);
+        splitBallotBoxes = ballotBoxes.split(";");
+
+
+
+
+
+        while (!legalBallotBoxID) {
+            System.out.println("Enter Ballot Box Number : ");
+            ballotBoxId = s.nextInt();
+
+            for (String ballot : splitBallotBoxes)
+                if (Integer.parseInt(ballot) == ballotBoxId)
+                    legalBallotBoxID = true;
+
+            ballotBox = controller.getElection().getBallotBoxByNumber(ballotBoxId);
+        }
 
         soldierAge = controller.getElection().getYear() - birthYear <= 21;
         if (isolation && soldierAge)

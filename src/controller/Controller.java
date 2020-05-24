@@ -158,17 +158,17 @@ public class Controller {
         }
     }
 
-    public static String getLegalBallotBoxes(int birthYear, boolean isolation) {
+    public static String getLegalBallotBoxes(int birthYear, boolean isolation, boolean toCheck) {
         int age = election.getYear() - birthYear;
         if (age >= 18 && age <= 21) {
             if (isolation)
-                return election.getBallotBoxesByType(4); // 4 - SoliderCorona
+                return election.getBallotBoxesByType(4, toCheck); // 4 - SoliderCorona
             else
-                return election.getBallotBoxesByType(3); // 3 - Solider
+                return election.getBallotBoxesByType(3, toCheck); // 3 - Solider
         } else if (isolation)
-            return election.getBallotBoxesByType(2); // 2 - Corona
+            return election.getBallotBoxesByType(2, toCheck); // 2 - Corona
         else
-            return election.getBallotBoxesByType(1); // 1 - Citizen / Regular
-    }
+            return election.getBallotBoxesByType(1, toCheck); // 1 - Citizen / Regular
 
+    }
 }

@@ -198,19 +198,41 @@ public class Elections {
         return sb.toString();
     }
 
-    public String getBallotBoxesByType(int type) {
+    public String getBallotBoxesByType(int type, boolean toCheck) {
         try {
-            switch (type) {
-                case 1:
-                    return citizen.toString();
-                case 2:
-                    return corona.toString();
-                case 3:
-                    return soldier.toString();
-                case 4:
-                    return soldierCorona.toString();
+            if (toCheck) {
+                String toReturn = "";
+                switch (type) {
+                    case 1:
+                        for (BallotBox<Citizen> c : citizen)
+                            toReturn += c.getId() + ";";
+                        return toReturn;
+                    case 2:
+                        for (BallotBox<Corona> c : corona)
+                            toReturn += c.getId() + ";";
+                        return toReturn;
+                    case 3:
+                        for (BallotBox<Soldier> c : soldier)
+                            toReturn += c.getId() + ";";
+                        return toReturn;
+                    case 4:
+                        for (BallotBox<SoldierCorona> c : soldierCorona)
+                            toReturn += c.getId() + ";";
+                        return toReturn;
+                }
+            } else {
+                switch (type) {
+                    case 1:
+                        return citizen.toString();
+                    case 2:
+                        return corona.toString();
+                    case 3:
+                        return soldier.toString();
+                    case 4:
+                        return soldierCorona.toString();
+                }
             }
-        } catch (Exception e) {
+        } catch(Exception e){
             System.out.println("Something went wrong");
         }
         return null;

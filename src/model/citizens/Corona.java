@@ -75,8 +75,6 @@ public class Corona extends Citizen {
             sb.append("In isolation for " + daysInIsolation + " days\n");
         else
             sb.append("Not in isolation\n");
-
-        sb.append("----------------\n");
         return sb.toString();
     }
 }
