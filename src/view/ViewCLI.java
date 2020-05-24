@@ -59,6 +59,7 @@ public class ViewCLI {
         }
     }
 
+    // TODO : Duplicate ID !
     private Citizen getCitizen(Scanner s, boolean inParty) throws StringLengthException, UnderAgeException {
         int birthYear, daysInIsolation = 0, tempInt;
         boolean isolation, soldierAge, hasLegalID = false, isMinor = true;

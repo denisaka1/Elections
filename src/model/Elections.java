@@ -221,6 +221,7 @@ public class Elections {
         try {
             for(BallotBox<? extends Citizen> ballotBox: ballotBoxes) {
                 addBallotBox(ballotBox);
+                updateBallotBoxes();
             }
             return true;
         } catch (Exception e) {
@@ -242,6 +243,7 @@ public class Elections {
                 soldier.add(new BallotBox<>((BallotBox<Soldier>) ballotBox));
             else if (SoldierCorona.class.equals(classType))
                 soldierCorona.add(new BallotBox<>((BallotBox<SoldierCorona>) ballotBox));
+            updateBallotBoxes();
             return true;
         } catch (Exception e) {
             System.out.println("Something went wrong");
