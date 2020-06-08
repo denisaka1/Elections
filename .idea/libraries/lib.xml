@@ -1,13 +1,23 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-14.0.1/lib" />
+      <root url="file://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="file://$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-14.0.1/lib" />
-    </SOURCES>
-    <jarDirectory url="file://$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-14.0.1/lib" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../../../Program Files/Java/javafx-sdk-14.0.1/lib" recursive="false" type="SOURCES" />
+    <SOURCES />
+    <excluded>
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/charsets.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/deploy.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/javaws.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/jce.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/jfr.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/jfxswt.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/jsse.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/management-agent.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/plugin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/resources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib/rt.jar!/" />
+    </excluded>
+    <jarDirectory url="file://$PROJECT_DIR$/../../../../../../../../Program Files (x86)/Java/jre1.8.0_251/lib" recursive="false" />
   </library>
 </component>

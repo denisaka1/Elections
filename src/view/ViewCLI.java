@@ -1,53 +1,53 @@
 package view;
 
-import controller.Controller;
+import controller.ControllerCLI;
 import exceptions.*;
 import model.*;
 import model.citizens.*;
 import java.util.Scanner;
 
 public class ViewCLI {
-    private Controller controller;
+    private ControllerCLI controllerCLI;
     private Scanner s;
 
-    public ViewCLI(Controller controller, Scanner scanner) {
-        this.controller = controller;
+    public ViewCLI(ControllerCLI controllerCLI, Scanner scanner) {
+        this.controllerCLI = controllerCLI;
         this.s = scanner;
     }
 
     public void showMenu() throws StringLengthException, UnderAgeException {
         boolean exit = false;
         while (!exit) {
-            System.out.println(controller.getCLIMenu());
+            System.out.println(controllerCLI.getCLIMenu());
             int choose = s.nextInt();
             switch (choose) {
                 case 1:
-                    controller.addBallotBox(getBallotBox(s));
+                    controllerCLI.addBallotBox(getBallotBox(s));
                     break;
                 case 2:
-                    controller.addCitizen(getCitizen(s));
+                    controllerCLI.addCitizen(getCitizen(s));
                     break;
                 case 3:
-                    controller.addParty(getParty(s));
+                    controllerCLI.addParty(getParty(s));
                     break;
                 case 4:
                     String[] candidate = getCandidate(s);
-                    controller.addCandidate(candidate[0], candidate[1], Integer.parseInt(candidate[2]));
+                    controllerCLI.addCandidate(candidate[0], candidate[1], Integer.parseInt(candidate[2]));
                     break;
                 case 5:
-                    System.out.println(controller.getAllBallotBox());
+                    System.out.println(controllerCLI.getAllBallotBox());
                     break;
                 case 6:
-                    System.out.println(controller.getAllCitizens());
+                    System.out.println(controllerCLI.getAllCitizens());
                     break;
                 case 7:
-                    System.out.println(controller.getAllParties());
+                    System.out.println(controllerCLI.getAllParties());
                     break;
                 case 8:
-                    controller.startVoteCLI(s);
+                    controllerCLI.startVoteCLI(s);
                     break;
                 case 9:
-                    System.out.println(controller.getResults());
+                    System.out.println(controllerCLI.getResults());
                     break;
                 case 10:
                 default:
@@ -94,7 +94,7 @@ public class ViewCLI {
             try {
                 temp = s.next();
                 birthYear = Integer.parseInt(temp);
-                boolean checkLegal = (controller.getElection().getYear() - birthYear) >= 18 ;
+                boolean checkLegal = (controllerCLI.getElection().getYear() - birthYear) >= 18 ;
                 if (checkLegal)
                     hasLegalAge = true;
                 else
@@ -116,12 +116,12 @@ public class ViewCLI {
         else
             isolation = false;
 
-        ballotBoxes = controller.getLegalBallotBoxes(birthYear, isolation, false);
+        ballotBoxes = controllerCLI.getLegalBallotBoxes(birthYear, isolation, false);
         splitBallotBoxes = ballotBoxes.split(",");
         for (String ballot : splitBallotBoxes)
             System.out.println(ballot.substring(1, (ballot.length() - 1) ));
 
-        ballotBoxes = controller.getLegalBallotBoxes(birthYear, isolation, true);
+        ballotBoxes = controllerCLI.getLegalBallotBoxes(birthYear, isolation, true);
         splitBallotBoxes = ballotBoxes.split(";");
 
 
@@ -136,10 +136,10 @@ public class ViewCLI {
                 if (Integer.parseInt(ballot) == ballotBoxId)
                     legalBallotBoxID = true;
 
-            ballotBox = controller.getElection().getBallotBoxByNumber(ballotBoxId);
+            ballotBox = controllerCLI.getElection().getBallotBoxByNumber(ballotBoxId);
         }
 
-        soldierAge = controller.getElection().getYear() - birthYear <= 21;
+        soldierAge = controllerCLI.getElection().getYear() - birthYear <= 21;
         if (isolation && soldierAge)
             return new SoldierCorona(name, id, birthYear, isolation, ballotBox, daysInIsolation);
         else if (isolation)
@@ -220,7 +220,7 @@ public class ViewCLI {
         System.out.print("Enter Citizen ID : ");
         info[0] = s.next();
 
-        System.out.println(controller.election.getAllParties());
+        System.out.println(controllerCLI.election.getAllParties());
         s.nextLine();
         System.out.print("Enter Party Name : ");
         info[1] = s.nextLine();

@@ -5,11 +5,11 @@ import model.citizens.*;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Controller {
+public class ControllerCLI {
     public static Elections election;
     public static VoterRegister vr;
 
-    public Controller() {
+    public ControllerCLI() {
         election = new Elections();
         vr = new VoterRegister();
     }
@@ -171,4 +171,5 @@ public class Controller {
             return election.getBallotBoxesByType(1, toCheck); // 1 - Citizen / Regular
 
     }
+
 }

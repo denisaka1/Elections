@@ -1,6 +1,6 @@
 package main;
 
-import controller.Controller;
+import controller.ControllerCLI;
 import model.BallotBox;
 import model.Party;
 import model.Set;
@@ -12,7 +12,7 @@ import model.citizens.SoldierCorona;
 import java.util.ArrayList;
 
 public class TestUtils {
-    public static void hardCodeToTest(Controller c) {
+    public static void hardCodeToTest(ControllerCLI c) {
         // Ballot Boxes
         BallotBox<Citizen>       b1 = new BallotBox<Citizen>("Balfour", Citizen.class);
         BallotBox<Soldier>       b2 = new BallotBox<Soldier>("Jenin", Soldier.class);
@@ -32,10 +32,10 @@ public class TestUtils {
         c.addBallotBox(b4);
 
         // Ref Ballot Boxes
-        ArrayList<BallotBox<Citizen>> refCitizenBallotBoxes     = (ArrayList<BallotBox<Citizen>>) Controller.election.getBallotBoxes(1);
-        ArrayList<BallotBox<Corona>> refCoronaBallotBoxes       = (ArrayList<BallotBox<Corona>>) Controller.election.getBallotBoxes(2);
-        ArrayList<BallotBox<Soldier>> refSoldierBallotBoxes     = (ArrayList<BallotBox<Soldier>>) Controller.election.getBallotBoxes(3);
-        ArrayList<BallotBox<SoldierCorona>> refSoldierCoronaBallotBoxes = (ArrayList<BallotBox<SoldierCorona>>) Controller.election.getBallotBoxes(4);
+        ArrayList<BallotBox<Citizen>> refCitizenBallotBoxes     = (ArrayList<BallotBox<Citizen>>) ControllerCLI.election.getBallotBoxes(1);
+        ArrayList<BallotBox<Corona>> refCoronaBallotBoxes       = (ArrayList<BallotBox<Corona>>) ControllerCLI.election.getBallotBoxes(2);
+        ArrayList<BallotBox<Soldier>> refSoldierBallotBoxes     = (ArrayList<BallotBox<Soldier>>) ControllerCLI.election.getBallotBoxes(3);
+        ArrayList<BallotBox<SoldierCorona>> refSoldierCoronaBallotBoxes = (ArrayList<BallotBox<SoldierCorona>>) ControllerCLI.election.getBallotBoxes(4);
 
         // Citizens
         Citizen[] citizens = new Citizen[8];
@@ -59,7 +59,7 @@ public class TestUtils {
         c.addCitizen(citizens[7]);
 
         // Ref of Citizens
-        Set<Citizen> refCitizen = Controller.vr.getCitizens();
+        Set<Citizen> refCitizen = ControllerCLI.vr.getCitizens();
 
         // Add Parties to Election
         c.addParty(parties[0]);
