@@ -22,17 +22,22 @@ public class ViewCLI {
             int choose = s.nextInt();
             switch (choose) {
                 case 1:
-                    controllerCLI.addBallotBox(getBallotBox(s));
+                    if(!controllerCLI.addBallotBox(getBallotBox(s)))
+                        System.out.println("This BallotBox has already been created!!!\n");
                     break;
                 case 2:
-                    controllerCLI.addCitizen(getCitizen(s));
+                    if(!controllerCLI.addCitizen(getCitizen(s)))
+                        System.out.println("The citizen shouldn't be added!");
                     break;
                 case 3:
-                    controllerCLI.addParty(getParty(s));
+                    if(!controllerCLI.addParty(getParty(s)))
+                        System.out.println("You are not allowed to add this party");
                     break;
                 case 4:
                     String[] candidate = getCandidate(s);
-                    controllerCLI.addCandidate(candidate[0], candidate[1], Integer.parseInt(candidate[2]));
+                    if(!controllerCLI.addCandidate(candidate[0], candidate[1], Integer.parseInt(candidate[2]))) {
+                        System.out.println("An error has occurred\n");
+                    }
                     break;
                 case 5:
                     System.out.println(controllerCLI.getAllBallotBox());

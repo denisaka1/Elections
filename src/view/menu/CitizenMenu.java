@@ -9,11 +9,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import view.InputMenu;
+import view.ViewGUI;
 
 public class CitizenMenu extends InputMenu {
 
     private HBox hbName, hbID, hbBirthYear, hbIsolation, hbBallotBoxNumber;
-    private VBox toggleIsolation;
+    private VBox toggleIsolation, vbIsolation;
     private TextField tfName, tfID, tfBirthYear, tfIsolation, tfBallotBoxNumber;
     private RadioButton inIsolation, notInIsolation;
     private ToggleGroup tg;
@@ -23,7 +24,8 @@ public class CitizenMenu extends InputMenu {
         menu.setTitle("Citizen Menu");
 
         setFields();
-        mainFrame.getChildren().addAll(hbName, hbID, hbBirthYear, hbIsolation, hbBallotBoxNumber);
+        mainFrame.getChildren().addAll(hbName, hbID, hbBirthYear, vbIsolation, hbBallotBoxNumber);
+        mainFrame.setAlignment(Pos.CENTER_LEFT);
     }
 
     private void setFields() {
@@ -36,34 +38,41 @@ public class CitizenMenu extends InputMenu {
 
     private void setNameField() { // FIXME: add Alert if the Name  is not correct
         hbName = new HBox();
-        Text txtID = new Text("Name:");
+//        Text txtID = new Text("Name:");
         tfName = new TextField();
-        hbName.getChildren().addAll(txtID, tfName);
+        tfName.setPromptText("Enter Your Name");
+        hbName.getChildren().addAll(tfName);
         hbName.setAlignment(Pos.CENTER);
     }
 
     private void setIDField() { // FIXME: add Alert if the ID is not correct
         hbID = new HBox();
-        Text txtID = new Text("ID:");
+//        Text txtID = new Text("ID:");
         tfID = new TextField();
-        hbID.getChildren().addAll(txtID, tfID);
+        tfID.setPromptText("Enter Your ID");
+        hbID.getChildren().addAll(tfID);
         hbID.setAlignment(Pos.CENTER);
     }
 
     private void setBirthYearField() { // FIXME: add Alert if the BirthYear is not correct
         hbBirthYear = new HBox();
-        Text txtBirthYear = new Text("BirthYear:");
+//        Text txtBirthYear = new Text("BirthYear:");
         tfBirthYear = new TextField();
-        hbBirthYear.getChildren().addAll(txtBirthYear, tfBirthYear);
+        tfBirthYear.setPromptText("Enter Your Birth Year");
+//        tfBirthYear.set
+        hbBirthYear.getChildren().addAll(tfBirthYear);
         hbBirthYear.setAlignment(Pos.CENTER);
     }
 
-    private void setIsolationField() { // FIXME: RadioButtons -> make work
+    private void setIsolationField() {
         hbIsolation = new HBox();
         tg = new ToggleGroup();
         toggleIsolation = new VBox();
-        Text txtID = new Text("Isolation:");
-//        tfIsolation = new TextField();
+        vbIsolation = new VBox();
+        Text txtIsolation = new Text("In Isolation?");
+
+        tfIsolation = new TextField();
+        tfIsolation.setPromptText("How Many Days?");
 
         inIsolation = new RadioButton("Yes");
         inIsolation.setToggleGroup(tg);
@@ -73,16 +82,21 @@ public class CitizenMenu extends InputMenu {
 
         toggleIsolation.getChildren().addAll(inIsolation, notInIsolation);
 
-//        hbIsolation.getChildren().addAll(txtID, tfIsolation, toggleIsolation);
-        hbIsolation.getChildren().add(txtID);
+        hbIsolation.getChildren().addAll(txtIsolation, toggleIsolation);
+        hbIsolation.setSpacing(45);
         hbIsolation.setAlignment(Pos.CENTER);
+
+        vbIsolation.getChildren().addAll(hbIsolation, tfIsolation);
+        vbIsolation.setAlignment(Pos.CENTER);
+        vbIsolation.setSpacing(ViewGUI.BUTTON_SPACING);
     }
 
     private void setBallotBoxNumberField() { // FIXME: add Alert if the BallotBoxNumber is not correct
         hbBallotBoxNumber = new HBox();
-        Text txtID = new Text("BallotBoxNumber:");
+//        Text txtBallotBoxNumber = new Text("BallotBox Number:");
         tfBallotBoxNumber = new TextField();
-        hbBallotBoxNumber.getChildren().addAll(txtID, tfBallotBoxNumber);
+        tfBallotBoxNumber.setPromptText("Enter BallotBox Number");
+        hbBallotBoxNumber.getChildren().addAll(tfBallotBoxNumber);
         hbBallotBoxNumber.setAlignment(Pos.CENTER);
     }
 

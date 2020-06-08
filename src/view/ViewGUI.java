@@ -19,8 +19,10 @@ public class ViewGUI {
     public static final int HEIGHT = 500;
     public static final double MIN_BUTTON_WIDTH_VALUE = 150.d;
     public static final double BUTTON_SPACING = 10.d;
+    public static final double RADIO_BUTTON_SPACING = 10.d;
 //    private ImageView flag = setImage("./src/flag.png", stage); // add different image at the same path and change its name
-    public static final String pathToImage = "./src/flag.png"; // add different image at the same path and change its name
+//    public static final String pathToImage = "./src/flag.png"; // add different image at the same path and change its name
+    public static final String pathToImage = "./src/test1.jpg"; // add different image at the same path and change its name
     private Scene theScene;
     private Button addBallotBox, addCitizens, addParty, addCandidate,
             showAllBallotBoxes, showAllCitizens, showAllParties,

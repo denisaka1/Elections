@@ -41,7 +41,6 @@ public class ControllerCLI {
             election.addBallotBox(ballotBox);
             return true;
         } else {
-            System.out.println("This BallotBox has already been created!!!\n");
             return false;
         }
     }
@@ -51,7 +50,6 @@ public class ControllerCLI {
             election.addParty(party);
             return true;
         } else {
-            System.out.println("You are not allowed to add this party");
             return false;
         }
     }
@@ -76,22 +74,20 @@ public class ControllerCLI {
             election.addCitizenToBallotBox(citizen, citizen.getBallotBox());
             return true;
         }
-        System.out.println("The citizen shouldn't be added!");
         return false;
     }
 
-    public void addCandidate(String citizenID, String partyName, int place) {
+    public boolean addCandidate(String citizenID, String partyName, int place) {
         if (citizenID.length() != 0 && citizenID != null && partyName != null && partyName.length() != 0) {
             Citizen citizen = vr.getCitizenById(citizenID);
             Party party = election.getPartiesByName(partyName);
 
             if (citizen != null && party != null) {
                 party.addCandidate(citizen, place);
-            } else {
-                System.out.println("An error has occurred\n");
+                return true;
             }
-        } else
-            System.out.println("An error has occurred\n");
+        }
+        return false;
     }
 
     public String getResults() {

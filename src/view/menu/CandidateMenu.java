@@ -7,5 +7,7 @@ public class CandidateMenu extends InputMenu {
     public CandidateMenu(Stage stage) {
         super(stage);
         menu.setTitle("Candidate Menu");
+
+        // TODO: add fields: ID, Party Name, Place
     }
 }

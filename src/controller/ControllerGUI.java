@@ -18,6 +18,11 @@ public class ControllerGUI {
         theModel = model;
         theView = view;
 
+        assignAllEvents();
+
+    }
+
+    private void assignAllEvents() {
         eventForAddBallotBoxButton();
         eventForAddCitizen();
         eventForAddParty();
@@ -44,7 +49,7 @@ public class ControllerGUI {
                 CitizenMenu citizenMenu = new CitizenMenu(new Stage());
             }
         };
-        // TODO: assign all event handlers!
+
         theView.addEventHandlerToAddCitizen(eventForAddCitizen);
     }
 
@@ -110,4 +115,5 @@ public class ControllerGUI {
         };
         theView.addEventHandlerToShowResults(eventForShowResults);
     }
+
 }

@@ -2,8 +2,7 @@ package view;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public abstract class InputMenu extends Menu{
@@ -16,6 +15,8 @@ public abstract class InputMenu extends Menu{
         super(stage);
 
         mainFrame = new VBox();
+        mainFrame.setMaxSize(200, 200);
+//        mainFrame.setStyle("-fx-border-width: 3;");
         createSubmitButton();
 
         mainFrame.setSpacing(ViewGUI.BUTTON_SPACING);
