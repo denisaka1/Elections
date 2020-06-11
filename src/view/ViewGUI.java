@@ -1,15 +1,13 @@
 package view;
 
-import javafx.geometry.Pos;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import view.MainPaneView.Main;
 
 public class ViewGUI {
     public static final int WIDTH = 800;
@@ -22,21 +20,27 @@ public class ViewGUI {
     private VBox mainView;
     private MenuButtons menuButtons;
     private BorderPane borderPane;
+    private MenuBar menuBar;
+    private Menu helpMenu, fileMenu;
+    private MenuItem help, about, exit, main;
 
     public ViewGUI(Stage stage) {
         stage.setTitle("Election Interface");
         borderPane = new BorderPane();
 
         // Menu bar
-        MenuBar menuBar = new MenuBar();
+        menuBar = new MenuBar();
         // Help
-        Menu helpMenu = new Menu("Help");
-        MenuItem help = new MenuItem("Help");
-        MenuItem about = new MenuItem("About");
+        helpMenu = new Menu("Help");
+        help = new MenuItem("View Help");
+        about = new MenuItem("About");
         helpMenu.getItems().addAll(help, about);
-        // Exit
-        Menu quit = new Menu("Quit");
-        menuBar.getMenus().addAll(helpMenu, quit);
+        // File
+        fileMenu = new Menu("View");
+        main = new MenuItem("Main");
+        exit = new MenuItem("Exit");
+        fileMenu.getItems().addAll(main, new SeparatorMenuItem(), exit);
+        menuBar.getMenus().addAll(fileMenu, helpMenu);
 
         borderPane.setTop(menuBar);
 
@@ -44,11 +48,7 @@ public class ViewGUI {
         menuButtons = new MenuButtons(borderPane);
 
         // Main View
-        mainView = new VBox();
-        mainView.setAlignment(Pos.TOP_LEFT);
-        Text text = new Text("Welcome");
-        text.setFont(Font.font("Tahoma", FontWeight.BOLD, FontPosture.REGULAR, 16));
-        mainView.getChildren().add(text);
+        mainView = new Main().update();
         borderPane.setCenter(mainView);
 
         // Scene
@@ -65,5 +65,21 @@ public class ViewGUI {
 
     public MenuButtons getMenuButtons() {
         return menuButtons;
+    }
+
+    public void addEventCloseButton(EventHandler<ActionEvent> event) {
+        exit.setOnAction(event);
+    }
+
+    public void addEventMainButton(EventHandler<ActionEvent> event) {
+        main.setOnAction(event);
+    }
+
+    public void addEventHelpButton(EventHandler<ActionEvent> event) {
+        help.setOnAction(event);
+    }
+
+    public void addEventAboutButton(EventHandler<ActionEvent> event) {
+        about.setOnAction(event);
     }
 }
