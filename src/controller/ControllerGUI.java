@@ -2,118 +2,110 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.stage.Stage;
 import model.ModelGUI;
+import view.MainPaneView.*;
 import view.ViewGUI;
-import view.menu.*;
-import view.results.*;
-
 
 public class ControllerGUI {
-
     private ModelGUI theModel;
     private ViewGUI theView;
 
     public ControllerGUI(ModelGUI model, ViewGUI view) {
         theModel = model;
         theView = view;
-
         assignAllEvents();
-
     }
 
     private void assignAllEvents() {
         eventForAddBallotBoxButton();
-        eventForAddCitizen();
-        eventForAddParty();
-        eventForAddCandidate();
-        eventForShowAllBallotBoxes();
-        eventForShowAllCitizens();
-        eventForShowAllParties();
-        eventForBeginElections();
-        eventForShowResults();
+        eventForAddCandidateButton();
+        eventForAddCitizenButton();
+        eventForAddPartyButton();
+        eventForBeginElectionButton();
+        eventForShowBallotBoxesButton();
+        eventForShowCitizensButton();
+        eventForShowPartiesButton();
+        eventForShowResultsButton();
     }
 
     private void eventForAddBallotBoxButton() {
         EventHandler<ActionEvent> eventForAddBallotBoxButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                BallotBoxMenu ballotBoxMenu = new BallotBoxMenu(new Stage());
+                theView.update(new AddBallotBox());
             }
         };
-        theView.addEventHandlerToAddBallotBoxButton(eventForAddBallotBoxButton);
+        theView.getMenuButtons().addEventHandlerToAddBallotBoxButton(eventForAddBallotBoxButton);
     }
 
-    private void eventForAddCitizen() {
-        EventHandler<ActionEvent> eventForAddCitizen = new EventHandler<ActionEvent>(){
+    private void eventForAddCandidateButton() {
+        EventHandler<ActionEvent> eventForAddCandidateButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                CitizenMenu citizenMenu = new CitizenMenu(new Stage());
+                theView.update(new AddCandidate());
             }
         };
-
-        theView.addEventHandlerToAddCitizen(eventForAddCitizen);
+        theView.getMenuButtons().addEventHandlerToAddCandidateButton(eventForAddCandidateButton);
     }
 
-    private void eventForAddParty() {
-        EventHandler<ActionEvent> eventForAddParty = new EventHandler<ActionEvent>(){
+    private void eventForAddCitizenButton() {
+        EventHandler<ActionEvent> eventForAddCitizenButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                PartyMenu partyMenu = new PartyMenu(new Stage());
+                theView.update(new AddCitizen());
             }
         };
-        theView.addEventHandlerToAddParty(eventForAddParty);
+        theView.getMenuButtons().addEventHandlerToAddCitizenButton(eventForAddCitizenButton);
     }
 
-    private void eventForAddCandidate() {
-        EventHandler<ActionEvent> eventForAddCandidate = new EventHandler<ActionEvent>(){
+    private void eventForAddPartyButton() {
+        EventHandler<ActionEvent> eventForAddPartyButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                CandidateMenu candidateMenu = new CandidateMenu(new Stage());
+                theView.update(new AddParty());
             }
         };
-        theView.addEventHandlerToAddCandidate(eventForAddCandidate);
+        theView.getMenuButtons().addEventHandlerToAddPartyButton(eventForAddPartyButton);
     }
 
-    private void eventForShowAllBallotBoxes() {
-        EventHandler<ActionEvent> eventForShowAllBallotBoxes = new EventHandler<ActionEvent>(){
+    private void eventForBeginElectionButton() {
+        EventHandler<ActionEvent> eventForBeginElectionButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                ShowBallotBoxes showBallotBoxes = new ShowBallotBoxes(new Stage());
+                theView.update(new BeginElections());
             }
         };
-        theView.addEventHandlerToShowAllBallotBoxes(eventForShowAllBallotBoxes);
+        theView.getMenuButtons().addEventHandlerToBeginElectionsButton(eventForBeginElectionButton);
     }
 
-    private void eventForShowAllCitizens() {
-        EventHandler<ActionEvent> eventForShowAllCitizens = new EventHandler<ActionEvent>(){
+    private void eventForShowBallotBoxesButton() {
+        EventHandler<ActionEvent> eventForShowBallotBoxesButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                ShowCitizens showCitizens = new ShowCitizens(new Stage());
+                theView.update(new ShowBallotBoxes());
             }
         };
-        theView.addEventHandlerToShowAllCitizens(eventForShowAllCitizens);
+        theView.getMenuButtons().addEventHandlerToShowAllBallotBoxesButton(eventForShowBallotBoxesButton);
     }
 
-    private void eventForShowAllParties() {
-        EventHandler<ActionEvent> eventForShowAllParties = new EventHandler<ActionEvent>(){
+    private void eventForShowCitizensButton() {
+        EventHandler<ActionEvent> eventForShowCitizensButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                ShowParties showParties = new ShowParties(new Stage());
+                theView.update(new ShowCitizens());
             }
         };
-        theView.addEventHandlerToShowAllParties(eventForShowAllParties);
+        theView.getMenuButtons().addEventHandlerToShowAllCitizensButton(eventForShowCitizensButton);
     }
 
-    private void eventForBeginElections() {
-        EventHandler<ActionEvent> eventForBeginElections = new EventHandler<ActionEvent>(){
+    private void eventForShowResultsButton() {
+        EventHandler<ActionEvent> eventForShowResultsButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                BeginElections beginElections = new BeginElections(new Stage());
+                theView.update(new ShowResults());
             }
         };
-        theView.addEventHandlerToBeginElections(eventForBeginElections);
+        theView.getMenuButtons().addEventHandlerToShowResultsButton(eventForShowResultsButton);
     }
 
-    private void eventForShowResults() {
-        EventHandler<ActionEvent> eventForShowResults = new EventHandler<ActionEvent>(){
+    private void eventForShowPartiesButton() {
+        EventHandler<ActionEvent> eventForShowPartiesButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                ShowResults showResults = new ShowResults(new Stage());
+                theView.update(new ShowParties());
             }
         };
-        theView.addEventHandlerToShowResults(eventForShowResults);
+        theView.getMenuButtons().addEventHandlerToShowAllPartiesButton(eventForShowPartiesButton);
     }
-
 }

@@ -9,7 +9,7 @@ import model.ModelGUI;
 import view.ViewGUI;
 
 
-public class Program extends Application{
+public class Program extends Application {
     // add for user to choose what he'd like to use
     // 1. GUI
     // 2. CLI
