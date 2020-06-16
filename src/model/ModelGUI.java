@@ -7,7 +7,7 @@ public class ModelGUI {
 
     public ModelGUI() {
 //        election = new Elections();
-//        vr = new VoterRegister();
+        vr = new VoterRegister();
     }
 
     public Elections getElection() {
@@ -17,4 +17,35 @@ public class ModelGUI {
     public VoterRegister getVoterRegister() {
         return vr;
     }
+
+    public boolean addBallotBox(String address, String type) {
+        boolean isAdded = election.addBallotBox(address, type);
+        return isAdded;
+    }
+
+    public void setElection(int month, int year) {
+        election = new Elections(month, year);
+    }
+
+    public int getElectionYear() {
+        return election.getYear();
+    }
+
+    public int getElectionMonth() {
+        return election.getMonth();
+    }
+
+    public int getNumberOfCitizens() {
+        return vr.getCitizens().size();
+    }
+
+    public int getNumberOfParties() {
+        return election.getParties().size();
+    }
+
+    public boolean addParty(String name, String section, int year, int month, int day) {
+        return election.addParty(name, section, year, month, day);
+    }
+
+    //    public Party(String name, String section, int year, int month, int day) {
 }

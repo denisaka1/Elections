@@ -1,6 +1,7 @@
 package model;
 
-import model.citizens.*;
+import model.citizens.Citizen;
+
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -155,6 +156,16 @@ public class BallotBox<T extends Citizen> {
         if (party != null && !parties.containsKey(party))
             this.parties.put(party, 0);
     }
+
+/*    @Override
+    public boolean equals(BallotBox other) {
+//        if (this == other) return true;
+        if (!other.getClass().getSimpleName().equals("BallotBox"))
+            return false;
+
+        BallotBox<T> ballotBox = (BallotBox<T>) other;
+        return id == ballotBox.id && getType().equals(ballotBox.getType()) && address.equals(ballotBox.address);
+    }*/
 
     @Override
     public boolean equals(Object other) {

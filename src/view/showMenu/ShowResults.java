@@ -1,23 +1,18 @@
-package view.MainPaneView;
+package view.showMenu;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.chart.PieChart;
 import javafx.scene.layout.VBox;
-import view.MainPane;
 
-public class ShowResults extends MainPane {
+public class ShowResults extends Main {
     private PieChart chart;
 
     public ShowResults() {
         super();
-        setHeadline();
+        setHeadline("Show Vote Results");
         chartResults();
-    }
-
-    private void setHeadline() {
-        headline.setText("Show Vote Results");
     }
 
     public void chartResults() {
@@ -32,10 +27,9 @@ public class ShowResults extends MainPane {
     }
 
     public VBox update() {
-        mainView.getChildren().clear();
-        mainView.getChildren().addAll(headline, chart);
-        mainView.setMargin(headline, new Insets(10, 0, 0, 20));
+        super.update();
         mainView.setMargin(chart, new Insets(10, 0, 0, 20));
+
         return mainView;
     }
 }

@@ -8,32 +8,28 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import view.MainPane;
 import view.ViewGUI;
 
 public class AddParty extends MainPane {
     private HBox hbName, hbSection, hbCreateDate;
     private VBox vbSection;
     private TextField tfName;
+    private int currentYear;
     private ComboBox day, month, year;
     private RadioButton rightSection, leftSection, centerSection;
     private ToggleGroup tg;
 
-    public AddParty() {
+    public AddParty(int year) {
         super();
-        setHeadline();
+        setHeadline("Add Party");
+        currentYear = year;
         setFields();
-    }
-
-    private void setHeadline() {
-        headline.setText("Add Party");
     }
 
     private void setFields() {
         setNameField();
         setCreateDateField();
         setSectionField();
-        createSubmitButton();
     }
 
     private void setNameField() {
@@ -66,7 +62,7 @@ public class AddParty extends MainPane {
 
         // Year
         year.setPromptText("Year");
-        for (int i = 1900; i <= 2002; i++) // FIXME: take year from election - 18
+        for (int i = 1900; i <= currentYear; i++) // FIXME: take year from election - 18 DONE
             year.getItems().add(i);
 
         hbCreateDate.getChildren().addAll(txtCreateDate, day, month, year);
@@ -100,11 +96,39 @@ public class AddParty extends MainPane {
         hbSection.setSpacing(15);
     }
 
+    public String getPartyName() {
+        return tfName.getText();
+    }
+
+    public String getDay() {
+        return day.getSelectionModel().getSelectedItem().toString();
+    }
+
+    public String getMonth() {
+        return month.getSelectionModel().getSelectedItem().toString();
+    }
+
+    public String getYear() {
+        return year.getSelectionModel().getSelectedItem().toString();
+    }
+
+    public String getSection() {
+        String section = null;
+        if (rightSection.isSelected())
+            section = rightSection.getText();
+        else if (leftSection.isSelected())
+            section = leftSection.getText();
+        else if (centerSection.isSelected())
+            section = centerSection.getText();
+
+        return section;
+    }
+
     @Override
     public VBox update() {
-        mainView.getChildren().clear();
-        mainView.getChildren().addAll(headline, hbName, hbCreateDate, hbSection, hbSubmit);
-        mainView.setMargin(headline, new Insets(10, 0, 0, 20));
+        super.update();
+        mainView.getChildren().addAll(hbName, hbCreateDate, hbSection, hbSubmit);
+//        mainView.setMargin(headline, new Insets(10, 0, 0, 20));
         mainView.setMargin(hbName, new Insets(10, 0, 0, 20));
         mainView.setMargin(hbCreateDate, new Insets(0, 0, 0, 20));
         mainView.setMargin(hbSection, new Insets(0, 0, 0, 20));

@@ -8,10 +8,11 @@ public class Elections {
    month: 1
    year: 2021
     */
-    private ArrayList<BallotBox<Citizen>> citizen;
-    private ArrayList<BallotBox<Soldier>> soldier;
-    private ArrayList<BallotBox<SoldierCorona>> soldierCorona;
-    private ArrayList<BallotBox<Corona>> corona;
+    public final int DEFAULT_YEAR = 2021;
+    private List<BallotBox<Citizen>> citizen;
+    private List<BallotBox<Soldier>> soldier;
+    private List<BallotBox<SoldierCorona>> soldierCorona;
+    private List<BallotBox<Corona>> corona;
 
     private HashMap<Party, Integer> parties;
 
@@ -101,11 +102,11 @@ public class Elections {
     }
 
     private boolean setYear(int year) {
-        if (year >= 2020) {
+        if (year > DEFAULT_YEAR) {
             this.year = year;
             return true;
         } else {
-            this.year = 2020;
+            this.year = DEFAULT_YEAR;
             return false;
         }
     }
@@ -121,19 +122,19 @@ public class Elections {
     }
 
     /************ Get Functions ************/
-    public ArrayList<BallotBox<Citizen>> getRegular() {
-        return citizen;
+    public List<BallotBox<Citizen>> getRegular() {
+        return this.citizen;
     }
 
-    public ArrayList<BallotBox<Soldier>> getSoldier() {
+    public List<BallotBox<Soldier>> getSoldier() {
         return soldier;
     }
 
-    public ArrayList<BallotBox<SoldierCorona>> getSoldierCorona() {
+    public List<BallotBox<SoldierCorona>> getSoldierCorona() {
         return soldierCorona;
     }
 
-    public ArrayList<BallotBox<Corona>> getCorona() {
+    public List<BallotBox<Corona>> getCorona() {
         return corona;
     }
 
@@ -252,24 +253,68 @@ public class Elections {
         }
     }
 
-    public boolean addBallotBox(BallotBox<? extends Citizen> ballotBox) {
-        try {
-            Class<? extends Citizen> classType = ballotBox.getClassType();
+    public <C extends Citizen> boolean addBallotBox(String address, String type) {
+        Class<C> clazz;
 
-            if (Citizen.class.equals(classType))
-                citizen.add(new BallotBox<>((BallotBox<Citizen>) ballotBox));
-            else if (Corona.class.equals(classType))
-                corona.add(new BallotBox<>((BallotBox<Corona>) ballotBox));
-            else if (Soldier.class.equals(classType))
-                soldier.add(new BallotBox<>((BallotBox<Soldier>) ballotBox));
-            else if (SoldierCorona.class.equals(classType))
-                soldierCorona.add(new BallotBox<>((BallotBox<SoldierCorona>) ballotBox));
-            updateBallotBoxes();
-            return true;
+        switch (type){
+            case "Corona":
+                clazz = (Class<C>) Corona.class;
+                break;
+            case "Army":
+                clazz = (Class<C>) Soldier.class;
+                break;
+            case "ArmyCorona":
+                clazz = (Class<C>) SoldierCorona.class;
+                break;
+            case "Regular":
+            default:
+                clazz = (Class<C>) Citizen.class;
+                break;
+        }
+
+        boolean isAdded = addBallotBox(new BallotBox<C>(address, clazz));
+        return isAdded;
+    }
+
+
+    public <C extends Citizen> boolean addBallotBox(BallotBox<C> ballotBox) {
+        boolean isAdded = false;
+
+        try {
+            Class<C> classType = ballotBox.getClassType();
+
+            if (Citizen.class.equals(classType)) {
+//                ballotBox = (BallotBox<Citizen>) ballotBox;
+//                BallotBox<Citizen> temp = new BallotBox<>((BallotBox<Citizen>) ballotBox);
+                if (!citizen.contains(ballotBox)){
+                    citizen.add((BallotBox<Citizen>)ballotBox);
+                    isAdded = true;
+                }
+            }
+            else if (Corona.class.equals(classType)) {
+                if (!corona.contains(ballotBox)) {
+                    corona.add((BallotBox<Corona>) ballotBox);
+                    isAdded = true;
+                }
+            }
+            else if (Soldier.class.equals(classType)) {
+                if (!soldier.contains(ballotBox)) {
+                    soldier.add((BallotBox<Soldier>) ballotBox);
+                    isAdded = true;
+                }
+            }
+            else if (SoldierCorona.class.equals(classType)) {
+                if (!soldierCorona.contains(ballotBox)) {
+                    soldierCorona.add((BallotBox<SoldierCorona>) ballotBox);
+                    isAdded = true;
+                }
+            }
         } catch (Exception e) {
             System.out.println("Something went wrong");
-            return false;
+
         }
+
+        return isAdded;
     }
 
     public void addCitizenToBallotBox(Citizen citizen, BallotBox<? extends Citizen> ballotBox) {
@@ -325,6 +370,13 @@ public class Elections {
                 return party;
         }
         return null;
+    }
+
+
+
+    public boolean addParty(String name, String section, int year, int month, int day) {
+        Party temp = new Party(name, section, year, month, day);
+        return addParty(temp);
     }
 
     public boolean addParty(Party party) {

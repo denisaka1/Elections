@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import view.MainPane;
 import view.ViewGUI;
 
 public class AddCitizen extends MainPane {
@@ -17,15 +16,13 @@ public class AddCitizen extends MainPane {
     private RadioButton inIsolation, notInIsolation;
     private ToggleGroup tg;
     private ComboBox day, month, year, ballotBox;
+    private int electionYear;
 
-    public AddCitizen() {
+    public AddCitizen(int year) {
         super();
-        setHeadline();
+        setHeadline("Add Citizen");
+        electionYear = year;
         setFields();
-    }
-
-    private void setHeadline() {
-        headline.setText("Add Citizen");
     }
 
     private void setFields() {
@@ -34,8 +31,8 @@ public class AddCitizen extends MainPane {
         setBirthYearField();
         setIsolationField();
         setBallotBoxNumberField();
-        createSubmitButton();
     }
+
     private void setNameField() { // FIXME: add Alert if the Name  is not correct
         hbName = new HBox();
 //        Text txtID = new Text("Name:");
@@ -56,7 +53,7 @@ public class AddCitizen extends MainPane {
         hbID.getChildren().addAll(tfID);
     }
 
-    private void setBirthYearField() { // FIXME: add Alert if the BirthYear is not correct
+    private void setBirthYearField() {
         hbBirthYear = new HBox();
         Text txtBirthYear = new Text("BirthYear:");
         txtBirthYear.setFont(buttonsFont);
@@ -77,11 +74,15 @@ public class AddCitizen extends MainPane {
 
         // Year
         year.setPromptText("Year");
-        for (int i = 1900; i <= 2002; i++) // FIXME: take year from election - 18
+        for (int i = 1900; i <= electionYear; i++) // FIXME: take year from election - 18 DONE
             year.getItems().add(i);
 
         hbBirthYear.getChildren().addAll(txtBirthYear, day, month, year);
         hbBirthYear.setSpacing(ViewGUI.SPACING);
+    }
+
+    public String getYear() {
+        return year.getSelectionModel().getSelectedItem().toString();
     }
 
     private void setIsolationField() {
@@ -112,7 +113,9 @@ public class AddCitizen extends MainPane {
         hbIsolation.getChildren().addAll(txtIsolation, toggleIsolation, tfIsolation);
         hbIsolation.setSpacing(15);
 
-        addChangeListenerToToggleGroup(chl);
+
+
+        addChangeListenerToToggleGroup();
     }
 
     private void setBallotBoxNumberField() { // FIXME: add Alert if the BallotBoxNumber is not correct
@@ -124,30 +127,38 @@ public class AddCitizen extends MainPane {
         ballotBox.getItems().add("Ballot Box 1"); // FIXME: add legal ballot boxes
         ballotBox.getItems().add("Ballot Box 2");
         ballotBox.getItems().add("Ballot Box 3");
-        ballotBox.setStyle("-fx-font: 14px \"Tahoma\";");
+//        ballotBox.setStyle("-fx-font: 14px \"Tahoma\";");
+        ballotBox.getEditor().setFont(buttonsFont);
         hbBallotBoxNumber.getChildren().addAll(ballotBox);
     }
 
-    ChangeListener<Toggle> chl = new ChangeListener<Toggle>() {
-        @Override
-        public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-            if (inIsolation.isSelected())
-                tfIsolation.setVisible(true);
-            else
-                tfIsolation.setVisible(false);
-        }
-    };
+    public VBox getMainView() {
+        return mainView;
+    }
 
+    public int getSelectedYear() {
+        return Integer.parseInt(year.getSelectionModel().getSelectedItem().toString());
+    }
 
-    public void addChangeListenerToToggleGroup(ChangeListener<Toggle> chl) {
+    public void addChangeListenerToToggleGroup() {
+        ChangeListener<Toggle> chl = new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                if (inIsolation.isSelected())
+                    tfIsolation.setVisible(true);
+                else
+                    tfIsolation.setVisible(false);
+            }
+        };
+
         tg.selectedToggleProperty().addListener(chl);
     }
 
+
     @Override
     public VBox update() {
-        mainView.getChildren().clear();
-        mainView.getChildren().addAll(headline, hbName, hbID, hbBirthYear, hbIsolation, hbBallotBoxNumber, hbSubmit);
-        mainView.setMargin(headline, new Insets(10, 0, 0, 20));
+        super.update();
+        mainView.getChildren().addAll(hbName, hbID, hbBirthYear, hbIsolation, hbBallotBoxNumber, hbSubmit);
         mainView.setMargin(hbName, new Insets(10, 0, 0, 20));
         mainView.setMargin(hbID, new Insets(0, 0, 0, 20));
         mainView.setMargin(hbBirthYear, new Insets(0, 0, 0, 20));

@@ -7,7 +7,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import view.MainPane;
 import view.ViewGUI;
 
 public class AddBallotBox extends MainPane {
@@ -19,23 +18,17 @@ public class AddBallotBox extends MainPane {
 
     public AddBallotBox() {
         super();
-        setHeadline();
+        setHeadline("Add Ballot Box");
         setFields();
     }
 
     private void setFields() {
         setAddressField();
         setBallotBoxType();
-        createSubmitButton();
-    }
-
-    private void setHeadline() {
-        headline.setText("Add Ballot Box");
     }
 
     private void setAddressField() {
         hbAddress = new HBox();
-//        Text txtAddress = new Text("Address:");
         tfAddress = new TextField();
         tfAddress.setPromptText("Enter Your Address");
         tfAddress.setFont(buttonsFont);
@@ -54,18 +47,22 @@ public class AddBallotBox extends MainPane {
 //        tfType = new TextField();
 //        tfType.setPromptText("");
         rbRegular = new RadioButton("Regular");
+        rbRegular.setUserData("Regular");
         rbRegular.setFont(buttonsFont);
         rbRegular.setToggleGroup(tgBallotBoxType);
 
         rbCorona = new RadioButton("Corona");
+        rbCorona.setUserData("Corona");
         rbCorona.setToggleGroup(tgBallotBoxType);
         rbCorona.setFont(buttonsFont);
 
         rbArmy = new RadioButton("Army");
+        rbArmy.setUserData("Army");
         rbArmy.setToggleGroup(tgBallotBoxType);
         rbArmy.setFont(buttonsFont);
 
         rbArmyCorona = new RadioButton("ArmyCorona");
+        rbArmyCorona.setUserData("ArmyCorona");
         rbArmyCorona.setToggleGroup(tgBallotBoxType);
         rbArmyCorona.setFont(buttonsFont);
 
@@ -77,11 +74,33 @@ public class AddBallotBox extends MainPane {
         vbType.getChildren().addAll(txtType, typeButtons);
     }
 
+    public String getAddress() {
+        return tfAddress.getText();
+    }
+
+    public String getType() {
+//        return vbType.getChildren().get(vbType.getChildren().indexOf(tgBallotBoxType.getSelectedToggle())).getClass().getName();
+//        return ;
+//        tgBallotBoxType.
+        return tgBallotBoxType.getSelectedToggle().getUserData().toString();
+    }
+
+/*    add("Add Ballot Box");
+    add("Add Citizen");
+    add("Add Party");
+    add("Add Candidate");
+    add("Show All BallotBoxes");
+    add("Show All Citizens");
+    add("Show All Parties");
+    add("Begin Elections");
+    add("Show Results");*/
+
+
     @Override
     public VBox update() {
-        mainView.getChildren().clear();
-        mainView.getChildren().addAll(headline, hbAddress, vbType, hbSubmit);
-        mainView.setMargin(headline, new Insets(10, 0, 0, 20));
+        super.update();
+        mainView.getChildren().addAll(hbAddress, vbType, hbSubmit);
+//        mainView.getChildren().addAll(hbAddress, vbType);
         mainView.setMargin(hbAddress, new Insets(10, 0, 0, 20));
         mainView.setMargin(vbType, new Insets(10, 0, 0, 20));
         mainView.setMargin(hbSubmit, new Insets(10, 0, 0, 20));

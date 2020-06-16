@@ -4,27 +4,21 @@ import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import view.MainPane;
 import view.ViewGUI;
 
-public class AddCandidate extends MainPane {
+public class AssignCandidate extends MainPane {
     private HBox hbParty, hbCitizen;
     private ComboBox parties, citizens;
 
-    public AddCandidate() {
+    public AssignCandidate() {
         super();
-        setHeadline();
+        setHeadline("Add Candidate to Party");
         setFields();
-    }
-
-    private void setHeadline() {
-        headline.setText("Add Candidate to Party");
     }
 
     private void setFields() {
         setCitizenField();
         setPartyField();
-        createSubmitButton();
     }
 
     private void setCitizenField() {
@@ -36,7 +30,8 @@ public class AddCandidate extends MainPane {
         citizens.getItems().add("Citizen 1"); // FIXME: add all citizens
         citizens.getItems().add("Citizen 2");
         citizens.getItems().add("Citizen 3");
-        citizens.setStyle("-fx-font: 14px \"Tahoma\";");
+
+        citizens.getEditor().setFont(buttonsFont);
         hbCitizen.getChildren().addAll(citizens);
     }
 
@@ -49,18 +44,19 @@ public class AddCandidate extends MainPane {
         parties.getItems().add("Party 1"); // FIXME: add all parties
         parties.getItems().add("Party 2");
         parties.getItems().add("Party 3");
-        parties.setStyle("-fx-font: 14px \"Tahoma\";");
+
+        parties.getEditor().setFont(buttonsFont);
         hbParty.getChildren().addAll(parties);
     }
 
     @Override
     public VBox update() {
-        mainView.getChildren().clear();
-        mainView.getChildren().addAll(headline, hbCitizen, hbParty, hbSubmit);
-        mainView.setMargin(headline, new Insets(10, 0, 0, 20));
+        super.update();
+        mainView.getChildren().addAll(hbCitizen, hbParty, hbSubmit);
         mainView.setMargin(hbCitizen, new Insets(10, 0, 0, 20));
         mainView.setMargin(hbParty, new Insets(10, 0, 0, 20));
         mainView.setMargin(hbSubmit, new Insets(10, 0, 0, 20));
+
         return mainView;
     }
 }

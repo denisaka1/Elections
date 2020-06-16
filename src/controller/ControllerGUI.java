@@ -1,28 +1,125 @@
 package controller;
 
+import controller.addition.ControllerBallotBox;
+import controller.addition.ControllerCitizen;
+import controller.addition.ControllerParty;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.ModelGUI;
-import view.MainPaneView.*;
+import view.MainPaneView.AddBallotBox;
+import view.MainPaneView.AddCitizen;
+import view.MainPaneView.AddParty;
+import view.MainPaneView.AssignCandidate;
+import view.MenuButtons;
 import view.ViewGUI;
+import view.showMenu.*;
+
+import java.util.LinkedHashMap;
 
 public class ControllerGUI {
     private ModelGUI theModel;
     private ViewGUI theView;
     private Stage dialog;
     private VBox dialogVBox;
+    private int currentYear;
+    private Runnable checkEnableAddCandidate, checkEnableShowAllBallotBoxes, checkEnableShowAllParties,
+                    checkEnableShowAllCitizens, checkEnableBeginElections;
+    // enable buttons for user
+    private boolean isAddButtonsAdded, isShowAssignCandidatesButton, isShowAllBallotBox,
+                    isShowAllParties, isShowAllCitizens,
+                    isBeginElections, isShowResults;
+
+    private LinkedHashMap<String, Button> allMenuButtons;
+    private MenuButtons menuButtons;
 
     public ControllerGUI(ModelGUI model, ViewGUI view) {
         theModel = model;
         theView = view;
-        assignAllEvents();
-        dialog();
+        allMenuButtons = theView.getMenuButtons().getAllButtons();
+        menuButtons = theView.getMenuButtons();
+
+        eventForWelcomeMenuSubmitButton();
+        checkEnableAddCandidate = this::showAssignCandidate;
+        checkEnableShowAllBallotBoxes = this::enableShowBallotBoxButton;
+        checkEnableShowAllParties = this::enableShowAllPartiesButton;
+        dialog(); // FIXME -> Write everything to user
+    }
+
+    private void enableShowAllPartiesButton() {
+        if (!isShowAllParties) {
+            menuButtons.getShowAllParties().setDisable(false);
+        }
+    }
+
+    private void eventForWelcomeMenuSubmitButton() {
+        EventHandler<ActionEvent> eventForWelcomeMenuSubmitButton = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Alert alert;
+
+                try {
+
+                    String monthText = theView.getMonthText();
+                    String yearText = theView.getYearText();
+
+                    if (monthText.isEmpty() || yearText.isEmpty())
+                        throw new NullPointerException();
+
+                    System.out.println("Month is: " + monthText + " length: " + monthText.length());
+                    System.out.println("Year is: " + yearText);
+
+                    int month = Integer.parseInt(monthText);
+                    int year = Integer.parseInt(yearText);
+
+                    theModel.setElection(month, year);
+
+                    if (year == theModel.getElection().getYear() &&
+                            month == theModel.getElection().getMonth()) {
+                        alert = new Alert(Alert.AlertType.NONE);
+                        alert.setContentText("Election Program has been created successfully!\n" +
+                                "Please continue inserting the data");
+                        alert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+                        alert.show();
+
+                        currentYear = year;
+
+                        theView.clear();
+                        enableAddButtons(); // enables the add Buttons
+
+                        assignAllEvents(); // assign all other menu button events
+                    } else {
+                        throw new Exception();
+                    }
+
+                } catch (NumberFormatException nfe) {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("1 or more of fields are not a number!");
+                    alert.showAndWait();
+                } catch (NullPointerException npe) {
+//                    System.out.println("AAAAAAAAAAAAAAAAAAAA");
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("1 or more of fields are empty!");
+                    alert.showAndWait();
+                } catch (Exception e){
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setHeaderText("Error in Year number or Month number!");
+                    alert.setContentText("Minimum Year is: " + theModel.getElection().DEFAULT_YEAR + "" +
+                            "\nMonths are between: (1-12) inclusive");
+                    alert.showAndWait();
+                }
+
+            }
+        };
+        theView.getWelcomeMenu().addEventSubmitButton(eventForWelcomeMenuSubmitButton);
     }
 
     private void assignAllEvents() {
@@ -37,44 +134,62 @@ public class ControllerGUI {
         eventForShowResultsButton();
         eventCloseButton();
         eventHelpButton();
-        eventMainButton();
+//        eventMainButton();
         eventAboutButton();
     }
 
     private void eventForAddBallotBoxButton() {
         EventHandler<ActionEvent> eventForAddBallotBoxButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                theView.update(new AddBallotBox());
+                AddBallotBox addBallotBox = new AddBallotBox();
+                theView.update(addBallotBox);
+                ControllerBallotBox cbb = new ControllerBallotBox(theModel, addBallotBox,
+                                                                    checkEnableShowAllBallotBoxes);
+
             }
         };
-        theView.getMenuButtons().addEventHandlerToAddBallotBoxButton(eventForAddBallotBoxButton);
+        menuButtons.addEventHandlerToAddBallotBoxButton(eventForAddBallotBoxButton);
     }
 
     private void eventForAddCandidateButton() {
         EventHandler<ActionEvent> eventForAddCandidateButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                theView.update(new AddCandidate());
+                AssignCandidate assignCandidate = new AssignCandidate();
+                theView.update(assignCandidate);
+
             }
         };
-        theView.getMenuButtons().addEventHandlerToAddCandidateButton(eventForAddCandidateButton);
+        menuButtons.addEventHandlerToAssignCandidateButton(eventForAddCandidateButton);
     }
 
     private void eventForAddCitizenButton() {
         EventHandler<ActionEvent> eventForAddCitizenButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                theView.update(new AddCitizen());
+                // FIXME: ballot box list should be from elections
+//                eventForYearSelectionComboBox();
+                // TODO: add ControllerAddCitizen to handle the addition
+                AddCitizen addCitizen = new AddCitizen(currentYear);
+                theView.update(addCitizen);
+                ControllerCitizen cc = new ControllerCitizen(theModel, addCitizen, checkEnableAddCandidate,
+                                                            checkEnableShowAllCitizens);
+
             }
         };
-        theView.getMenuButtons().addEventHandlerToAddCitizenButton(eventForAddCitizenButton);
+        menuButtons.addEventHandlerToAddCitizenButton(eventForAddCitizenButton);
     }
+
 
     private void eventForAddPartyButton() {
         EventHandler<ActionEvent> eventForAddPartyButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                theView.update(new AddParty());
+                AddParty addParty = new AddParty(currentYear);
+                theView.update(addParty);
+                ControllerParty cp = new ControllerParty(theModel, addParty, menuButtons.getShowAllParties(),
+                                                        checkEnableShowAllParties, checkEnableAddCandidate);
+                showAssignCandidate();
             }
         };
-        theView.getMenuButtons().addEventHandlerToAddPartyButton(eventForAddPartyButton);
+        menuButtons.addEventHandlerToAddPartyButton(eventForAddPartyButton);
     }
 
     private void eventForBeginElectionButton() {
@@ -83,7 +198,7 @@ public class ControllerGUI {
                 theView.update(new BeginElections());
             }
         };
-        theView.getMenuButtons().addEventHandlerToBeginElectionsButton(eventForBeginElectionButton);
+        menuButtons.addEventHandlerToBeginElectionsButton(eventForBeginElectionButton);
     }
 
     private void eventForShowBallotBoxesButton() {
@@ -92,7 +207,7 @@ public class ControllerGUI {
                 theView.update(new ShowBallotBoxes());
             }
         };
-        theView.getMenuButtons().addEventHandlerToShowAllBallotBoxesButton(eventForShowBallotBoxesButton);
+        menuButtons.addEventHandlerToShowAllBallotBoxesButton(eventForShowBallotBoxesButton);
     }
 
     private void eventForShowCitizensButton() {
@@ -101,7 +216,7 @@ public class ControllerGUI {
                 theView.update(new ShowCitizens());
             }
         };
-        theView.getMenuButtons().addEventHandlerToShowAllCitizensButton(eventForShowCitizensButton);
+        menuButtons.addEventHandlerToShowAllCitizensButton(eventForShowCitizensButton);
     }
 
     private void eventForShowResultsButton() {
@@ -110,7 +225,7 @@ public class ControllerGUI {
                 theView.update(new ShowResults());
             }
         };
-        theView.getMenuButtons().addEventHandlerToShowResultsButton(eventForShowResultsButton);
+        menuButtons.addEventHandlerToShowResultsButton(eventForShowResultsButton);
     }
 
     private void eventForShowPartiesButton() {
@@ -119,7 +234,7 @@ public class ControllerGUI {
                 theView.update(new ShowParties());
             }
         };
-        theView.getMenuButtons().addEventHandlerToShowAllPartiesButton(eventForShowPartiesButton);
+        menuButtons.addEventHandlerToShowAllPartiesButton(eventForShowPartiesButton);
     }
 
     private void eventCloseButton() {
@@ -133,15 +248,16 @@ public class ControllerGUI {
         theView.addEventCloseButton(eventCloseButton);
     }
 
-    private void eventMainButton() {
+/*    private void eventMainButton() { //TODO: delete
+
         EventHandler<ActionEvent> eventMainButton = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent arg0) {
-                theView.update(new Main());
+                theView.setMainMenu();
             }
         };
         theView.addEventMainButton(eventMainButton);
-    }
+    }*/
 
     private void eventHelpButton() {
         EventHandler<ActionEvent> eventHelpButton = new EventHandler<ActionEvent>() {
@@ -182,4 +298,41 @@ public class ControllerGUI {
         dialogVBox.getChildren().add(new Text("Help"));
         dialog.show();
     }
+
+    private void enableAddButtons() {
+        if (!isAddButtonsAdded) {
+            for(String buttonText: allMenuButtons.keySet()){
+                if (buttonText.toUpperCase().contains("ADD"))
+                    allMenuButtons.get(buttonText).setDisable(false);
+            }
+            isAddButtonsAdded = true;
+        }
+    }
+
+    private void showAssignCandidate() {
+        if (!isShowAssignCandidatesButton) {
+            int numberOfCitizens = theModel.getNumberOfCitizens();
+            int numberOfParties = theModel.getNumberOfParties();
+
+            boolean canAssign = numberOfCitizens != 0 && numberOfParties != 0;
+            if (canAssign) {
+                isShowAssignCandidatesButton = true;
+                menuButtons.getAssignCandidateButton().setDisable(false);
+            }
+        }
+    }
+
+    private void enableShowBallotBoxButton() {
+        if (!isShowAllBallotBox) {
+            menuButtons.getShowAllBallotBoxButton().setDisable(false);
+        }
+    }
+
+    private void enableBeginElections() {
+        if (!isBeginElections) {
+            // TODO: finish
+        }
+    }
+
+//    private void enable
 }
