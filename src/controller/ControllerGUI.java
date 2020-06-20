@@ -51,12 +51,19 @@ public class ControllerGUI {
         checkEnableAddCandidate = this::showAssignCandidate;
         checkEnableShowAllBallotBoxes = this::enableShowBallotBoxButton;
         checkEnableShowAllParties = this::enableShowAllPartiesButton;
+        checkEnableShowAllCitizens = this::enableShowAllCitizensButton;
         dialog(); // FIXME -> Write everything to user
     }
 
     private void enableShowAllPartiesButton() {
         if (!isShowAllParties) {
             menuButtons.getShowAllParties().setDisable(false);
+        }
+    }
+
+    private void enableShowAllCitizensButton() {
+        if (!isShowAllCitizens) {
+            menuButtons.getShowAllCitizens().setDisable(false);
         }
     }
 

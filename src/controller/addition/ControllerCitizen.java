@@ -1,6 +1,7 @@
 package controller.addition;
 
 import exceptions.ClassAlreadyExists;
+import exceptions.StringValueException;
 import exceptions.UnderAgeException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,6 +17,8 @@ import model.citizens.Corona;
 import model.citizens.Soldier;
 import model.citizens.SoldierCorona;
 import view.MainPaneView.AddCitizen;
+
+import javax.management.StringValueExp;
 
 public class ControllerCitizen {
 
@@ -46,12 +49,9 @@ public class ControllerCitizen {
                 try {
                     name = theView.getName();
                     ID = theView.getID();
-                    day = theView.getDay();
-                    month = theView.getMonth();
                     year = theView.getYear();
                     inIsolation = theView.getIsolation();
                     isolationDays = -1;
-                    selectedBallotBox = theView.getSelectedBallotBox();
 
                     if (inIsolation)
                         isolationDays = theView.getIsolationDays();
@@ -62,11 +62,13 @@ public class ControllerCitizen {
                     else if (theModel.getElectionYear() - year < 18)
                         throw new UnderAgeException("The minimum age is 18!");
                     else if (!name.matches("[a-zA-Z ]+"))
-                        throw new ClassAlreadyExists(); // change
+                        throw new StringValueException();
                     else if (false)  // Duplicate
                         throw new ClassAlreadyExists();
                     else {
-                        boolean soldierAge = theModel.getElection().getYear() - year <= 21, isAdded;
+                        boolean soldierAge = theModel.getElection().getYear() - year <= 21;
+                        theView.getSelectedBallotBox();
+                        selectedBallotBox = theView.getSelectedBallotBox();
 
                         if (inIsolation && soldierAge)
                             theModel.addCitizen(new SoldierCorona(name, ID, year, true, theModel.getElection().getBallotBoxByNumber(selectedBallotBox), isolationDays));
@@ -82,8 +84,9 @@ public class ControllerCitizen {
                         alert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
                         alert.show();
 
+                      checkEnableShowAllCitizens.run();
+                      checkEnableAddCandidate.run();
                     }
-
                 } catch(UnderAgeException npe) {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("The minimum age is 18!");
@@ -92,9 +95,13 @@ public class ControllerCitizen {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("1 or more of the fields are empty!");
                     alert.show();
+                } catch (StringValueException sve) {
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("English letters only !");
+                    alert.show();
                 } catch(NumberFormatException nfe) {
                     alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("The ID contains numbers!");
+                    alert.setContentText("The ID and Days in Isolation contains only numbers!");
                     alert.show();
                 } catch(ClassAlreadyExists re) {
                     alert = new Alert(Alert.AlertType.ERROR);
@@ -139,11 +146,7 @@ public class ControllerCitizen {
         ChangeListener<Integer> chl = new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-                try {
-                    changeBallotBoxes();
-                } catch(Exception e) {
-                    // ..
-                }
+                changeBallotBoxes();
             }
         };
         theView.addEventYearComboBox(chl);
@@ -153,12 +156,8 @@ public class ControllerCitizen {
         ChangeListener<Toggle> chl = new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                try {
-                    changeBallotBoxes();
-                    theView.isolationDaysVisible();
-                } catch(Exception e) {
-                    // ..
-                }
+                changeBallotBoxes();
+                theView.isolationDaysVisible();
             }
         };
         theView.addEventIsoRadio(chl);

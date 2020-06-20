@@ -86,6 +86,10 @@ public class MenuButtons {
         return menuButtons.get("Show All Parties");
     }
 
+    public Button getShowAllCitizens() {
+        return menuButtons.get("Show All Citizens");
+    }
+
     public void addEventHandlerToAddBallotBoxButton(EventHandler<ActionEvent> event) {
         menuButtons.get("Add Ballot Box").setOnAction(event);
     }

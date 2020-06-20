@@ -14,7 +14,8 @@ public class AddCitizen extends MainPane {
     private TextField tfName, tfID, tfIsolation, tfBallotBoxNumber;
     private RadioButton inIsolation, notInIsolation;
     private ToggleGroup tg;
-    private ComboBox day, month, year, ballotBox;
+    private ComboBox year, ballotBox;
+//    private ComboBox day, month;
     private int electionYear;
 
     public AddCitizen(int year) {
@@ -54,29 +55,30 @@ public class AddCitizen extends MainPane {
 
     private void setBirthYearField() {
         hbBirthYear = new HBox();
-        Text txtBirthYear = new Text("BirthYear:");
+        Text txtBirthYear = new Text("Birth Year:");
         txtBirthYear.setFont(buttonsFont);
 
-        day = new ComboBox();
-        month = new ComboBox();
+//        day = new ComboBox();
+//        month = new ComboBox();
         year = new ComboBox();
 
         // Day
-        day.setPromptText("Day");
-        for (int i = 1; i <= 31; i++)
-            day.getItems().add(i);
-
+//        day.setPromptText("Day");
+//        for (int i = 1; i <= 31; i++)
+//            day.getItems().add(i);
+//
         // Month
-        month.setPromptText("Month");
-        for (int i = 1; i <= 12; i++)
-            month.getItems().add(i);
+//        month.setPromptText("Month");
+//        for (int i = 1; i <= 12; i++)
+//            month.getItems().add(i);
 
         // Year
         year.setPromptText("Year");
         for (int i = 1900; i <= (electionYear - 18); i++)
             year.getItems().add(i);
 
-        hbBirthYear.getChildren().addAll(txtBirthYear, day, month, year);
+//        hbBirthYear.getChildren().addAll(txtBirthYear, day, month, year);
+        hbBirthYear.getChildren().addAll(txtBirthYear, year);
         hbBirthYear.setSpacing(ViewGUI.SPACING);
     }
 
@@ -126,19 +128,20 @@ public class AddCitizen extends MainPane {
         ballotBox.setPromptText("Choose BallotBox");
         ballotBox.setStyle("-fx-font: 14px \"Tahoma\";");
         ballotBox.getEditor().setFont(buttonsFont);
-        hbBallotBoxNumber.getChildren().addAll(ballotBox);
+        this.ballotBox = ballotBox;
+        hbBallotBoxNumber.getChildren().addAll(this.ballotBox);
     }
 
     public VBox getMainView() {
         return mainView;
     }
 
-    public int getSelectedYear() {
-        return Integer.parseInt(year.getSelectionModel().getSelectedItem().toString());
-    }
-
     public String getName() {
         return tfName.getText();
+    }
+
+    public ComboBox getBallotBox() {
+        return ballotBox;
     }
 
     public int getSelectedBallotBox() {
@@ -149,13 +152,13 @@ public class AddCitizen extends MainPane {
         return tfID.getText();
     }
 
-    public int getDay() {
-        return Integer.parseInt(day.getSelectionModel().getSelectedItem().toString());
-    }
+//    public int getDay() {
+//        return Integer.parseInt(day.getSelectionModel().getSelectedItem().toString());
+//    }
 
-    public int getMonth() {
-        return Integer.parseInt(month.getSelectionModel().getSelectedItem().toString());
-    }
+//    public int getMonth() {
+//        return Integer.parseInt(month.getSelectionModel().getSelectedItem().toString());
+//    }
 
     public int getYear() {
         return Integer.parseInt(year.getSelectionModel().getSelectedItem().toString());
