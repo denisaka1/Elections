@@ -206,19 +206,19 @@ public class Elections {
                 switch (type) {
                     case 1:
                         for (BallotBox<Citizen> c : citizen)
-                            toReturn += c.getId() + ";";
+                            toReturn += c.getId() + " - " + c.getAddress() + ";";
                         return toReturn;
                     case 2:
                         for (BallotBox<Corona> c : corona)
-                            toReturn += c.getId() + ";";
+                            toReturn += c.getId() + " - " + c.getAddress() + ";";
                         return toReturn;
                     case 3:
                         for (BallotBox<Soldier> c : soldier)
-                            toReturn += c.getId() + ";";
+                            toReturn += c.getId() + " - " + c.getAddress() + ";";
                         return toReturn;
                     case 4:
                         for (BallotBox<SoldierCorona> c : soldierCorona)
-                            toReturn += c.getId() + ";";
+                            toReturn += c.getId() + " - " + c.getAddress() + ";";
                         return toReturn;
                 }
             } else {

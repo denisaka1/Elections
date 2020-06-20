@@ -1,7 +1,6 @@
 package view.MainPaneView;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -33,7 +32,7 @@ public class AddCitizen extends MainPane {
         setBallotBoxNumberField();
     }
 
-    private void setNameField() { // FIXME: add Alert if the Name  is not correct
+    private void setNameField() {
         hbName = new HBox();
 //        Text txtID = new Text("Name:");
         tfName = new TextField();
@@ -43,7 +42,7 @@ public class AddCitizen extends MainPane {
         hbName.getChildren().addAll(tfName);
     }
 
-    private void setIDField() { // FIXME: add Alert if the ID is not correct
+    private void setIDField() {
         hbID = new HBox();
 //        Text txtID = new Text("ID:");
         tfID = new TextField();
@@ -74,15 +73,11 @@ public class AddCitizen extends MainPane {
 
         // Year
         year.setPromptText("Year");
-        for (int i = 1900; i <= electionYear; i++) // FIXME: take year from election - 18 DONE
+        for (int i = 1900; i <= (electionYear - 18); i++)
             year.getItems().add(i);
 
         hbBirthYear.getChildren().addAll(txtBirthYear, day, month, year);
         hbBirthYear.setSpacing(ViewGUI.SPACING);
-    }
-
-    public String getYear() {
-        return year.getSelectionModel().getSelectedItem().toString();
     }
 
     private void setIsolationField() {
@@ -112,22 +107,24 @@ public class AddCitizen extends MainPane {
 
         hbIsolation.getChildren().addAll(txtIsolation, toggleIsolation, tfIsolation);
         hbIsolation.setSpacing(15);
-
-
-
-        addChangeListenerToToggleGroup();
     }
 
-    private void setBallotBoxNumberField() { // FIXME: add Alert if the BallotBoxNumber is not correct
+    private void setBallotBoxNumberField() { // FIXME: add Alert if the BallotBoxNumber empty
         hbBallotBoxNumber = new HBox();
 //        Text txtBallotBoxNumber = new Text("BallotBox Number:");
         ballotBox = new ComboBox();
         ballotBox.setMinWidth(ViewGUI.MIN_BUTTON_WIDTH_VALUE);
         ballotBox.setPromptText("Choose BallotBox");
-        ballotBox.getItems().add("Ballot Box 1"); // FIXME: add legal ballot boxes
-        ballotBox.getItems().add("Ballot Box 2");
-        ballotBox.getItems().add("Ballot Box 3");
-//        ballotBox.setStyle("-fx-font: 14px \"Tahoma\";");
+        ballotBox.setStyle("-fx-font: 14px \"Tahoma\";");
+        ballotBox.getEditor().setFont(buttonsFont);
+        hbBallotBoxNumber.getChildren().addAll(ballotBox);
+    }
+
+    public void updateBallotBoxes(ComboBox ballotBox) {
+        hbBallotBoxNumber.getChildren().clear();
+        ballotBox.setMinWidth(ViewGUI.MIN_BUTTON_WIDTH_VALUE);
+        ballotBox.setPromptText("Choose BallotBox");
+        ballotBox.setStyle("-fx-font: 14px \"Tahoma\";");
         ballotBox.getEditor().setFont(buttonsFont);
         hbBallotBoxNumber.getChildren().addAll(ballotBox);
     }
@@ -140,20 +137,54 @@ public class AddCitizen extends MainPane {
         return Integer.parseInt(year.getSelectionModel().getSelectedItem().toString());
     }
 
-    public void addChangeListenerToToggleGroup() {
-        ChangeListener<Toggle> chl = new ChangeListener<Toggle>() {
-            @Override
-            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-                if (inIsolation.isSelected())
-                    tfIsolation.setVisible(true);
-                else
-                    tfIsolation.setVisible(false);
-            }
-        };
+    public String getName() {
+        return tfName.getText();
+    }
 
+    public int getSelectedBallotBox() {
+        return Integer.parseInt(ballotBox.getSelectionModel().getSelectedItem().toString().split(" - ")[0]);
+    }
+
+    public String getID() {
+        return tfID.getText();
+    }
+
+    public int getDay() {
+        return Integer.parseInt(day.getSelectionModel().getSelectedItem().toString());
+    }
+
+    public int getMonth() {
+        return Integer.parseInt(month.getSelectionModel().getSelectedItem().toString());
+    }
+
+    public int getYear() {
+        return Integer.parseInt(year.getSelectionModel().getSelectedItem().toString());
+    }
+
+    public boolean getIsolation() {
+        if (inIsolation.isSelected())
+            return true;
+        return false;
+    }
+
+    public int getIsolationDays() {
+        return Integer.parseInt(tfIsolation.getText());
+    }
+
+    public void isolationDaysVisible() {
+        if (inIsolation.isSelected())
+            tfIsolation.setVisible(true);
+        else
+            tfIsolation.setVisible(false);
+    }
+
+    public void addEventIsoRadio(ChangeListener<Toggle> chl) {
         tg.selectedToggleProperty().addListener(chl);
     }
 
+    public void addEventYearComboBox(ChangeListener<Integer> chl) {
+        year.getSelectionModel().selectedItemProperty().addListener(chl);
+    }
 
     @Override
     public VBox update() {

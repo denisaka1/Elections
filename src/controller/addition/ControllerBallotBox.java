@@ -37,7 +37,7 @@ public class ControllerBallotBox{
 
                     boolean legalAddress = !address.isEmpty();
                     boolean isAdded = theModel.addBallotBox(address, ballotBoxType);
-                    if(legalAddress && isAdded) {
+                    if (legalAddress && isAdded) {
 
                         alert = new Alert(Alert.AlertType.NONE);
                         alert.setContentText("The BallotBox has been added successfully!");

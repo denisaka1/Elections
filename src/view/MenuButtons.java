@@ -38,7 +38,6 @@ public class MenuButtons {
 
         interfaceMenu = new VBox(ViewGUI.SPACING);
 
-        // FIXME: remove fx || remake it
         borderStyle = "-fx-border-color: #808080;\n" +
                     "-fx-border-width: 0 1 0 0;\n" +
                     "-fx-border-style: solid;\n";

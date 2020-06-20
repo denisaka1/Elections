@@ -129,10 +129,6 @@ public class ViewCLI {
         ballotBoxes = controllerCLI.getLegalBallotBoxes(birthYear, isolation, true);
         splitBallotBoxes = ballotBoxes.split(";");
 
-
-
-
-
         while (!legalBallotBoxID) {
             System.out.println("Enter Ballot Box Number : ");
             ballotBoxId = s.nextInt();

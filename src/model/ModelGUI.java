@@ -1,5 +1,7 @@
 package model;
 
+import model.citizens.Citizen;
+
 public class ModelGUI {
 
     private VoterRegister vr;
@@ -45,6 +47,14 @@ public class ModelGUI {
 
     public boolean addParty(String name, String section, int year, int month, int day) {
         return election.addParty(name, section, year, month, day);
+    }
+
+    public boolean addCitizen(Citizen citizen) {
+        if (vr.addCitizen(citizen)) {
+            election.addCitizenToBallotBox(citizen, citizen.getBallotBox());
+            return true;
+        }
+        return false;
     }
 
     //    public Party(String name, String section, int year, int month, int day) {
