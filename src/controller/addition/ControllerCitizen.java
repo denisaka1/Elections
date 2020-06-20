@@ -69,9 +69,9 @@ public class ControllerCitizen {
                         boolean soldierAge = theModel.getElection().getYear() - year <= 21, isAdded;
 
                         if (inIsolation && soldierAge)
-                            theModel.addCitizen(new SoldierCorona(name, ID, year, inIsolation, theModel.getElection().getBallotBoxByNumber(selectedBallotBox), isolationDays));
+                            theModel.addCitizen(new SoldierCorona(name, ID, year, true, theModel.getElection().getBallotBoxByNumber(selectedBallotBox), isolationDays));
                         else if (inIsolation)
-                            theModel.addCitizen(new Corona(name, ID, year, inIsolation, theModel.getElection().getBallotBoxByNumber(selectedBallotBox), isolationDays));
+                            theModel.addCitizen(new Corona(name, ID, year, true, theModel.getElection().getBallotBoxByNumber(selectedBallotBox), isolationDays));
                         else if (soldierAge)
                             theModel.addCitizen(new Soldier(name, ID, year, theModel.getElection().getBallotBoxByNumber(selectedBallotBox)));
                         else
