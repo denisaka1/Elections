@@ -111,7 +111,7 @@ public class AddCitizen extends MainPane {
         hbIsolation.setSpacing(15);
     }
 
-    private void setBallotBoxNumberField() { // FIXME: add Alert if the BallotBoxNumber empty
+    private void setBallotBoxNumberField() {
         hbBallotBoxNumber = new HBox();
 //        Text txtBallotBoxNumber = new Text("BallotBox Number:");
         ballotBox = new ComboBox();

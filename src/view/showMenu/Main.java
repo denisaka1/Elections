@@ -1,6 +1,7 @@
 package view.showMenu;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -12,6 +13,7 @@ public class Main {
     protected Text headline;
     protected VBox mainView;
     protected Font headLineFont = Font.font("Tahoma", FontWeight.BOLD, FontPosture.REGULAR, 16);
+    ScrollPane scrollPane;
 //    protected Insets defaultSpacing = new Insets(10, 0, 0, 20);
 
     public Main() {
@@ -19,6 +21,7 @@ public class Main {
         mainView.setAlignment(Pos.TOP_LEFT);
         headline = new Text();
         headline.setFont(headLineFont);
+        scrollPane = new ScrollPane();
     }
 
     public void setHeadline(String s) {
@@ -28,9 +31,9 @@ public class Main {
 //    @Override
     public VBox update() {
         mainView.getChildren().clear();
-        mainView.getChildren().add(headline);
-        mainView.setMargin(headline, ViewGUI.DEFAULT_INSETS);
-
+        scrollPane.setContent(headline); // FIXME: continue
+        mainView.getChildren().add(scrollPane);
+//        mainView.setMargin(scrollPane, ViewGUI.DEFAULT_INSETS);
 
         return mainView;
     }

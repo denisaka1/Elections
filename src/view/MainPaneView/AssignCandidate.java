@@ -1,8 +1,13 @@
 package view.MainPaneView;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import model.Party;
 import model.VoterRegister;
 import model.citizens.Citizen;
@@ -11,7 +16,8 @@ import view.ViewGUI;
 import java.util.HashMap;
 
 public class AssignCandidate extends MainPane {
-    private HBox hbParty, hbCitizen;
+    private HBox hbParty, hbCitizen, hbPlace;
+    private TextField tfPlace;
     private ComboBox parties, citizens;
     private VoterRegister vr;
     private HashMap<Party, Integer> allParties;
@@ -27,6 +33,19 @@ public class AssignCandidate extends MainPane {
     private void setFields() {
         setCitizenField();
         setPartyField();
+        setPlaceField();
+    }
+
+    private void setPlaceField() {
+        hbPlace = new HBox();
+
+        tfPlace = new TextField();
+        tfPlace.setPromptText("Place");
+        tfPlace.setFont(buttonsFont);
+        tfPlace.setMaxWidth(150);
+
+        hbPlace.getChildren().addAll(tfPlace);
+        hbPlace.setSpacing(15);
     }
 
     private void setCitizenField() {
@@ -35,14 +54,15 @@ public class AssignCandidate extends MainPane {
         citizens = new ComboBox();
         citizens.setMinWidth(ViewGUI.MIN_BUTTON_WIDTH_VALUE);
         citizens.setPromptText("Choose Citizen");
+        citizens.setStyle("-fx-font: 14px \"Tahoma\";");
+        citizens.getEditor().setFont(buttonsFont);
+
         Citizen citizen;
         for(int i = 0; i < vr.getCitizens().size(); i++) {
             citizen = vr.getCitizens().get(i);
-            citizens.getItems().add(citizen.getID() + " - " + citizen.getName());
+            if (citizen.getParty() == null)
+                citizens.getItems().add(citizen.getID() + " - " + citizen.getName());
         }
-/*        citizens.getItems().add("Citizen 1"); // FIXME: add all citizens
-        citizens.getItems().add("Citizen 2");
-        citizens.getItems().add("Citizen 3");*/
 
         citizens.getEditor().setFont(buttonsFont);
         hbCitizen.getChildren().addAll(citizens);
@@ -54,13 +74,12 @@ public class AssignCandidate extends MainPane {
         parties = new ComboBox();
         parties.setMinWidth(ViewGUI.MIN_BUTTON_WIDTH_VALUE);
         parties.setPromptText("Choose Party");
+        parties.setStyle("-fx-font: 14px \"Tahoma\";");
+        parties.getEditor().setFont(buttonsFont);
 
         for(Party party: allParties.keySet()) {
             parties.getItems().add(party.getName() + " - " + party.getSection());
         }
-/*        parties.getItems().add("Party 1"); // FIXME: add all parties
-        parties.getItems().add("Party 2");
-        parties.getItems().add("Party 3");*/
 
         parties.getEditor().setFont(buttonsFont);
         hbParty.getChildren().addAll(parties);
@@ -74,12 +93,17 @@ public class AssignCandidate extends MainPane {
         return parties.getSelectionModel().getSelectedItem().toString();
     }
 
+    public String getPlace() {
+        return tfPlace.getText();
+    }
+
     @Override
     public VBox update() {
         super.update();
-        mainView.getChildren().addAll(hbCitizen, hbParty, hbSubmit);
+        mainView.getChildren().addAll(hbCitizen, hbParty, hbPlace, hbSubmit);
         mainView.setMargin(hbCitizen, ViewGUI.DEFAULT_INSETS);
         mainView.setMargin(hbParty, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbPlace, ViewGUI.DEFAULT_INSETS);
         mainView.setMargin(hbSubmit, ViewGUI.DEFAULT_INSETS);
 
         return mainView;

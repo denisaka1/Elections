@@ -79,7 +79,6 @@ public class ShowBallotBoxes extends Main {
         }
     }
 
-
     @Override
     public VBox update() {
         super.update();

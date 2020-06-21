@@ -83,8 +83,17 @@ public class ModelGUI {
         return election.getParties();
     }
 
-    public boolean assignCandidate(String id, String partyName, int place) {
-        return election.getPartiesByName(partyName).addCandidate(vr.getCitizenById(id), place);
+    public boolean assignCandidate(String citizenID, String partyName, int place) {
+        if (citizenID.length() != 0 && citizenID != null && partyName != null && partyName.length() != 0) {
+            Citizen citizen = vr.getCitizenById(citizenID);
+            Party party = election.getPartiesByName(partyName);
+
+            if (citizen != null && party != null) {
+                party.addCandidate(citizen, place);
+                return true;
+            }
+        }
+        return false;
     }
 
     public void clearVotes() {

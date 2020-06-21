@@ -63,26 +63,28 @@ public class ControllerCitizen {
                         throw new UnderAgeException("The minimum age is 18!");
                     else if (!name.matches("[a-zA-Z ]+"))
                         throw new StringValueException();
-                    else if (false)  // Duplicate
-                        throw new ClassAlreadyExists();
                     else {
-                        boolean soldierAge = theModel.getElection().getYear() - year <= 21;
+                        boolean soldierAge = theModel.getElection().getYear() - year <= 21, added = true;
                         theView.getSelectedBallotBox();
                         selectedBallotBox = theView.getSelectedBallotBox();
 
                         if (inIsolation && soldierAge)
-                            theModel.addCitizen(new SoldierCorona(name, ID, year, true, theModel.getElection().getBallotBoxByNumber(selectedBallotBox), isolationDays));
+                            added = theModel.addCitizen(new SoldierCorona(name, ID, year, true, theModel.getElection().getBallotBoxByNumber(selectedBallotBox), isolationDays));
                         else if (inIsolation)
-                            theModel.addCitizen(new Corona(name, ID, year, true, theModel.getElection().getBallotBoxByNumber(selectedBallotBox), isolationDays));
+                            added = theModel.addCitizen(new Corona(name, ID, year, true, theModel.getElection().getBallotBoxByNumber(selectedBallotBox), isolationDays));
                         else if (soldierAge)
-                            theModel.addCitizen(new Soldier(name, ID, year, theModel.getElection().getBallotBoxByNumber(selectedBallotBox)));
+                            added = theModel.addCitizen(new Soldier(name, ID, year, theModel.getElection().getBallotBoxByNumber(selectedBallotBox)));
                         else
-                            theModel.addCitizen(new Citizen(name, ID, year, theModel.getElection().getBallotBoxByNumber(selectedBallotBox)));
+                            added = theModel.addCitizen(new Citizen(name, ID, year, theModel.getElection().getBallotBoxByNumber(selectedBallotBox)));
 
-                        alert = new Alert(Alert.AlertType.NONE);
-                        alert.setContentText("The Citizen has been added successfully!");
-                        alert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-                        alert.show();
+                        if (!added) // Duplicate
+                            throw new ClassAlreadyExists("Citizen", alert);
+                        else {
+                            alert = new Alert(Alert.AlertType.NONE);
+                            alert.setContentText("The Citizen has been added successfully!");
+                            alert.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
+                            alert.show();
+                        }
 
                       checkEnableShowAllCitizens.run();
                       checkEnableAddCandidate.run();
@@ -103,10 +105,8 @@ public class ControllerCitizen {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("The ID and Days in Isolation contains only numbers!");
                     alert.show();
-                } catch(ClassAlreadyExists re) {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Citizen already exists!");
-                    alert.show();
+                } catch(ClassAlreadyExists cae) {
+                    cae.showErrorMessage();
                 } catch(Exception e) {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Can't add citizen!");

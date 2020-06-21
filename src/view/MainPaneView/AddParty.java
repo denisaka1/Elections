@@ -62,7 +62,7 @@ public class AddParty extends MainPane {
 
         // Year
         year.setPromptText("Year");
-        for (int i = 1900; i <= currentYear; i++) // FIXME: take year from election - 18 DONE
+        for (int i = 1900; i <= currentYear; i++)
             year.getItems().add(i);
 
         hbCreateDate.getChildren().addAll(txtCreateDate, day, month, year);
