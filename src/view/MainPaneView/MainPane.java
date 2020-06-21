@@ -14,7 +14,8 @@ public class MainPane extends Main {
 
     protected Button submit;
     protected HBox hbSubmit;
-    protected Font buttonsFont;
+    protected Font buttonsFont = Font.font("Tahoma", FontWeight.LIGHT, FontPosture.REGULAR, 14);
+//
 
     public MainPane()  {
         super();
@@ -35,7 +36,7 @@ public class MainPane extends Main {
 
     private void createSubmitButton() {
         hbSubmit = new HBox();
-        buttonsFont = Font.font("Tahoma", FontWeight.LIGHT, FontPosture.REGULAR, 14);
+//        buttonsFont = Font.font("Tahoma", FontWeight.LIGHT, FontPosture.REGULAR, 14);
         submit = new Button("Submit");
         submit.setMinWidth(ViewGUI.MIN_BUTTON_WIDTH_VALUE);
         submit.setFont(buttonsFont);

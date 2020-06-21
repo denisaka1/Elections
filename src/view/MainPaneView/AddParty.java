@@ -129,10 +129,10 @@ public class AddParty extends MainPane {
         super.update();
         mainView.getChildren().addAll(hbName, hbCreateDate, hbSection, hbSubmit);
 //        mainView.setMargin(headline, new Insets(10, 0, 0, 20));
-        mainView.setMargin(hbName, new Insets(10, 0, 0, 20));
-        mainView.setMargin(hbCreateDate, new Insets(0, 0, 0, 20));
-        mainView.setMargin(hbSection, new Insets(0, 0, 0, 20));
-        mainView.setMargin(hbSubmit, new Insets(10, 0, 0, 20));
+        mainView.setMargin(hbName, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbCreateDate, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbSection, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbSubmit, ViewGUI.DEFAULT_INSETS);
 
         return mainView;
     }

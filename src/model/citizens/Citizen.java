@@ -177,9 +177,14 @@ public class Citizen {
         return false;
     }
 
+    private void makeStringWithUpperCase() {
+        name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+    }
+
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
+        makeStringWithUpperCase();
         sb.append("----------------\n");
         sb.append("Name : " + name + ", ID : " + id + ", Birth Year :" + birthYear + "\n");
 

@@ -193,12 +193,12 @@ public class AddCitizen extends MainPane {
     public VBox update() {
         super.update();
         mainView.getChildren().addAll(hbName, hbID, hbBirthYear, hbIsolation, hbBallotBoxNumber, hbSubmit);
-        mainView.setMargin(hbName, new Insets(10, 0, 0, 20));
-        mainView.setMargin(hbID, new Insets(0, 0, 0, 20));
-        mainView.setMargin(hbBirthYear, new Insets(0, 0, 0, 20));
-        mainView.setMargin(hbIsolation, new Insets(0, 0, 0, 20));
-        mainView.setMargin(hbBallotBoxNumber, new Insets(0, 0, 0, 20));
-        mainView.setMargin(hbSubmit, new Insets(10, 0, 0, 20));
+        mainView.setMargin(hbName, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbID, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbBirthYear, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbIsolation, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbBallotBoxNumber, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbSubmit, ViewGUI.DEFAULT_INSETS);
 
         return mainView;
     }

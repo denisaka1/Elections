@@ -101,9 +101,9 @@ public class AddBallotBox extends MainPane {
         super.update();
         mainView.getChildren().addAll(hbAddress, vbType, hbSubmit);
 //        mainView.getChildren().addAll(hbAddress, vbType);
-        mainView.setMargin(hbAddress, new Insets(10, 0, 0, 20));
-        mainView.setMargin(vbType, new Insets(10, 0, 0, 20));
-        mainView.setMargin(hbSubmit, new Insets(10, 0, 0, 20));
+        mainView.setMargin(hbAddress, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(vbType, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbSubmit, ViewGUI.DEFAULT_INSETS);
         return mainView;
     }
 }

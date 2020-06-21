@@ -1,6 +1,7 @@
 package controller.addition;
 
 import exceptions.ClassAlreadyExists;
+import exceptions.MissingItemException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -36,7 +37,7 @@ public class ControllerParty{
         EventHandler<ActionEvent> eventForSubmitButton = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Alert alert;
+                Alert alert = null;
                 try {
 
                     String partyName = addParty.getPartyName();
@@ -48,7 +49,7 @@ public class ControllerParty{
                     boolean isEmpty = section == null || partyName.isEmpty() || stringDay.isEmpty() ||
                             stringMonth.isEmpty() || stringYear.isEmpty();
                     if (isEmpty) {
-                        throw new NullPointerException();
+                        throw new MissingItemException(alert);
                     }
 
                     int day = Integer.parseInt(stringDay);
@@ -68,23 +69,21 @@ public class ControllerParty{
 
                             alert.showAndWait();
                         } else {
-                            throw new ClassAlreadyExists();
+                            throw new ClassAlreadyExists("Party", alert);
                         }
                     } else
                         throw new Exception();
 
-                } catch(NullPointerException npe) {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("1 or more of the fields are empty!");
-                    alert.show();
+                } catch(MissingItemException mie) {
+                    // TODO: assign MessingItemException -> do to all
+                    mie.showErrorMessage();
                 } catch(NumberFormatException nfe) {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("The party name contains numbers!");
                     alert.show();
                 } catch(ClassAlreadyExists re) {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Party already exists!");
-                    alert.show();
+                    // TODO: use show -> do to all
+                    re.showErrorMessage();
                 } catch(Exception e) {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("Can't add Future party!");

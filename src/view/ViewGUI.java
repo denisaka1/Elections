@@ -2,8 +2,12 @@ package view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -19,6 +23,7 @@ public class ViewGUI {
     public static final double MIN_BUTTON_HEIGHT_VALUE = 30.d;
     public static final double RADIO_BUTTON_SPACING = 10.d;
     public static final double SPACING = 5.d;
+    public static final Insets DEFAULT_INSETS = new Insets(10, 0, 0, 20);
 //    private TextField tfYear;
     private VBox mainView;
     private MenuButtons menuButtons;
@@ -97,7 +102,7 @@ public class ViewGUI {
     }*/
 
 /*    public void setMainMenu() {
-        // FIXME: should enter year before you can do anything else
+
         // main menu Window
 //        mainView.getChildren().clear();
         MainPane main = new MainPane();

@@ -1,6 +1,12 @@
 package model;
 
 import model.citizens.Citizen;
+import model.citizens.Corona;
+import model.citizens.Soldier;
+import model.citizens.SoldierCorona;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class ModelGUI {
 
@@ -55,6 +61,34 @@ public class ModelGUI {
             return true;
         }
         return false;
+    }
+
+    public List<BallotBox<Citizen>> getRegularBallotBoxList() {
+        return election.getRegular();
+    }
+
+    public List<BallotBox<Soldier>> getSoldierBallotBoxList() {
+        return election.getSoldier();
+    }
+
+    public List<BallotBox<SoldierCorona>> getSoldierCoronaBallotBoxList() {
+        return election.getSoldierCorona();
+    }
+
+    public List<BallotBox<Corona>> getCoronaBallotBoxList() {
+        return election.getCorona();
+    }
+
+    public HashMap<Party, Integer> getParties() {
+        return election.getParties();
+    }
+
+    public boolean assignCandidate(String id, String partyName, int place) {
+        return election.getPartiesByName(partyName).addCandidate(vr.getCitizenById(id), place);
+    }
+
+    public void clearVotes() {
+        election.clearVotes();
     }
 
     //    public Party(String name, String section, int year, int month, int day) {

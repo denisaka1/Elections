@@ -372,8 +372,6 @@ public class Elections {
         return null;
     }
 
-
-
     public boolean addParty(String name, String section, int year, int month, int day) {
         Party temp = new Party(name, section, year, month, day);
         return addParty(temp);
@@ -386,6 +384,14 @@ public class Elections {
             return true;
         }
         return false;
+    }
+
+    public void clearVotes() {
+        // updates the parties to zero
+        for(Party party: parties.keySet()) {
+            parties.put(party, 0);
+        }
+        updateBallotBoxes();
     }
 
     private void updateBallotBoxes() {

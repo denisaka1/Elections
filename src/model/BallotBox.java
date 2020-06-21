@@ -3,7 +3,6 @@ package model;
 import model.citizens.Citizen;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class BallotBox<T extends Citizen> {
     /* Defaults:
@@ -76,6 +75,12 @@ public class BallotBox<T extends Citizen> {
         }
         this.parties = new HashMap<Party, Integer>(0);
         return false;
+    }
+
+    public void clearVotes() {
+        for(Party party: parties.keySet()) {
+            parties.put(party, 0);
+        }
     }
 
     /************ Get Functions ************/
@@ -157,15 +162,9 @@ public class BallotBox<T extends Citizen> {
             this.parties.put(party, 0);
     }
 
-/*    @Override
-    public boolean equals(BallotBox other) {
-//        if (this == other) return true;
-        if (!other.getClass().getSimpleName().equals("BallotBox"))
-            return false;
-
-        BallotBox<T> ballotBox = (BallotBox<T>) other;
-        return id == ballotBox.id && getType().equals(ballotBox.getType()) && address.equals(ballotBox.address);
-    }*/
+    private void makeStringWithUpperCase() {
+        address = address.substring(0, 1).toUpperCase() + address.substring(1).toLowerCase();
+    }
 
     @Override
     public boolean equals(Object other) {
@@ -176,13 +175,9 @@ public class BallotBox<T extends Citizen> {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
+        makeStringWithUpperCase();
         sb.append("----------------\n");
         sb.append("BallotBox #" + id + "\n");
         sb.append("Address : " + address + "\n");
@@ -190,4 +185,5 @@ public class BallotBox<T extends Citizen> {
         sb.append("----------------\n");
         return sb.toString();
     }
+
 }

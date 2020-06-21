@@ -107,18 +107,30 @@ public class Party {
         }
         return false;
     }
-
+/*
+    @Override
     public boolean equals(Party party) {
-        if (this == null && party == null)
-            return true;
-        else if (party == null || this == null)
+        if (party == null || this == null)
             return false;
         return name.toUpperCase().equals(party.name.toUpperCase()); // enough to check only name
+    }*/
+
+    private void makeStringWithUpperCase() {
+        name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+        section = section.substring(0, 1).toUpperCase() + section.substring(1).toLowerCase();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Party)) return false;
+        Party party = (Party) o;
+        return name.equals(party.name);
     }
 
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
+        makeStringWithUpperCase();
         sb.append("----------------\n");
         sb.append("Party name : " + name + "\n");
         sb.append("Section : " + section + "\n");

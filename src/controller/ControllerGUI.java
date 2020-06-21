@@ -1,6 +1,7 @@
 package controller;
 
 import controller.addition.ControllerBallotBox;
+import controller.addition.ControllerCandidate;
 import controller.addition.ControllerCitizen;
 import controller.addition.ControllerParty;
 import javafx.application.Platform;
@@ -15,6 +16,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.ModelGUI;
+import model.Set;
+import model.citizens.Citizen;
 import view.MainPaneView.AddBallotBox;
 import view.MainPaneView.AddCitizen;
 import view.MainPaneView.AddParty;
@@ -52,18 +55,21 @@ public class ControllerGUI {
         checkEnableShowAllBallotBoxes = this::enableShowBallotBoxButton;
         checkEnableShowAllParties = this::enableShowAllPartiesButton;
         checkEnableShowAllCitizens = this::enableShowAllCitizensButton;
+        checkEnableBeginElections = this::enableBeginElections;
         dialog(); // FIXME -> Write everything to user
     }
 
     private void enableShowAllPartiesButton() {
         if (!isShowAllParties) {
             menuButtons.getShowAllParties().setDisable(false);
+            isShowAllParties = true;
         }
     }
 
     private void enableShowAllCitizensButton() {
         if (!isShowAllCitizens) {
             menuButtons.getShowAllCitizens().setDisable(false);
+            isShowAllCitizens = true;
         }
     }
 
@@ -161,9 +167,10 @@ public class ControllerGUI {
     private void eventForAddCandidateButton() {
         EventHandler<ActionEvent> eventForAddCandidateButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                AssignCandidate assignCandidate = new AssignCandidate();
+                AssignCandidate assignCandidate = new AssignCandidate(theModel.getVoterRegister(),
+                                                                    theModel.getParties());
                 theView.update(assignCandidate);
-
+                ControllerCandidate cc = new ControllerCandidate(assignCandidate, theModel, checkEnableBeginElections);
             }
         };
         menuButtons.addEventHandlerToAssignCandidateButton(eventForAddCandidateButton);
@@ -185,7 +192,6 @@ public class ControllerGUI {
         menuButtons.addEventHandlerToAddCitizenButton(eventForAddCitizenButton);
     }
 
-
     private void eventForAddPartyButton() {
         EventHandler<ActionEvent> eventForAddPartyButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
@@ -193,25 +199,38 @@ public class ControllerGUI {
                 theView.update(addParty);
                 ControllerParty cp = new ControllerParty(theModel, addParty, menuButtons.getShowAllParties(),
                                                         checkEnableShowAllParties, checkEnableAddCandidate);
-                showAssignCandidate();
             }
         };
         menuButtons.addEventHandlerToAddPartyButton(eventForAddPartyButton);
     }
 
     private void eventForBeginElectionButton() {
+        //  TODO: create popup
+        //  TODO: yes -> which party -> +1 vote
+        Set<Citizen> citizenSet = theModel.getVoterRegister().getCitizens();
         EventHandler<ActionEvent> eventForBeginElectionButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                theView.update(new BeginElections());
+                theModel.clearVotes();
+                for(int i = 0; i < citizenSet.size(); i++) {
+
+                }
+
+
+//                theView.update(new BeginElections()); // maybe not needed?
+
             }
         };
         menuButtons.addEventHandlerToBeginElectionsButton(eventForBeginElectionButton);
     }
 
     private void eventForShowBallotBoxesButton() {
+        // FIXME: finish
         EventHandler<ActionEvent> eventForShowBallotBoxesButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                theView.update(new ShowBallotBoxes());
+                ShowBallotBoxes showBallotBoxes = new ShowBallotBoxes(theModel.getRegularBallotBoxList(), theModel.getSoldierBallotBoxList(),
+                                                                    theModel.getSoldierCoronaBallotBoxList(),
+                                                                    theModel.getCoronaBallotBoxList());
+                theView.update(showBallotBoxes);
             }
         };
         menuButtons.addEventHandlerToShowAllBallotBoxesButton(eventForShowBallotBoxesButton);
@@ -220,7 +239,8 @@ public class ControllerGUI {
     private void eventForShowCitizensButton() {
         EventHandler<ActionEvent> eventForShowCitizensButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                theView.update(new ShowCitizens());
+                ShowCitizens showCitizens = new ShowCitizens(theModel.getVoterRegister());
+                theView.update(showCitizens);
             }
         };
         menuButtons.addEventHandlerToShowAllCitizensButton(eventForShowCitizensButton);
@@ -229,16 +249,17 @@ public class ControllerGUI {
     private void eventForShowResultsButton() {
         EventHandler<ActionEvent> eventForShowResultsButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                theView.update(new ShowResults());
+                theView.update(new ShowResults(theModel.getElection().getParties()));
             }
         };
         menuButtons.addEventHandlerToShowResultsButton(eventForShowResultsButton);
     }
 
     private void eventForShowPartiesButton() {
+        // TODO: finish
         EventHandler<ActionEvent> eventForShowPartiesButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                theView.update(new ShowParties());
+                theView.update(new ShowParties(theModel.getElection().getParties()));
             }
         };
         menuButtons.addEventHandlerToShowAllPartiesButton(eventForShowPartiesButton);
@@ -255,7 +276,7 @@ public class ControllerGUI {
         theView.addEventCloseButton(eventCloseButton);
     }
 
-/*    private void eventMainButton() { //TODO: delete
+/*    private void eventMainButton() { //TODO: make the menu button to start a new Election Program
 
         EventHandler<ActionEvent> eventMainButton = new EventHandler<ActionEvent>() {
             @Override
@@ -284,6 +305,14 @@ public class ControllerGUI {
             }
         };
         theView.addEventAboutButton(eventAboutButton);
+    }
+
+    private void vote() {
+        Stage voteWindow = new Stage();
+        voteWindow.initModality(Modality.APPLICATION_MODAL);
+        VBox dialogVBox = new VBox();
+        Scene dialogScene = new Scene(dialogVBox, 300, 200);
+        // add question for each citizen in vote
     }
 
     private void dialog() {
@@ -332,12 +361,14 @@ public class ControllerGUI {
     private void enableShowBallotBoxButton() {
         if (!isShowAllBallotBox) {
             menuButtons.getShowAllBallotBoxButton().setDisable(false);
+            isShowAllBallotBox = true;
         }
     }
 
     private void enableBeginElections() {
         if (!isBeginElections) {
-            // TODO: finish
+            menuButtons.getBeginElectionButton().setDisable(false);
+            isBeginElections = true;
         }
     }
 

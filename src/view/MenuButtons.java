@@ -90,6 +90,10 @@ public class MenuButtons {
         return menuButtons.get("Show All Citizens");
     }
 
+    public Button getBeginElectionButton() {
+        return menuButtons.get("Begin Elections");
+    }
+
     public void addEventHandlerToAddBallotBoxButton(EventHandler<ActionEvent> event) {
         menuButtons.get("Add Ballot Box").setOnAction(event);
     }
@@ -124,4 +128,6 @@ public class MenuButtons {
     public void addEventHandlerToShowResultsButton(EventHandler<ActionEvent> event) {
         menuButtons.get("Show Results").setOnAction(event);
     }
+
+
 }

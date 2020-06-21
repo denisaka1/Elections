@@ -2,7 +2,6 @@ package view.MainPaneView;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -65,9 +64,9 @@ public class WelcomeMenu extends MainPane {
     public VBox update() {
         super.update();
         mainView.getChildren().addAll(hbMonth, hbYear, hbSubmit);
-        mainView.setMargin(hbMonth, new Insets(10, 0, 0, 20));
-        mainView.setMargin(hbYear, new Insets(10, 0, 0, 20));
-        mainView.setMargin(hbSubmit, new Insets(10, 0, 0, 20));
+        mainView.setMargin(hbMonth, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbYear, ViewGUI.DEFAULT_INSETS);
+        mainView.setMargin(hbSubmit, ViewGUI.DEFAULT_INSETS);
 
         return mainView;
     }
