@@ -32,8 +32,8 @@ public class ShowBallotBoxes extends Main {
     private void setSubHeadLine(String s) {
         Text text = new Text(s);
         text.setFont(headLineFont);
-        mainView.getChildren().add(text);
-        mainView.setMargin(text, ViewGUI.DEFAULT_INSETS);
+        scrollPaneVB.getChildren().add(text);
+        scrollPaneVB.setMargin(text, ViewGUI.DEFAULT_INSETS);
     }
 
     private void assignBallotBoxes() {
@@ -48,7 +48,8 @@ public class ShowBallotBoxes extends Main {
         Text text;
         for(BallotBox<Citizen> ballotBox: regular){
             text = new Text(ballotBox.toString());
-            mainView.getChildren().add(text);
+            scrollPaneVB.getChildren().add(text);
+//            scrollPane.setContent(text);
         }
     }
 
@@ -57,7 +58,8 @@ public class ShowBallotBoxes extends Main {
         Text text;
         for(BallotBox<Soldier> ballotBox: soldier){
             text = new Text(ballotBox.toString());
-            mainView.getChildren().add(text);
+            scrollPaneVB.getChildren().add(text);
+//            scrollPane.setContent(text);
         }
     }
 
@@ -66,7 +68,8 @@ public class ShowBallotBoxes extends Main {
         Text text;
         for(BallotBox<SoldierCorona> ballotBox: soldierCorona){
             text = new Text(ballotBox.toString());
-            mainView.getChildren().add(text);
+            scrollPaneVB.getChildren().add(text);
+//            scrollPane.setContent(text);
         }
     }
 
@@ -75,7 +78,8 @@ public class ShowBallotBoxes extends Main {
         Text text;
         for(BallotBox<Corona> ballotBox: corona){
             text = new Text(ballotBox.toString());
-            mainView.getChildren().add(text);
+            scrollPaneVB.getChildren().add(text);
+//            scrollPane.setContent(text);
         }
     }
 
@@ -83,6 +87,7 @@ public class ShowBallotBoxes extends Main {
     public VBox update() {
         super.update();
         assignBallotBoxes();
+        assignScrollPane();
 //        mainView.getChildren().add(content);
 //        mainView.setMargin(content, new Insets(10, 0, 0, 20));
 

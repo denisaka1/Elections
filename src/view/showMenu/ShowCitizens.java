@@ -23,8 +23,8 @@ public class ShowCitizens extends Main {
         for(int i = 0; i < vr.getCitizens().size(); i++) {
             citizen = vr.getCitizens().get(i);
             text = new Text(citizen.toString());
-            mainView.getChildren().add(text);
-            mainView.setMargin(text, new Insets(10, 0, 0, 20));
+            scrollPaneVB.getChildren().add(text);
+            scrollPaneVB.setMargin(text, new Insets(10, 0, 0, 20));
         }
     }
 
@@ -32,7 +32,7 @@ public class ShowCitizens extends Main {
     public VBox update() {
         super.update();
         assignCitizens();
-
+        assignScrollPane();
         return mainView;
     }
 }

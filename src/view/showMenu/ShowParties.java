@@ -21,7 +21,7 @@ public class ShowParties extends Main {
         Text text;
         for(Party party: allParties.keySet()) {
             text = new Text(party.toString());
-            mainView.getChildren().add(text);
+            scrollPaneVB.getChildren().add(text);
         }
     }
 
@@ -29,6 +29,7 @@ public class ShowParties extends Main {
     public VBox update() {
         super.update();
         assignParties();
+        assignScrollPane();
 
         return mainView;
     }
