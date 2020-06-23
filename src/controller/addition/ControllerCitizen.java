@@ -25,7 +25,7 @@ public class ControllerCitizen {
     private ModelGUI theModel;
     private AddCitizen theView;
     private Runnable checkEnableAddCandidate, checkEnableShowAllCitizens;
-    private int day, month, year, isolationDays, selectedBallotBox;
+    private int year, isolationDays, selectedBallotBox;
     private String name, ID;
     private boolean inIsolation = false;
 

@@ -94,6 +94,10 @@ public class MenuButtons {
         return menuButtons.get("Begin Elections");
     }
 
+    public Button getShowResults() {
+        return menuButtons.get("Show Results");
+    }
+
     public void addEventHandlerToAddBallotBoxButton(EventHandler<ActionEvent> event) {
         menuButtons.get("Add Ballot Box").setOnAction(event);
     }

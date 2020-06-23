@@ -8,9 +8,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import view.ViewGUI;
-import view.showMenu.Main;
+import view.showMenu.Show;
 
-public class MainPane extends Main {
+public class MainPane extends Show {
 
     protected Button submit;
     protected HBox hbSubmit;

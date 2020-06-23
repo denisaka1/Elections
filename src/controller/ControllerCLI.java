@@ -14,6 +14,11 @@ public class ControllerCLI {
         vr = new VoterRegister();
     }
 
+    public ControllerCLI(Elections election, VoterRegister voterRegister) {
+        this.election = election;
+        this.vr = voterRegister;
+    }
+
     public Elections getElection() {
         return election;
     }

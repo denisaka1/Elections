@@ -15,8 +15,7 @@ public class VoterRegister {
     public VoterRegister() {
         this((Set<Citizen>) null);
     }
-
-
+    
     public VoterRegister(VoterRegister voterRegister) {
         this(voterRegister.getCitizens());
     }

@@ -158,6 +158,14 @@ public class Elections {
         return sb.toString();
     }
 
+    public List<String> getPartiesList() {
+        List<String> parites = new ArrayList<String>();
+        for (Map.Entry<Party, Integer> party: parties.entrySet()) {
+            parites.add(party.getKey().getName());
+        }
+        return parites;
+    }
+
     public List<? extends BallotBox<? extends Citizen>> getBallotBoxes(int type) {
         /** 1 - Citizen / Regular
          ** 2 - Corona
@@ -365,9 +373,13 @@ public class Elections {
     }
 
     public Party getPartiesByName(String partyName) {
-        for (Party party: parties.keySet()) {
-            if (party.getName().toUpperCase().equals(partyName.toUpperCase()))
-                return party;
+        try {
+            for (Party party : parties.keySet()) {
+                if (party.getName().toUpperCase().equals(partyName.toUpperCase()))
+                    return party;
+            }
+        } catch (NullPointerException npe) {
+            return null;
         }
         return null;
     }

@@ -1,7 +1,11 @@
 package view.showMenu;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -9,7 +13,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import view.ViewGUI;
 
-public class Main {
+public class Show {
     protected Text headline;
     protected VBox mainView;
     protected Font headLineFont = Font.font("Tahoma", FontWeight.BOLD, FontPosture.REGULAR, 16);
@@ -17,7 +21,7 @@ public class Main {
     protected VBox scrollPaneVB;
 //    protected Insets defaultSpacing = new Insets(10, 0, 0, 20);
 
-    public Main() {
+    public Show() {
         mainView = new VBox(ViewGUI.SPACING);
         mainView.setAlignment(Pos.TOP_LEFT);
         headline = new Text();
@@ -34,16 +38,16 @@ public class Main {
 
     protected void assignScrollPane() {
         scrollPane.setContent(scrollPaneVB);
+        scrollPane.setStyle("-fx-background-color:transparent; -fx-min-height: 470px;");
         mainView.getChildren().add(scrollPane);
     }
 
 //    @Override
     public VBox update() {
         mainView.getChildren().clear();
-//        scrollPane.setContent(headline); // FIXME: continue
         mainView.getChildren().add(headline);
+        mainView.setMargin(headline, ViewGUI.DEFAULT_INSETS);
 //        mainView.getChildren().add(scrollPane);
-//        mainView.setMargin(scrollPane, ViewGUI.DEFAULT_INSETS);
 
         return mainView;
     }

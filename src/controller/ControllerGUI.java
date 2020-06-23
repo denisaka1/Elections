@@ -8,16 +8,13 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import main.TestUtils;
 import model.ModelGUI;
-import model.Set;
-import model.citizens.Citizen;
 import view.MainPaneView.AddBallotBox;
 import view.MainPaneView.AddCitizen;
 import view.MainPaneView.AddParty;
@@ -26,7 +23,7 @@ import view.MenuButtons;
 import view.ViewGUI;
 import view.showMenu.*;
 
-import java.util.LinkedHashMap;
+import java.util.*;
 
 public class ControllerGUI {
     private ModelGUI theModel;
@@ -35,7 +32,7 @@ public class ControllerGUI {
     private VBox dialogVBox;
     private int currentYear;
     private Runnable checkEnableAddCandidate, checkEnableShowAllBallotBoxes, checkEnableShowAllParties,
-                    checkEnableShowAllCitizens, checkEnableBeginElections;
+                    checkEnableShowAllCitizens, checkEnableBeginElections, checkEnableShowResults;
     // enable buttons for user
     private boolean isAddButtonsAdded, isShowAssignCandidatesButton, isShowAllBallotBox,
                     isShowAllParties, isShowAllCitizens,
@@ -56,6 +53,7 @@ public class ControllerGUI {
         checkEnableShowAllParties = this::enableShowAllPartiesButton;
         checkEnableShowAllCitizens = this::enableShowAllCitizensButton;
         checkEnableBeginElections = this::enableBeginElections;
+        checkEnableShowResults = this::enableShowResults;
         dialog(); // FIXME -> Write everything to user
     }
 
@@ -118,7 +116,6 @@ public class ControllerGUI {
                     alert.setContentText("1 or more of fields are not a number!");
                     alert.showAndWait();
                 } catch (NullPointerException npe) {
-//                    System.out.println("AAAAAAAAAAAAAAAAAAAA");
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("1 or more of fields are empty!");
                     alert.showAndWait();
@@ -147,7 +144,7 @@ public class ControllerGUI {
         eventForShowResultsButton();
         eventCloseButton();
         eventHelpButton();
-//        eventMainButton();
+        eventImportButton();
         eventAboutButton();
     }
 
@@ -205,26 +202,26 @@ public class ControllerGUI {
     }
 
     private void eventForBeginElectionButton() {
-        //  TODO: create popup
-        //  TODO: yes -> which party -> +1 vote
-        Set<Citizen> citizenSet = theModel.getVoterRegister().getCitizens();
         EventHandler<ActionEvent> eventForBeginElectionButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                theModel.clearVotes();
-                for(int i = 0; i < citizenSet.size(); i++) {
-
-                }
-
-
-//                theView.update(new BeginElections()); // maybe not needed?
-
+                theView.beginElectionButton(theModel);
+                checkEnableShowResults.run();
+                theView.update(new ShowResults(theModel.getElection().getParties())); // Show Results
             }
         };
         menuButtons.addEventHandlerToBeginElectionsButton(eventForBeginElectionButton);
     }
 
+    private void eventForShowResultsButton() {
+        EventHandler<ActionEvent> eventForShowResultsButton = new EventHandler<ActionEvent>(){
+            public void handle(ActionEvent arg0) {
+                theView.update(new ShowResults(theModel.getElection().getParties()));
+            }
+        };
+        menuButtons.addEventHandlerToShowResultsButton(eventForShowResultsButton);
+    }
+
     private void eventForShowBallotBoxesButton() {
-        // FIXME: finish
         EventHandler<ActionEvent> eventForShowBallotBoxesButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
                 ShowBallotBoxes showBallotBoxes = new ShowBallotBoxes(theModel.getRegularBallotBoxList(), theModel.getSoldierBallotBoxList(),
@@ -244,15 +241,6 @@ public class ControllerGUI {
             }
         };
         menuButtons.addEventHandlerToShowAllCitizensButton(eventForShowCitizensButton);
-    }
-
-    private void eventForShowResultsButton() {
-        EventHandler<ActionEvent> eventForShowResultsButton = new EventHandler<ActionEvent>(){
-            public void handle(ActionEvent arg0) {
-                theView.update(new ShowResults(theModel.getElection().getParties()));
-            }
-        };
-        menuButtons.addEventHandlerToShowResultsButton(eventForShowResultsButton);
     }
 
     private void eventForShowPartiesButton() {
@@ -276,16 +264,23 @@ public class ControllerGUI {
         theView.addEventCloseButton(eventCloseButton);
     }
 
-/*    private void eventMainButton() { //TODO: make the menu button to start a new Election Program
-
-        EventHandler<ActionEvent> eventMainButton = new EventHandler<ActionEvent>() {
+    private void eventImportButton() {
+        EventHandler<ActionEvent> eventCloseButton = new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent arg0) {
-                theView.setMainMenu();
+            public void handle(ActionEvent event) {
+                // Hard Code
+                ControllerCLI c = new ControllerCLI(theModel.getElection(), theModel.getVoterRegister());
+                TestUtils.hardCodeToTest(c);
+
+                checkEnableAddCandidate.run();
+                checkEnableShowAllBallotBoxes.run();
+                checkEnableShowAllCitizens.run();
+                checkEnableBeginElections.run();
+                checkEnableShowAllParties.run();
             }
         };
-        theView.addEventMainButton(eventMainButton);
-    }*/
+        theView.addEventImportButton(eventCloseButton);
+    }
 
     private void eventHelpButton() {
         EventHandler<ActionEvent> eventHelpButton = new EventHandler<ActionEvent>() {
@@ -305,14 +300,6 @@ public class ControllerGUI {
             }
         };
         theView.addEventAboutButton(eventAboutButton);
-    }
-
-    private void vote() {
-        Stage voteWindow = new Stage();
-        voteWindow.initModality(Modality.APPLICATION_MODAL);
-        VBox dialogVBox = new VBox();
-        Scene dialogScene = new Scene(dialogVBox, 300, 200);
-        // add question for each citizen in vote
     }
 
     private void dialog() {
@@ -372,5 +359,10 @@ public class ControllerGUI {
         }
     }
 
-//    private void enable
+    private void enableShowResults() {
+        if (!isShowResults) {
+            menuButtons.getShowResults().setDisable(false);
+            isShowResults = true;
+        }
+    }
 }

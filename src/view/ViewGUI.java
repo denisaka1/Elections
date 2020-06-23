@@ -4,16 +4,21 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.ModelGUI;
+import model.Party;
+import model.Set;
+import model.citizens.Citizen;
 import view.MainPaneView.MainPane;
 import view.MainPaneView.WelcomeMenu;
-import view.showMenu.Main;
+import view.showMenu.Show;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class ViewGUI {
     public static final int WIDTH = 800;
@@ -30,7 +35,7 @@ public class ViewGUI {
     private BorderPane borderPane;
     private MenuBar menuBar;
     private Menu helpMenu, fileMenu;
-    private MenuItem help, about, exit, main;
+    private MenuItem help, about, exit, importD;
     private WelcomeMenu welcomeMenu;
 
     public ViewGUI(Stage stage) {
@@ -43,12 +48,12 @@ public class ViewGUI {
         helpMenu = new Menu("Help");
         help = new MenuItem("View Help");
         about = new MenuItem("About");
-        helpMenu.getItems().addAll(help, about);
-        // File
-        fileMenu = new Menu("View");
-        main = new MenuItem("Main");
         exit = new MenuItem("Exit");
-        fileMenu.getItems().addAll(main, new SeparatorMenuItem(), exit);
+        helpMenu.getItems().addAll(help, about, new SeparatorMenuItem(), exit);
+        // File
+        fileMenu = new Menu("File");
+        importD = new MenuItem("Import Hard Data");
+        fileMenu.getItems().addAll(importD);
         menuBar.getMenus().addAll(fileMenu, helpMenu);
 
         borderPane.setTop(menuBar);
@@ -81,7 +86,7 @@ public class ViewGUI {
         mainView.getChildren().add(newMainView.update());
     }
 
-    public void update(Main newMainView) {
+    public void update(Show newMainView) {
         mainView.getChildren().clear();
         mainView.getChildren().add(newMainView.update());
     }
@@ -121,6 +126,78 @@ public class ViewGUI {
 //        return main;
     }*/
 
+    private String takeVote(String citizenName, List<String> partiesList) {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(partiesList.get(0), partiesList);
+        dialog.setTitle("Choose Party");
+        dialog.setHeaderText("Hey " + citizenName + "!");
+        dialog.setContentText("Please Choose your party:");
+        Optional<String> result = dialog.showAndWait();
+        try {
+            if (result.isPresent())
+                return result.get();
+        } catch (NoSuchElementException e) {
+            return null;
+        }
+
+        return null;
+    }
+
+    private boolean askToVote(String citizenName) {
+        Alert alert = new Alert(Alert.AlertType.NONE, citizenName + ", You want to vote ?", ButtonType.YES, ButtonType.NO);
+        alert.setTitle("Voting");
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES)
+            return true;
+        return false;
+    }
+
+    private boolean CoronaQuiz() {
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Are you wearing a protective suit ?", ButtonType.YES, ButtonType.NO);
+        alert.setTitle("Voting");
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES)
+            return true;
+        return false;
+    }
+
+    public void beginElectionButton(ModelGUI theModel) {
+//        theModel.clearVotes();
+        Set<Citizen> citizens = theModel.getVoterRegister().getCitizens();
+        Party partyVote;
+        Alert alert;
+
+        for (Citizen c : citizens.getSet()) {
+            if (c != null) {
+                if (!c.getVoted()) {
+                    if (!askToVote(c.getName())) {
+                        alert = new Alert(Alert.AlertType.NONE, "Don't worry, See you in three months", ButtonType.OK);
+                        alert.showAndWait();
+                    } else {
+                        partyVote = theModel.getElection().getPartiesByName(takeVote(c.getName(),
+                                theModel.getElection().getPartiesList()));
+                        if (partyVote != null) {
+                            if (c.getBallotBox().getType().equals("Corona")
+                                    || c.getBallotBox().getType().equals("SoldierCorona")) {
+                                if (CoronaQuiz())
+                                    c.getBallotBox().vote(c, partyVote);
+                                else {
+                                    alert = new Alert(Alert.AlertType.WARNING, "You have been violated Ministers of health rules against Corona pandemic !!! You have to pay a 15,000 Shekels fee !!!", ButtonType.OK);
+                                    alert.showAndWait();
+                                }
+                            } else
+                                c.getBallotBox().vote(c, partyVote);
+                            alert = new Alert(Alert.AlertType.NONE, "Thanks for voting!", ButtonType.OK);
+                            alert.showAndWait();
+                        } else {
+                            alert = new Alert(Alert.AlertType.ERROR, "Ooops... Something went wrong with your vote...", ButtonType.OK);
+                            alert.showAndWait();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public MenuButtons getMenuButtons() {
         return menuButtons;
     }
@@ -133,8 +210,8 @@ public class ViewGUI {
         exit.setOnAction(event);
     }
 
-    public void addEventMainButton(EventHandler<ActionEvent> event) {
-        main.setOnAction(event);
+    public void addEventImportButton(EventHandler<ActionEvent> event) {
+        importD.setOnAction(event);
     }
 
     public void addEventHelpButton(EventHandler<ActionEvent> event) {
@@ -145,7 +222,7 @@ public class ViewGUI {
         about.setOnAction(event);
     }
 
-    public void addEventSubmitButton(EventHandler<ActionEvent> event) {
-        welcomeMenu.getSubmitButton().setOnAction(event);
-    }
+//    public void addEventSubmitButton(EventHandler<ActionEvent> event) {
+//        welcomeMenu.getSubmitButton().setOnAction(event);
+//    }
 }

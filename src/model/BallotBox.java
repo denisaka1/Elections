@@ -61,7 +61,6 @@ public class BallotBox<T extends Citizen> {
     private boolean setCitizens(Set<T> citizens){
         if (citizens != null && !citizens.isEmpty()){
             this.citizens = citizens;
-
             return true;
         }
         this.citizens = new Set<T>();
@@ -174,16 +173,18 @@ public class BallotBox<T extends Citizen> {
         return id == ballotBox.id;
     }
 
-    @Override
+/*    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         makeStringWithUpperCase();
-        sb.append("----------------\n");
         sb.append("BallotBox #" + id + "\n");
         sb.append("Address : " + address + "\n");
         sb.append("Type : " + getType() + "\n");
-        sb.append("----------------\n");
         return sb.toString();
-    }
+    }*/
 
+    @Override
+    public String toString() {
+        return address;
+    }
 }

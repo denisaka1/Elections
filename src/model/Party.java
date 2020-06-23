@@ -48,6 +48,18 @@ public class Party {
         return section;
     }
 
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
     /************ Set Functions ************/
     private boolean setCandidates(Hashtable<Citizen, Integer> candidates) {
         if (candidates != null && !candidates.isEmpty()){
@@ -127,16 +139,19 @@ public class Party {
         return name.equals(party.name);
     }
 
-    @Override
+/*    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         makeStringWithUpperCase();
-        sb.append("----------------\n");
         sb.append("Party name : " + name + "\n");
         sb.append("Section : " + section + "\n");
         sb.append("Creation Date : " + day + "/" + month + "/" + year + "\n");
         sb.append("Candidates : " + candidates.size() + "\n");
-        sb.append("----------------\n");
         return sb.toString();
+    }*/
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

@@ -99,6 +99,4 @@ public class ModelGUI {
     public void clearVotes() {
         election.clearVotes();
     }
-
-    //    public Party(String name, String section, int year, int month, int day) {
 }
