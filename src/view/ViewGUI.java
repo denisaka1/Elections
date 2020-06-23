@@ -52,7 +52,7 @@ public class ViewGUI {
         helpMenu.getItems().addAll(help, about, new SeparatorMenuItem(), exit);
         // File
         fileMenu = new Menu("File");
-        importD = new MenuItem("Import Hard Data");
+        importD = new MenuItem("Import Fixed Data");
         fileMenu.getItems().addAll(importD);
         menuBar.getMenus().addAll(fileMenu, helpMenu);
 
@@ -64,9 +64,6 @@ public class ViewGUI {
         // Main View
         welcomeMenu = new WelcomeMenu();
         mainView = welcomeMenu.update();
-
-/*        Main main = new Main();
-        main.setHeadline("Welcome to the MAIN MENU!");*/
 
         borderPane.setCenter(mainView);
 
@@ -98,33 +95,6 @@ public class ViewGUI {
     public String getYearText() {
         return welcomeMenu.getYearText();
     }
-/*    public TextField getMonthTextField() {
-        return welcomeMenu.getMonthTextField();
-    }
-
-    public TextField getYearTextField() {
-        return welcomeMenu.getYearTextField();
-    }*/
-
-/*    public void setMainMenu() {
-
-        // main menu Window
-//        mainView.getChildren().clear();
-        MainPane main = new MainPane();
-        main.setHeadline("Welcome to Election App");
-
-        tfYear = new TextField();
-        tfYear.setPromptText("Enter Current Year");
-        tfYear.setFont(main.buttonsFont);
-        tfYear.setMinWidth(ViewGUI.TEXT_INPUT_WIDTH_VALUE);
-        tfYear.setFocusTraversable(false);
-
-
-        mainView = main.update();
-        mainView.getChildren().add(tfYear);
-        mainView.setMargin(tfYear, new Insets(10, 0, 0, 20));
-//        return main;
-    }*/
 
     private String takeVote(String citizenName, List<String> partiesList) {
         ChoiceDialog<String> dialog = new ChoiceDialog<>(partiesList.get(0), partiesList);
@@ -221,8 +191,4 @@ public class ViewGUI {
     public void addEventAboutButton(EventHandler<ActionEvent> event) {
         about.setOnAction(event);
     }
-
-//    public void addEventSubmitButton(EventHandler<ActionEvent> event) {
-//        welcomeMenu.getSubmitButton().setOnAction(event);
-//    }
 }
