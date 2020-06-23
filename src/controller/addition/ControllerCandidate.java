@@ -70,7 +70,9 @@ public class ControllerCandidate {
                 } catch(MissingItemException mie) {
                     mie.showErrorMessage();
                 } catch(Exception e) {
-                    System.out.println("Something went wrong");
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Something went wrong");
+                    alert.showAndWait();
                 }
             }
         };

@@ -84,7 +84,6 @@ public class AddBallotBox extends MainPane {
     public VBox update() {
         super.update();
         mainView.getChildren().addAll(hbAddress, vbType, hbSubmit);
-//        mainView.getChildren().addAll(hbAddress, vbType);
         mainView.setMargin(hbAddress, ViewGUI.DEFAULT_INSETS);
         mainView.setMargin(vbType, ViewGUI.DEFAULT_INSETS);
         mainView.setMargin(hbSubmit, ViewGUI.DEFAULT_INSETS);

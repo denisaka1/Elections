@@ -54,7 +54,6 @@ public class ControllerCitizen {
                     if (inIsolation)
                         isolationDays = theView.getIsolationDays();
 
-//                    alert = new Alert(Alert.AlertType.NONE);
                     if (!ID.matches("[0-9]+") || ID.length() != 9)
                         throw new NumberFormatException();
                     else if (theModel.getElectionYear() - year < 18)

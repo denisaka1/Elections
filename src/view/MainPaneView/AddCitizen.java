@@ -99,7 +99,6 @@ public class AddCitizen extends MainPane {
 
     private void setBallotBoxNumberField() {
         hbBallotBoxNumber = new HBox();
-//        Text txtBallotBoxNumber = new Text("BallotBox Number:");
         ballotBox = new ComboBox();
         ballotBox.setMinWidth(ViewGUI.MIN_BUTTON_WIDTH_VALUE);
         ballotBox.setPromptText("Choose BallotBox");

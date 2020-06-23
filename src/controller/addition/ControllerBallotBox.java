@@ -50,7 +50,9 @@ public class ControllerBallotBox{
                     alert.setContentText("1 or more of fields are not selected");
                     alert.showAndWait();
                 } catch(Exception e) {
-                    System.out.println("Something went wrong");
+                    alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("Something went wrong");
+                    alert.showAndWait();
                 }
             }
         };
