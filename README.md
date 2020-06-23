@@ -1,4 +1,4 @@
-Election - Exercise (Part II)
+Election - Exercise (Part III)
 -
 Good Luck, And may the odds be ever in your favor
 
@@ -13,6 +13,11 @@ Interface
 7. Show All Parties 
 8. Begin Elections 
 9. Show Results 
+10. File -> Add Fixed Data
+10. Help -> View Help
+10. Help -> About
+10. Help -> Exit
+
 
 Authors
 -
