@@ -6,17 +6,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import model.Party;
-import model.citizens.Citizen;
 import view.ViewGUI;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ShowParties extends Show {
-    // FIXME: add scrollPane
-
     private HashMap<Party, Integer> allParties;
 
     public ShowParties(HashMap<Party, Integer> parties) {

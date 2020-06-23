@@ -75,14 +75,12 @@ public class ControllerParty{
                         throw new Exception();
 
                 } catch(MissingItemException mie) {
-                    // TODO: assign MessingItemException -> do to all
                     mie.showErrorMessage();
                 } catch(NumberFormatException nfe) {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("The party name contains numbers!");
                     alert.show();
                 } catch(ClassAlreadyExists re) {
-                    // TODO: use show -> do to all
                     re.showErrorMessage();
                 } catch(Exception e) {
                     alert = new Alert(Alert.AlertType.ERROR);

@@ -42,7 +42,7 @@ public class ControllerCandidate {
                     boolean isEmpty = citizenID == null || partyName == null || strPlace == null;
 
                     if (isEmpty)
-                        throw new NullPointerException();
+                        throw new MissingItemException(alert);
 
                     if (!strPlace.matches("[0-9]+"))
                         throw new NumberFormatException();
@@ -67,10 +67,8 @@ public class ControllerCandidate {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("The Place contains only numbers!");
                     alert.show();
-                } catch(NullPointerException npe) {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("1 or more of the fields are empty!");
-                    alert.show();
+                } catch(MissingItemException mie) {
+                    mie.showErrorMessage();
                 } catch(Exception e) {
                     System.out.println("Something went wrong");
                 }

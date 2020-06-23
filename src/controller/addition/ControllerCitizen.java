@@ -18,8 +18,6 @@ import model.citizens.Soldier;
 import model.citizens.SoldierCorona;
 import view.MainPaneView.AddCitizen;
 
-import javax.management.StringValueExp;
-
 public class ControllerCitizen {
 
     private ModelGUI theModel;
@@ -45,7 +43,7 @@ public class ControllerCitizen {
         EventHandler<ActionEvent> eventForSubmitButton = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Alert alert;
+                Alert alert = null;
                 try {
                     name = theView.getName();
                     ID = theView.getID();
@@ -56,13 +54,13 @@ public class ControllerCitizen {
                     if (inIsolation)
                         isolationDays = theView.getIsolationDays();
 
-                    alert = new Alert(Alert.AlertType.NONE);
+//                    alert = new Alert(Alert.AlertType.NONE);
                     if (!ID.matches("[0-9]+") || ID.length() != 9)
                         throw new NumberFormatException();
                     else if (theModel.getElectionYear() - year < 18)
-                        throw new UnderAgeException("The minimum age is 18!");
+                        throw new UnderAgeException(alert, "The minimum age is 18!");
                     else if (!name.matches("[a-zA-Z ]+"))
-                        throw new StringValueException();
+                        throw new StringValueException(alert, "English letters only !");
                     else {
                         boolean soldierAge = theModel.getElection().getYear() - year <= 21, added = true;
                         theView.getSelectedBallotBox();
@@ -90,17 +88,13 @@ public class ControllerCitizen {
                       checkEnableAddCandidate.run();
                     }
                 } catch(UnderAgeException npe) {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("The minimum age is 18!");
-                    alert.show();
+                    npe.showErrorMessage();
                 } catch(NullPointerException npe) {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("1 or more of the fields are empty!");
                     alert.show();
                 } catch (StringValueException sve) {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("English letters only !");
-                    alert.show();
+                    sve.showErrorMessage();
                 } catch(NumberFormatException nfe) {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("The ID and Days in Isolation contains only numbers!");

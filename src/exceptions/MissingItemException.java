@@ -3,11 +3,9 @@ package exceptions;
 import javafx.scene.control.Alert;
 
 public class MissingItemException extends Exception{
-//    String name;
     Alert alert;
 
     public MissingItemException(Alert alert) {
-//        this.name = name;
         this.alert = alert;
     }
 

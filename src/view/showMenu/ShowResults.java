@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class ShowResults extends Show {
-    // FIXME: add scrollPane
     private PieChart chart;
     private HashMap<Party, Integer> allParties;
 

@@ -4,6 +4,7 @@ import controller.addition.ControllerBallotBox;
 import controller.addition.ControllerCandidate;
 import controller.addition.ControllerCitizen;
 import controller.addition.ControllerParty;
+import exceptions.MissingItemException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -54,7 +55,7 @@ public class ControllerGUI {
         checkEnableShowAllCitizens = this::enableShowAllCitizensButton;
         checkEnableBeginElections = this::enableBeginElections;
         checkEnableShowResults = this::enableShowResults;
-        dialog(); // FIXME -> Write everything to user
+        dialog();
     }
 
     private void enableShowAllPartiesButton() {
@@ -75,7 +76,7 @@ public class ControllerGUI {
         EventHandler<ActionEvent> eventForWelcomeMenuSubmitButton = new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Alert alert;
+                Alert alert = null;
 
                 try {
 
@@ -83,10 +84,7 @@ public class ControllerGUI {
                     String yearText = theView.getYearText();
 
                     if (monthText.isEmpty() || yearText.isEmpty())
-                        throw new NullPointerException();
-
-                    System.out.println("Month is: " + monthText + " length: " + monthText.length());
-                    System.out.println("Year is: " + yearText);
+                        throw new MissingItemException(alert);
 
                     int month = Integer.parseInt(monthText);
                     int year = Integer.parseInt(yearText);
@@ -115,10 +113,8 @@ public class ControllerGUI {
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setContentText("1 or more of fields are not a number!");
                     alert.showAndWait();
-                } catch (NullPointerException npe) {
-                    alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("1 or more of fields are empty!");
-                    alert.showAndWait();
+                } catch (MissingItemException mie) {
+                    mie.showErrorMessage();
                 } catch (Exception e){
                     alert = new Alert(Alert.AlertType.ERROR);
                     alert.setHeaderText("Error in Year number or Month number!");
@@ -176,14 +172,10 @@ public class ControllerGUI {
     private void eventForAddCitizenButton() {
         EventHandler<ActionEvent> eventForAddCitizenButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
-                // FIXME: ballot box list should be from elections
-//                eventForYearSelectionComboBox();
-                // TODO: add ControllerAddCitizen to handle the addition
                 AddCitizen addCitizen = new AddCitizen(currentYear);
                 theView.update(addCitizen);
                 ControllerCitizen cc = new ControllerCitizen(theModel, addCitizen, checkEnableAddCandidate,
                                                             checkEnableShowAllCitizens);
-
             }
         };
         menuButtons.addEventHandlerToAddCitizenButton(eventForAddCitizenButton);
@@ -244,7 +236,6 @@ public class ControllerGUI {
     }
 
     private void eventForShowPartiesButton() {
-        // TODO: finish
         EventHandler<ActionEvent> eventForShowPartiesButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
                 theView.update(new ShowParties(theModel.getElection().getParties()));
