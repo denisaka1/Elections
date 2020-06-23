@@ -15,28 +15,13 @@ public class MainPane extends Show {
     protected Button submit;
     protected HBox hbSubmit;
     protected Font buttonsFont = Font.font("Tahoma", FontWeight.LIGHT, FontPosture.REGULAR, 14);
-//
 
     public MainPane()  {
         super();
         createSubmitButton();
     }
-
-/*    public Button getSubmit() {
-        return submit;
-    }*/
-
-/*    @Override
-    public VBox update() {
-        super.update();
-//        mainView.getChildren().add(hbSubmit);
-
-        return mainView;
-    }*/
-
     private void createSubmitButton() {
         hbSubmit = new HBox();
-//        buttonsFont = Font.font("Tahoma", FontWeight.LIGHT, FontPosture.REGULAR, 14);
         submit = new Button("Submit");
         submit.setMinWidth(ViewGUI.MIN_BUTTON_WIDTH_VALUE);
         submit.setFont(buttonsFont);

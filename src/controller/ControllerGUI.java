@@ -8,9 +8,13 @@ import exceptions.MissingItemException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -33,11 +37,11 @@ public class ControllerGUI {
     private VBox dialogVBox;
     private int currentYear;
     private Runnable checkEnableAddCandidate, checkEnableShowAllBallotBoxes, checkEnableShowAllParties,
-                    checkEnableShowAllCitizens, checkEnableBeginElections, checkEnableShowResults;
+            checkEnableShowAllCitizens, checkEnableBeginElections, checkEnableShowResults;
     // enable buttons for user
     private boolean isAddButtonsAdded, isShowAssignCandidatesButton, isShowAllBallotBox,
-                    isShowAllParties, isShowAllCitizens,
-                    isBeginElections, isShowResults;
+            isShowAllParties, isShowAllCitizens,
+            isBeginElections, isShowResults;
 
     private LinkedHashMap<String, Button> allMenuButtons;
     private MenuButtons menuButtons;
@@ -150,7 +154,7 @@ public class ControllerGUI {
                 AddBallotBox addBallotBox = new AddBallotBox();
                 theView.update(addBallotBox);
                 ControllerBallotBox cbb = new ControllerBallotBox(theModel, addBallotBox,
-                                                                    checkEnableShowAllBallotBoxes);
+                        checkEnableShowAllBallotBoxes);
 
             }
         };
@@ -161,7 +165,7 @@ public class ControllerGUI {
         EventHandler<ActionEvent> eventForAddCandidateButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
                 AssignCandidate assignCandidate = new AssignCandidate(theModel.getVoterRegister(),
-                                                                    theModel.getParties());
+                        theModel.getParties());
                 theView.update(assignCandidate);
                 ControllerCandidate cc = new ControllerCandidate(assignCandidate, theModel, checkEnableBeginElections);
             }
@@ -175,7 +179,7 @@ public class ControllerGUI {
                 AddCitizen addCitizen = new AddCitizen(currentYear);
                 theView.update(addCitizen);
                 ControllerCitizen cc = new ControllerCitizen(theModel, addCitizen, checkEnableAddCandidate,
-                                                            checkEnableShowAllCitizens);
+                        checkEnableShowAllCitizens);
             }
         };
         menuButtons.addEventHandlerToAddCitizenButton(eventForAddCitizenButton);
@@ -187,7 +191,7 @@ public class ControllerGUI {
                 AddParty addParty = new AddParty(currentYear);
                 theView.update(addParty);
                 ControllerParty cp = new ControllerParty(theModel, addParty, menuButtons.getShowAllParties(),
-                                                        checkEnableShowAllParties, checkEnableAddCandidate);
+                        checkEnableShowAllParties, checkEnableAddCandidate);
             }
         };
         menuButtons.addEventHandlerToAddPartyButton(eventForAddPartyButton);
@@ -217,8 +221,8 @@ public class ControllerGUI {
         EventHandler<ActionEvent> eventForShowBallotBoxesButton = new EventHandler<ActionEvent>(){
             public void handle(ActionEvent arg0) {
                 ShowBallotBoxes showBallotBoxes = new ShowBallotBoxes(theModel.getRegularBallotBoxList(), theModel.getSoldierBallotBoxList(),
-                                                                    theModel.getSoldierCoronaBallotBoxList(),
-                                                                    theModel.getCoronaBallotBoxList());
+                        theModel.getSoldierCoronaBallotBoxList(),
+                        theModel.getCoronaBallotBoxList());
                 theView.update(showBallotBoxes);
             }
         };
@@ -297,19 +301,36 @@ public class ControllerGUI {
         dialog = new Stage();
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialogVBox = new VBox(20);
-        Scene dialogScene = new Scene(dialogVBox, 300, 200);
+        Scene dialogScene = new Scene(dialogVBox, 400, 150);
         dialog.setScene(dialogScene);
     }
 
     private void aboutDialog() {
         dialogVBox.getChildren().clear();
-        dialogVBox.getChildren().add(new Text("About"));
+        Text headline = new Text("Election Interface");
+        Text body = new Text("Created by :\n" +
+                " - Barak Moskovich\n" +
+                " - Denis Karabitski");
+        headline.setFont(Font.font("Tahoma", FontWeight.BOLD, FontPosture.REGULAR, 16));
+        body.setFont(Font.font("Tahoma", FontWeight.LIGHT, FontPosture.REGULAR, 14));
+        dialogVBox.getChildren().addAll(headline, body);
+        dialogVBox.setMargin(headline, new Insets(10, 0, 0, 20));
+        dialogVBox.setMargin(body, new Insets(20, 0, 0, 20));
         dialog.show();
     }
 
     private void helpDialog() {
         dialogVBox.getChildren().clear();
-        dialogVBox.getChildren().add(new Text("Help"));
+        Text headline = new Text("Help");
+        Text body = new Text("To begin vote you MUST insert in at least one citizen,\n" +
+                "one ballot box, one party, and assign one candidate.\n\n" +
+                "You can insert fixed data at File > Import Hard Data");
+
+        headline.setFont(Font.font("Tahoma", FontWeight.BOLD, FontPosture.REGULAR, 16));
+        body.setFont(Font.font("Tahoma", FontWeight.LIGHT, FontPosture.REGULAR, 14));
+        dialogVBox.getChildren().addAll(headline, body);
+        dialogVBox.setMargin(headline, new Insets(10, 0, 0, 20));
+        dialogVBox.setMargin(body, new Insets(10, 0, 0, 20));
         dialog.show();
     }
 

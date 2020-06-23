@@ -6,11 +6,15 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import model.BallotBox;
+import model.Party;
+import model.citizens.Citizen;
 import view.ViewGUI;
 
 public class Show {
@@ -19,7 +23,6 @@ public class Show {
     protected Font headLineFont = Font.font("Tahoma", FontWeight.BOLD, FontPosture.REGULAR, 16);
     protected ScrollPane scrollPane;
     protected VBox scrollPaneVB;
-//    protected Insets defaultSpacing = new Insets(10, 0, 0, 20);
 
     public Show() {
         mainView = new VBox(ViewGUI.SPACING);
@@ -36,18 +39,34 @@ public class Show {
         headline.setText(s);
     }
 
+    protected TableColumn setTableColumn(String text, String var, int size, String type) {
+        TableColumn column = new TableColumn(text);
+        column.setMinWidth(size);
+        column.setMaxWidth(size);
+        switch (type) {
+            case "Party":
+                column.setCellValueFactory(new PropertyValueFactory<Party, String>(var));
+                break;
+            case "Citizen":
+                column.setCellValueFactory(new PropertyValueFactory<Citizen, String>(var));
+                break;
+            case "BallotBox":
+            default:
+                column.setCellValueFactory(new PropertyValueFactory<BallotBox, String>(var));
+        }
+        return column;
+    }
+
     protected void assignScrollPane() {
         scrollPane.setContent(scrollPaneVB);
         scrollPane.setStyle("-fx-background-color:transparent; -fx-min-height: 470px;");
         mainView.getChildren().add(scrollPane);
     }
 
-//    @Override
     public VBox update() {
         mainView.getChildren().clear();
         mainView.getChildren().add(headline);
         mainView.setMargin(headline, ViewGUI.DEFAULT_INSETS);
-//        mainView.getChildren().add(scrollPane);
 
         return mainView;
     }

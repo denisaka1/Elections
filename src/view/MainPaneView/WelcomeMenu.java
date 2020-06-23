@@ -52,14 +52,6 @@ public class WelcomeMenu extends MainPane {
     public String getYearText() {
         return tfYear.getText();
     }
-/*
-    public TextField getMonthTextField() {
-        return tfMonth;
-    }
-
-    public TextField getYearTextField() {
-        return tfYear;
-    }*/
 
     public VBox update() {
         super.update();

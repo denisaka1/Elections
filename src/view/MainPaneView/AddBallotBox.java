@@ -44,8 +44,6 @@ public class AddBallotBox extends MainPane {
         Text txtType = new Text("BallotBox Type :");
         txtType.setFont(buttonsFont);
         tgBallotBoxType = new ToggleGroup();
-//        tfType = new TextField();
-//        tfType.setPromptText("");
         rbRegular = new RadioButton("Regular");
         rbRegular.setUserData("Regular");
         rbRegular.setFont(buttonsFont);
@@ -79,22 +77,8 @@ public class AddBallotBox extends MainPane {
     }
 
     public String getType() {
-//        return vbType.getChildren().get(vbType.getChildren().indexOf(tgBallotBoxType.getSelectedToggle())).getClass().getName();
-//        return ;
-//        tgBallotBoxType.
         return tgBallotBoxType.getSelectedToggle().getUserData().toString();
     }
-
-/*    add("Add Ballot Box");
-    add("Add Citizen");
-    add("Add Party");
-    add("Add Candidate");
-    add("Show All BallotBoxes");
-    add("Show All Citizens");
-    add("Show All Parties");
-    add("Begin Elections");
-    add("Show Results");*/
-
 
     @Override
     public VBox update() {

@@ -6,6 +6,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import model.BallotBox;
 import model.Party;
 import view.ViewGUI;
 
@@ -22,42 +23,14 @@ public class ShowParties extends Show {
     }
 
     private void assignParties() {
-/*        Text text;
-        for(Party party: allParties.keySet()) {
-            text = new Text(party.toString());
-            scrollPaneVB.getChildren().add(text);
-            scrollPaneVB.setMargin(text, ViewGUI.DEFAULT_INSETS);
-        }
-    }*/
-
         ObservableList<Party> data = FXCollections.observableArrayList(new ArrayList<Party>(allParties.keySet()));
         TableView<Party> table = new TableView<>();
 
-        TableColumn name = new TableColumn("Name");
-        name.setMinWidth(200);
-        name.setMaxWidth(200);
-        name.setCellValueFactory(new PropertyValueFactory<Party, String>("name"));
-
-        TableColumn section = new TableColumn("Section");
-        section.setMinWidth(130);
-        section.setMaxWidth(130);
-        section.setCellValueFactory(new PropertyValueFactory<Party, String>("section"));
-
-        TableColumn year = new TableColumn("Year");
-        year.setMinWidth(70);
-        year.setMaxWidth(70);
-        year.setCellValueFactory(new PropertyValueFactory<Party, Integer>("year"));
-
-        TableColumn month = new TableColumn("Month");
-        month.setMinWidth(70);
-        month.setMaxWidth(70);
-        month.setCellValueFactory(new PropertyValueFactory<Party, Integer>("month"));
-
-        TableColumn day = new TableColumn("Day");
-        day.setMinWidth(70);
-        day.setMaxWidth(70);
-        day.setCellValueFactory(new PropertyValueFactory<Party, Integer>("day"));
-
+        TableColumn name = setTableColumn("Name", "name", 200, "Party");
+        TableColumn section = setTableColumn("Section", "section", 130, "Party");
+        TableColumn year = setTableColumn("Year", "year", 70, "Party");
+        TableColumn month = setTableColumn("Month", "month", 70, "Party");
+        TableColumn day = setTableColumn("Day", "day", 70, "Party");
 
         table.setMinWidth(540);
         table.setMaxWidth(540);

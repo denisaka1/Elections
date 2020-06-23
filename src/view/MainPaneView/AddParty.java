@@ -128,7 +128,6 @@ public class AddParty extends MainPane {
     public VBox update() {
         super.update();
         mainView.getChildren().addAll(hbName, hbCreateDate, hbSection, hbSubmit);
-//        mainView.setMargin(headline, new Insets(10, 0, 0, 20));
         mainView.setMargin(hbName, ViewGUI.DEFAULT_INSETS);
         mainView.setMargin(hbCreateDate, ViewGUI.DEFAULT_INSETS);
         mainView.setMargin(hbSection, ViewGUI.DEFAULT_INSETS);

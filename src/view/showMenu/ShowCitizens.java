@@ -16,9 +16,6 @@ import model.citizens.SoldierCorona;
 import view.ViewGUI;
 
 public class ShowCitizens extends Show {
-
-    // FIXME: add scrollPane
-
     private VoterRegister vr;
 
     public ShowCitizens(VoterRegister voterRegister) {
@@ -31,30 +28,11 @@ public class ShowCitizens extends Show {
         ObservableList<Citizen> data = FXCollections.observableArrayList(vr.getCitizens().getSet());
         TableView<Citizen> table = new TableView<>();
 
-        TableColumn citizenID = new TableColumn("ID");
-        citizenID.setMinWidth(79);
-        citizenID.setMaxWidth(79);
-        citizenID.setCellValueFactory(new PropertyValueFactory<Citizen, String>("ID"));
-
-        TableColumn name = new TableColumn("Name");
-        name.setMinWidth(120);
-        name.setMaxWidth(120);
-        name.setCellValueFactory(new PropertyValueFactory<Citizen, String>("name"));
-
-        TableColumn birthYear = new TableColumn("Birth Year");
-        birthYear.setMinWidth(80);
-        birthYear.setMaxWidth(80);
-        birthYear.setCellValueFactory(new PropertyValueFactory<Citizen, String>("birthYear"));
-
-        TableColumn ballotBox = new TableColumn("BallotBox");
-        ballotBox.setMinWidth(130);
-        ballotBox.setMaxWidth(130);
-        ballotBox.setCellValueFactory(new PropertyValueFactory<Citizen, String>("ballotBox"));
-
-        TableColumn party = new TableColumn("Party");
-        party.setMinWidth(110);
-        party.setMaxWidth(130);
-        party.setCellValueFactory(new PropertyValueFactory<Citizen, String>("party"));
+        TableColumn citizenID = setTableColumn("ID", "ID", 79, "Citizen");
+        TableColumn name = setTableColumn("Name", "name", 120, "Citizen");
+        TableColumn birthYear = setTableColumn("Birth Year", "birthYear", 80, "Citizen");
+        TableColumn ballotBox = setTableColumn("BallotBox", "ballotBox", 130, "Citizen");
+        TableColumn party = setTableColumn("Party", "party", 130, "Citizen");
 
         table.setMinWidth(540);
         table.setMaxWidth(540);

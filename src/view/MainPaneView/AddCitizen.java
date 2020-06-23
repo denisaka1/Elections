@@ -11,11 +11,10 @@ import view.ViewGUI;
 public class AddCitizen extends MainPane {
     private HBox hbName, hbID, hbBirthYear, hbIsolation, hbBallotBoxNumber;
     private VBox toggleIsolation;
-    private TextField tfName, tfID, tfIsolation, tfBallotBoxNumber;
+    private TextField tfName, tfID, tfIsolation;
     private RadioButton inIsolation, notInIsolation;
     private ToggleGroup tg;
     private ComboBox year, ballotBox;
-//    private ComboBox day, month;
     private int electionYear;
 
     public AddCitizen(int year) {
@@ -58,26 +57,13 @@ public class AddCitizen extends MainPane {
         Text txtBirthYear = new Text("Birth Year:");
         txtBirthYear.setFont(buttonsFont);
 
-//        day = new ComboBox();
-//        month = new ComboBox();
         year = new ComboBox();
-
-        // Day
-//        day.setPromptText("Day");
-//        for (int i = 1; i <= 31; i++)
-//            day.getItems().add(i);
-//
-        // Month
-//        month.setPromptText("Month");
-//        for (int i = 1; i <= 12; i++)
-//            month.getItems().add(i);
 
         // Year
         year.setPromptText("Year");
         for (int i = 1900; i <= (electionYear - 18); i++)
             year.getItems().add(i);
 
-//        hbBirthYear.getChildren().addAll(txtBirthYear, day, month, year);
         hbBirthYear.getChildren().addAll(txtBirthYear, year);
         hbBirthYear.setSpacing(ViewGUI.SPACING);
     }
@@ -151,14 +137,6 @@ public class AddCitizen extends MainPane {
     public String getID() {
         return tfID.getText();
     }
-
-//    public int getDay() {
-//        return Integer.parseInt(day.getSelectionModel().getSelectedItem().toString());
-//    }
-
-//    public int getMonth() {
-//        return Integer.parseInt(month.getSelectionModel().getSelectedItem().toString());
-//    }
 
     public int getYear() {
         return Integer.parseInt(year.getSelectionModel().getSelectedItem().toString());

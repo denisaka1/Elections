@@ -21,6 +21,7 @@ public class ShowBallotBoxes extends Show {
     private List<BallotBox<Soldier>> soldier;
     private List<BallotBox<SoldierCorona>> soldierCorona;
     private List<BallotBox<Corona>> corona;
+    private int height;
 
     public ShowBallotBoxes(List<BallotBox<Citizen>> citizen, List<BallotBox<Soldier>> soldier, List<BallotBox<SoldierCorona>> soldierCorona,
                            List<BallotBox<Corona>> corona) {
@@ -30,6 +31,7 @@ public class ShowBallotBoxes extends Show {
         this.soldierCorona = soldierCorona;
         this.corona = corona;
         setHeadline("Show All Ballot Boxes");
+        height = 400;
     }
 
     private void setSubHeadLine(String s) {
@@ -39,130 +41,23 @@ public class ShowBallotBoxes extends Show {
         scrollPaneVB.setMargin(text, ViewGUI.DEFAULT_INSETS);
     }
 
-/*    private void assignBallotBoxes() {
-        assignRegular();
-        assignSoldier();
-        assignSoldierCorona();
-        assignCorona();
-    }*/
-
-    private void assignRegular() {
-        setSubHeadLine("Regular");
-
-        ObservableList<BallotBox<Citizen>> data = FXCollections.observableArrayList(regular);
-        TableView<BallotBox<Citizen>> table = new TableView<>();
-
-        TableColumn num = new TableColumn("#");
-        num.setMinWidth(100);
-        num.setMaxWidth(100);
-        num.setCellValueFactory(new PropertyValueFactory<BallotBox<Citizen>, String>("id"));
-
-        TableColumn address = new TableColumn("Address");
-        address.setMinWidth(438);
-        address.setMaxWidth(438);
-        address.setCellValueFactory(new PropertyValueFactory<BallotBox<Citizen>, String>("address"));
-
-        table.setMaxWidth(540);
-
-        table.setFixedCellSize(20);
-        table.setMaxHeight(40 + (regular.size() * 20));
-
-        table.setItems(data);
-        table.getColumns().addAll(num, address);
-
-        scrollPaneVB.getChildren().add(table);
-        scrollPaneVB.setMargin(table, ViewGUI.DEFAULT_INSETS);
-    }
-
-    private void assignSoldier() {
-        setSubHeadLine("Soldier");
-
-        ObservableList<BallotBox<Soldier>> data = FXCollections.observableArrayList(soldier);
-        TableView<BallotBox<Soldier>> table = new TableView<>();
-
-        TableColumn num = new TableColumn("#");
-        num.setMinWidth(100);
-        num.setMaxWidth(100);
-        num.setCellValueFactory(new PropertyValueFactory<BallotBox<Citizen>, String>("id"));
-
-        TableColumn address = new TableColumn("Address");
-        address.setMinWidth(438);
-        address.setMaxWidth(438);
-        address.setCellValueFactory(new PropertyValueFactory<BallotBox<Citizen>, String>("address"));
-
-        table.setMaxWidth(540);
-
-        table.setFixedCellSize(20);
-        table.setMaxHeight(40 + (soldier.size() * 20));
-
-        table.setFixedCellSize(20);
-        table.setMaxHeight(100);
-
-        table.setItems(data);
-        table.getColumns().addAll(num, address);
-
-        scrollPaneVB.getChildren().add(table);
-        scrollPaneVB.setMargin(table, ViewGUI.DEFAULT_INSETS);
-    }
-
-    private void assignSoldierCorona() {
-        setSubHeadLine("SoldierCorona");
-
-        ObservableList<BallotBox<SoldierCorona>> data = FXCollections.observableArrayList(soldierCorona);
-        TableView<BallotBox<SoldierCorona>> table = new TableView<>();
-
-        TableColumn num = new TableColumn("#");
-        num.setMinWidth(100);
-        num.setMaxWidth(100);
-        num.setCellValueFactory(new PropertyValueFactory<BallotBox<Citizen>, String>("id"));
-
-        TableColumn address = new TableColumn("Address");
-        address.setMinWidth(438);
-        address.setMaxWidth(438);
-        address.setCellValueFactory(new PropertyValueFactory<BallotBox<Citizen>, String>("address"));
-
-        table.setMaxWidth(540);
-
-        table.setFixedCellSize(20);
-        table.setMaxHeight(40 + (soldierCorona.size() * 20));
-
-        table.setFixedCellSize(20);
-        table.setMaxHeight(100);
-
-        table.setItems(data);
-        table.getColumns().addAll(num, address);
-
-        scrollPaneVB.getChildren().add(table);
-        scrollPaneVB.setMargin(table, ViewGUI.DEFAULT_INSETS);
-    }
-
-    private <C extends Citizen> void addToMainView(String type,
-                                                   List<BallotBox<C>> list) {
+    private <C extends Citizen> void addToMainView(String type, List<BallotBox<C>> list) {
         setSubHeadLine(type);
         ObservableList<BallotBox<C>> data = FXCollections.observableArrayList(list);
         TableView<BallotBox<C>> table = new TableView<>();
 
-        TableColumn num = new TableColumn("#");
-        num.setMinWidth(100);
-        num.setMaxWidth(100);
-        num.setCellValueFactory(new PropertyValueFactory<BallotBox<Citizen>, String>("id"));
-
-        TableColumn address = new TableColumn("Address");
-        address.setMinWidth(438);
-        address.setMaxWidth(438);
-        address.setCellValueFactory(new PropertyValueFactory<BallotBox<Citizen>, String>("address"));
+        TableColumn num = setTableColumn("#", "id", 100, "BallotBox");
+        TableColumn address = setTableColumn("Address", "address", 438, "BallotBox");
 
         table.setMaxWidth(540);
 
         table.setFixedCellSize(20);
         table.setMaxHeight(40 + (list.size() * 20));
-
-        table.setFixedCellSize(20);
-        table.setMaxHeight(100);
-
+        height += list.size() * 20;
         table.setItems(data);
         table.getColumns().addAll(num, address);
 
+        scrollPaneVB.setMinHeight(height);
         scrollPaneVB.getChildren().add(table);
         scrollPaneVB.setMargin(table, ViewGUI.DEFAULT_INSETS);
     }
@@ -179,11 +74,11 @@ public class ShowBallotBoxes extends Show {
 //                setSubHeadLine(type);
                 addToMainView(type, corona);
                 break;
-            case "Army":
+            case "Soldier":
 //                setSubHeadLine("Army");
                 addToMainView(type, soldier);
                 break;
-            case "ArmyCorona":
+            case "SoldierCorona":
 //                setSubHeadLine("ArmyCorona");
                 addToMainView(type, soldierCorona);
                 break;
@@ -202,41 +97,9 @@ public class ShowBallotBoxes extends Show {
         assignBallotBox("Corona");
     }
 
-    private void assignCorona() {
-        setSubHeadLine("Corona");
-
-        ObservableList<BallotBox<Corona>> data = FXCollections.observableArrayList(corona);
-        TableView<BallotBox<Corona>> table = new TableView<>();
-
-        TableColumn num = new TableColumn("#");
-        num.setMinWidth(100);
-        num.setMaxWidth(100);
-        num.setCellValueFactory(new PropertyValueFactory<BallotBox<Citizen>, String>("id"));
-
-        TableColumn address = new TableColumn("Address");
-        address.setMinWidth(438);
-        address.setMaxWidth(438);
-        address.setCellValueFactory(new PropertyValueFactory<BallotBox<Citizen>, String>("address"));
-
-        table.setMaxWidth(540);
-
-        table.setFixedCellSize(20);
-        table.setMaxHeight(40 + (corona.size() * 20));
-
-        table.setFixedCellSize(20);
-        table.setMaxHeight(100);
-
-        table.setItems(data);
-        table.getColumns().addAll(num, address);
-
-        scrollPaneVB.getChildren().add(table);
-        scrollPaneVB.setMargin(table, ViewGUI.DEFAULT_INSETS);
-    }
-
     @Override
     public VBox update() {
         super.update();
-//        assignBallotBoxes();
         assignAllTypes();
         assignScrollPane();
 
