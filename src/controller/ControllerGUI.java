@@ -324,7 +324,7 @@ public class ControllerGUI {
         Text headline = new Text("Help");
         Text body = new Text("To begin vote you MUST insert in at least one citizen,\n" +
                 "one ballot box, one party, and assign one candidate.\n\n" +
-                "You can insert fixed data at File > Import Hard Data");
+                "You can insert fixed data at File > Import Fixed Data");
 
         headline.setFont(Font.font("Tahoma", FontWeight.BOLD, FontPosture.REGULAR, 16));
         body.setFont(Font.font("Tahoma", FontWeight.LIGHT, FontPosture.REGULAR, 14));
