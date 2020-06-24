@@ -133,6 +133,11 @@ public class Party {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof Party)) return false;
         Party party = (Party) o;

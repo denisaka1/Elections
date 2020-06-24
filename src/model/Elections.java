@@ -390,8 +390,9 @@ public class Elections {
     }
 
     public boolean addParty(Party party) {
-        if (party != null && !parties.containsKey(party)) {
-            this.parties.put(party, 0);
+        boolean isContainsParty = parties.containsKey(party);
+        if (party != null && !isContainsParty) {
+            parties.put(party, 0);
             updateBallotBoxes();
             return true;
         }

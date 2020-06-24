@@ -1,13 +1,9 @@
 package view.MainPaneView;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import model.Party;
 import model.VoterRegister;
 import model.citizens.Citizen;
@@ -50,7 +46,6 @@ public class AssignCandidate extends MainPane {
 
     private void setCitizenField() {
         hbCitizen = new HBox();
-//        Text txtBallotBoxNumber = new Text("Choose Citizen :");
         citizens = new ComboBox();
         citizens.setMinWidth(ViewGUI.MIN_BUTTON_WIDTH_VALUE);
         citizens.setPromptText("Choose Citizen");
